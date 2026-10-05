@@ -14,23 +14,23 @@ cache-size=2000
 # ===== 广告域黑名单（0.0.0.0 = 黑洞）=====
 # 2026-10-04 从 iPhone 192.168.1.150 实测抓取
 # 广告主域（按线路有多个子域变体：hl/lf/zj/gr/sg/zj...）
-address=/ads3-normal-hl.zijieapi.com/0.0.0.0
-address=/ads3-normal-lf.zijieapi.com/0.0.0.0
-address=/ads3-normal-zj.zijieapi.com/0.0.0.0
-address=/ads3-normal-gr.zijieapi.com/0.0.0.0
-address=/ads3-normal-sg.zijieapi.com/0.0.0.0
-address=/ads3-normal-hk.zijieapi.com/0.0.0.0
-address=/p3-ad-sign.byteimg.com/0.0.0.0
-address=/p6-ad-sign.byteimg.com/0.0.0.0
-address=/p9-ad-sign.byteimg.com/0.0.0.0
-address=/p3-novel-sign.byteimg.com/0.0.0.0
+address=/ads3-normal-hl.zijieapi.com/#
+address=/ads3-normal-lf.zijieapi.com/#
+address=/ads3-normal-zj.zijieapi.com/#
+address=/ads3-normal-gr.zijieapi.com/#
+address=/ads3-normal-sg.zijieapi.com/#
+address=/ads3-normal-hk.zijieapi.com/#
+address=/p3-ad-sign.byteimg.com/#
+address=/p6-ad-sign.byteimg.com/#
+address=/p9-ad-sign.byteimg.com/#
+address=/p3-novel-sign.byteimg.com/#
 # 广告计费 / 跳转追踪
-address=/api5-normal-sinfonlinea.fqnovel.com/0.0.0.0
-address=/dig.bdurl.net/0.0.0.0
+address=/api5-normal-sinfonlinea.fqnovel.com/#
+address=/dig.bdurl.net/#
 # 广告视频素材域（番茄/红果子域，带 -ad 标记）
-address=/v5-bd-daily-reading-ad.qznovelvod.com/0.0.0.0
-address=/v9-reading-ad.qznovelvod.com/0.0.0.0
-address=/v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com/0.0.0.0
+address=/v5-bd-daily-reading-ad.qznovelvod.com/#
+address=/v9-reading-ad.qznovelvod.com/#
+address=/v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com/#
 # [已回退 21:33] douyinliving.com / webcast*.douyin.com —— 会误伤抖音正常直播
 
 # 红果/番茄社区规则（现成规则集）
