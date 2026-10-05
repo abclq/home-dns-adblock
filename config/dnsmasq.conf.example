@@ -1,0 +1,41 @@
+# 红果广告域侦察用 dnsmasq —— 只记录 + 正常转发（先抓后拦）
+port=53
+listen-address=192.168.1.2
+bind-interfaces
+# 记录所有查询
+log-queries
+log-facility=/etc/dnsmasq-adblock/queries.log
+# 上游 DNS（国内快）
+no-resolv
+server=223.5.5.5
+server=119.29.29.29
+server=180.76.76.76
+cache-size=2000
+# ===== 广告域黑名单（0.0.0.0 = 黑洞）=====
+# 2026-10-04 从 iPhone 192.168.1.150 实测抓取
+# 广告主域（按线路有多个子域变体：hl/lf/zj/gr/sg/zj...）
+address=/ads3-normal-hl.zijieapi.com/0.0.0.0
+address=/ads3-normal-lf.zijieapi.com/0.0.0.0
+address=/ads3-normal-zj.zijieapi.com/0.0.0.0
+address=/ads3-normal-gr.zijieapi.com/0.0.0.0
+address=/ads3-normal-sg.zijieapi.com/0.0.0.0
+address=/ads3-normal-hk.zijieapi.com/0.0.0.0
+address=/p3-ad-sign.byteimg.com/0.0.0.0
+address=/p6-ad-sign.byteimg.com/0.0.0.0
+address=/p9-ad-sign.byteimg.com/0.0.0.0
+address=/p3-novel-sign.byteimg.com/0.0.0.0
+# 广告计费 / 跳转追踪
+address=/api5-normal-sinfonlinea.fqnovel.com/0.0.0.0
+address=/dig.bdurl.net/0.0.0.0
+# 广告视频素材域（番茄/红果子域，带 -ad 标记）
+address=/v5-bd-daily-reading-ad.qznovelvod.com/0.0.0.0
+address=/v9-reading-ad.qznovelvod.com/0.0.0.0
+address=/v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com/0.0.0.0
+# [已回退 21:33] douyinliving.com / webcast*.douyin.com —— 会误伤抖音正常直播
+
+# 红果/番茄社区规则（现成规则集）
+conf-file=/etc/dnsmasq-adblock/adblock-fq.conf
+
+# --- Tailscale（2026-10-05 加）：手机在外通过 tailnet 用本机 DNS ---
+listen-address=100.x.y.z
+interface=tailscale0

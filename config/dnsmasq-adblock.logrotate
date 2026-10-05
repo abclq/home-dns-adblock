@@ -1,0 +1,14 @@
+/etc/dnsmasq-adblock/queries.log {
+    su root root
+    daily
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    notifempty
+    # ★ 用 copytruncate，不要用 "create + pkill -USR2"：
+    #   dnsmasq 通常以 nobody 运行，而 logrotate 以 root 运行。
+    #   若用 create 重建日志（属主变 root），dnsmasq 之后无法写入 → 日志静默断掉。
+    #   copytruncate 是原地清空，属主和文件句柄都不变，最稳。
+    copytruncate
+}

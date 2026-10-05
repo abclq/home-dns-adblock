@@ -1,0 +1,19 @@
+# 运行时产物
+queries.log
+*.log
+*.log.*
+.mark
+
+# Python
+__pycache__/
+*.py[cod]
+
+# 备份文件
+*.bak
+*.bak.*
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+*.swp
+.DS_Store
