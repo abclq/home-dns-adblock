@@ -2,6 +2,40 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [1.1.0] — 2026-10-05
+
+支持「**只订阅规则**」用法 —— 不想自建服务器的人，把规则喂给已有软件即可。
+
+### 新增
+
+- **`scripts/export_lists.py`** —— 多格式导出器，从三份规则源去重后生成 **214 个唯一域名**
+- **`config/adblock-extra.conf`** —— 16 条手工补充规则（埋点统计 + DoH 加固），独立于脚本生成的文件
+- **`dist/`** —— 七种现成格式，供第三方软件直接订阅
+  - `hosts.txt` / `hosts-ipv6.txt` —— AdAway、路由器固件、DNS66、Pi-hole
+  - `adguard-dns.txt` —— AdGuard Home / AdGuard for Android / Pi-hole
+  - `clash-surge-rules.txt` —— Clash / ClashX / Mihomo / Surge
+  - `quantumultx-rules.txt` —— Quantumult X / Loon / Shadowrocket
+  - `domains.txt` —— SmartDNS / mosdns / 自研脚本
+  - `dnsmasq-adblock.conf` —— dnsmasq（双栈黑洞）
+- **`docs/use-with-other-apps.md`** —— 各主流软件的订阅位置与步骤
+- README 顶部新增「两种用法」入口（① 自建 / ② 只订阅）
+
+### 变更
+
+- 规则口径统一为 **214 条唯一域名**（三份来源合计 229 条，含 14 条重复）
+- 导出时排除下划线开头的特殊域名（`_dns.resolver.arpa`）—— 第三方工具语法不兼容
+- 明确标注 **RethinkDNS 不支持自定义 URL**（只能在官网勾选预设列表）
+
+### 实测记录
+
+| 项目 | 结果 |
+|------|------|
+| 订阅 URL 外部可达 | ✓ 7 个 URL 全部 HTTP 200 |
+| 双栈拦截 | ✓ A → `0.0.0.0`、AAAA → `::`（`address=/domain/#`） |
+| 回归测试 | ✓ 正片 / 直播流 / 支付 / 定位 / 苹果证书校验 / iCloud / 微信 / 推送鉴权 全部正常 |
+
+---
+
 ## [1.0.0] — 2026-10-05
 
 首个可用版本。方案在真实家庭网络中 7×24 运行，并完成「出门在外」异地实测。

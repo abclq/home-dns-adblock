@@ -23,11 +23,33 @@ This project solves a different problem:
 
 | | Generic blockers | App Hook solutions | **This project** |
 |---|---|---|---|
-| Domain list | 100k+ broad rules | — | **198 precise rules** |
+| Domain list | 100k+ broad rules | — | **214 precise rules** |
 | App breakage | possible | — | **zero (whitelist protection)** |
 | Root / jailbreak | not needed | **required** | **not needed** |
 | Works away from home | ✗ | ✗ | **✓ via Tailscale** |
 | Targets 红果 / 番茄 | ✗ | some | **✓ at DNS level** |
+
+---
+
+## Two ways to use it
+
+**① Self-host** (main body of this README) — dnsmasq + Tailscale on an always-on Linux box.
+**② Subscribe to the rule list only** — feed the rules into software you already run
+(AdGuard Home / AdGuard for Android / Clash / Surge / Quantumult X …).
+
+**Ready-made subscription URLs**
+
+| Format | File |
+|---|---|
+| AdGuard syntax | `dist/adguard-dns.txt` |
+| hosts | `dist/hosts.txt` |
+| Clash / Surge / Mihomo | `dist/clash-surge-rules.txt` |
+| Quantumult X / Loon | `dist/quantumultx-rules.txt` |
+| dnsmasq | `dist/dnsmasq-adblock.conf` |
+
+> Replace `dist/...` with `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...` to subscribe.
+> Software-by-software instructions: **[docs/use-with-other-apps.md](docs/use-with-other-apps.md)** (Chinese).
+> Note: **RethinkDNS does not accept custom URLs** — it only offers its own preset lists.
 
 ---
 
@@ -87,7 +109,7 @@ For away-from-home coverage see [`docs/tailscale-remote.md`](docs/tailscale-remo
 
 | Metric | Value |
 |--------|-------|
-| Rules | **198** precise domains (no broad keyword rules) |
+| Rules | **214** precise domains (no broad keyword rules) |
 | Memory | **2.5 MB** |
 | CPU | **0.0%** |
 | Away-from-home latency | **39 ms** (Tailscale P2P direct, no relay) |
@@ -114,6 +136,7 @@ For away-from-home coverage see [`docs/tailscale-remote.md`](docs/tailscale-remo
 | [docs/domain-list.md](docs/domain-list.md) | ★ **What to block vs. what must NEVER be blocked** |
 | [docs/pitfalls.md](docs/pitfalls.md) | ★ **13 real pitfalls**, with diagnostic commands |
 | [docs/tailscale-remote.md](docs/tailscale-remote.md) | Away-from-home setup, step by step |
+| [docs/use-with-other-apps.md](docs/use-with-other-apps.md) | ★ Subscribe-only usage (AdGuard / Clash / Surge …) |
 
 ---
 
