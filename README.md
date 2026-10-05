@@ -1,6 +1,6 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `198 条规则` · `零误伤`
+**中文** | [English](README.en.md) · `MIT` · `214 条规则` · `零误伤`
 
 **家庭 DNS 广告拦截 —— 7×24 在家跑，出门在外照样生效**
 
@@ -12,7 +12,7 @@
 >
 > | | 通用方案（Pi-hole / AdGuard）| App Hook 方案 | **本项目** |
 > |---|---|---|---|
-> | 规则数量 | 10 万+ 宽泛规则 | — | **198 条精确规则** |
+> | 规则数量 | 10 万+ 宽泛规则 | — | **214 条精确规则** |
 > | 误伤风险 | 有可能 | — | **零（白名单保护正片）** |
 > | 需要 root / 越狱 | 不需要 | **需要** | **不需要** |
 > | 出门在外可用 | ✗ | ✗ | **✓ Tailscale 隧道** |
@@ -21,6 +21,23 @@
 
 **不 root、不装描述文件、不装 CA 证书、不改任何 App** —— 只在一台常开的 Linux 主机上做 DNS 层黑洞。
 家里所有设备把 DNS 指过来即可生效；人在外面（4G / 别人家 WiFi）通过 Tailscale 隧道，**同样生效**。
+
+---
+
+## 🍽 两种用法，挑一个
+
+| | 适合 | 怎么做 |
+|---|---|---|
+| **① 自建**（本文主体）| 有一台常开主机、想全屋 + 出门都生效 | 装 dnsmasq + Tailscale，见下方「快速开始」 |
+| **② 只订阅规则**（不想折腾服务器）| 手机/路由器上已有过滤软件 | 把规则喂给 AdGuard Home / AdGuard / Clash / Surge 等 |
+
+> **只想用现成软件？** → 看 **[docs/use-with-other-apps.md](docs/use-with-other-apps.md)**
+>
+> 一行订阅（AdGuard 语法）：
+> ```
+> https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/adguard-dns.txt
+> ```
+> 其它格式（hosts / Clash / Surge / Quantumult X / dnsmasq）见 [`dist/`](dist/)。
 
 ---
 
@@ -35,7 +52,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 规则条数 | 198 条精确域名（无一条宽泛关键字规则） |
+| 规则条数 | 214 条精确域名（无一条宽泛关键字规则） |
 | 服务资源占用 | **内存 2.5 MB · CPU 0.0%** |
 | 出门链路延迟 | **39 ms（P2P 直连，不走中继）** |
 | 异地实测 | 医院 WiFi 下，1431 条 DNS 查询全部回落本机并正常拦截 |
@@ -92,7 +109,8 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 ```bash
 sudo apt-get install -y dnsmasq
 sudo mkdir -p /etc/dnsmasq-adblock
-sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 198 条现成规则
+sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 214 条现成规则
+sudo cp config/adblock-extra.conf /etc/dnsmasq-adblock/       # 手工补充规则
 sudo cp config/dnsmasq.conf.example /etc/dnsmasq-adblock/dnsmasq.conf
 ```
 
@@ -212,11 +230,21 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 ├── CHANGELOG.md
 ├── CONTRIBUTORS.md
 ├── config/
-│   ├── adblock-fq.conf            # ★ 现成规则，198 条精确域名
+│   ├── adblock-fq.conf            # ★ 现成规则，社区规则集（去重后 214 条精确域名）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
+├── dist/                          # ★ 多格式规则，供第三方软件直接订阅
+│   ├── README.md                  #   订阅地址与用法
+│   ├── hosts.txt / hosts-ipv6.txt
+│   ├── adguard-dns.txt
+│   ├── clash-surge-rules.txt
+│   ├── quantumultx-rules.txt
+│   ├── domains.txt
+│   └── dnsmasq-adblock.conf
 ├── scripts/
 │   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护）
+│   ├── export_lists.py            # ★ 导出多格式规则（生成 dist/）
 │   ├── adblock-helper.sh          # 抓包速查工具（发现新广告域的利器）
 │   ├── install.sh                 # 一键部署
 │   └── verify.sh                  # 部署后自检
@@ -224,7 +252,8 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
     ├── principles.md              # 原理与架构详解
     ├── domain-list.md             # ★ 域名清单：该拦的 / 绝不能拦的
     ├── pitfalls.md                # ★ 踩坑全记录
-    └── tailscale-remote.md        # 出门在外方案
+    ├── tailscale-remote.md        # 出门在外方案
+    └── use-with-other-apps.md     # ★ 配合其他软件使用（只订阅，不自建）
 ```
 
 ---

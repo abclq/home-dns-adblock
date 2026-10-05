@@ -112,6 +112,18 @@ def main():
     body += '\n'.join(f'address=/{d}/#' for d in domains) + '\n'
     write(os.path.join(outdir, 'dnsmasq-adblock.conf'), body)
 
+    # ⑥ Clash / Surge / Mihomo（同一套 DOMAIN-SUFFIX 语法，可两用）
+    body = HEADER.format(
+        title='Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）', ts=ts, n=n)
+    body += '\n'.join(f'DOMAIN-SUFFIX,{d},REJECT' for d in domains) + '\n'
+    write(os.path.join(outdir, 'clash-surge-rules.txt'), body)
+
+    # ⑦ Quantumult X / Loon（host-suffix 语法）
+    body = HEADER.format(
+        title='Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）', ts=ts, n=n)
+    body += '\n'.join(f'host-suffix, {d}, reject' for d in domains) + '\n'
+    write(os.path.join(outdir, 'quantumultx-rules.txt'), body)
+
     print()
     print(f'  输出目录: {outdir}')
 

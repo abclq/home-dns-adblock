@@ -10,11 +10,16 @@ python3 scripts/export_lists.py
 
 | 文件 | 格式 | 适用工具 |
 |---|---|---|
-| `hosts.txt` | `0.0.0.0 domain` | AdAway、路由器固件、DNS66、各种 hosts 导入器 |
+| `hosts.txt` | `0.0.0.0 domain` | AdAway、路由器固件、DNS66、Pi-hole、各种 hosts 导入器 |
 | `hosts-ipv6.txt` | `:: domain` | 与 `hosts.txt` 组合，实现 IPv4 + IPv6 双栈拦截 |
-| `adguard-dns.txt` | `\|\|domain^` | AdGuard Home、AdGuard App、AdGuard DNS、RethinkDNS |
-| `domains.txt` | 纯域名列表 | RethinkDNS、SmartDNS、mosdns、自研脚本 |
+| `adguard-dns.txt` | `\|\|domain^` | AdGuard Home、AdGuard for Android、Pi-hole |
+| `domains.txt` | 纯域名列表 | SmartDNS、mosdns、自研脚本 |
 | `dnsmasq-adblock.conf` | `address=/domain/#` | dnsmasq（双栈黑洞：A→0.0.0.0、AAAA→::） |
+| `clash-surge-rules.txt` | `DOMAIN-SUFFIX,x,REJECT` | Clash、ClashX、Mihomo、Surge |
+| `quantumultx-rules.txt` | `host-suffix, x, reject` | Quantumult X、Loon、Shadowrocket |
+
+> 各软件的**具体添加位置**见 [`docs/use-with-other-apps.md`](../docs/use-with-other-apps.md)。
+> 注意 **RethinkDNS 不支持自定义 URL**（只能勾选它预设的列表）。
 
 ## 快速用法
 
