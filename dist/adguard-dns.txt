@@ -1,6 +1,6 @@
 # Home DNS Adblock — AdGuard DNS 语法 / AdGuard syntax
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 生成时间: 2026-10-05 22:05:54
+# 规则指纹: e7b3dba87a8214ae    （内容不变时此值不变，重复生成结果完全一致）
 # 规则条数: 214
 # 项目: https://github.com/abclq/home-dns-adblock
 #

@@ -16,7 +16,7 @@
 import os
 import re
 import sys
-import datetime
+import hashlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -57,7 +57,7 @@ def load_domains():
 
 HEADER = """# {title}
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 生成时间: {ts}
+# 规则指纹: {fp}    （内容不变时此值不变，重复生成结果完全一致）
 # 规则条数: {n}
 # 项目: https://github.com/abclq/home-dns-adblock
 #
@@ -79,7 +79,10 @@ def main():
 
     domains, stats = load_domains()
     n = len(domains)
-    ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # 规则指纹：只对域名内容取 hash，不含时间戳。
+    # 这样内容不变时重复导出得到完全相同的文件，定时同步脚本才能靠 git diff
+    # 判断"规则真的变了吗"，不会每次运行都刷出一堆空提交。
+    fp = hashlib.sha256('\n'.join(domains).encode('utf-8')).hexdigest()[:16]
 
     print(f'  来源:')
     for rel, c in stats:
@@ -88,39 +91,39 @@ def main():
     print()
 
     # ① hosts
-    body = HEADER.format(title='Home DNS Adblock — hosts 格式 / hosts format', ts=ts, n=n)
+    body = HEADER.format(title='Home DNS Adblock — hosts 格式 / hosts format', fp=fp, n=n)
     body += '\n'.join(f'0.0.0.0 {d}' for d in domains) + '\n'
     write(os.path.join(outdir, 'hosts.txt'), body)
 
     # ② hosts IPv6
-    body = HEADER.format(title='Home DNS Adblock — hosts IPv6 黑洞（可选，配合 hosts.txt 做双栈）', ts=ts, n=n)
+    body = HEADER.format(title='Home DNS Adblock — hosts IPv6 黑洞（可选，配合 hosts.txt 做双栈）', fp=fp, n=n)
     body += '\n'.join(f':: {d}' for d in domains) + '\n'
     write(os.path.join(outdir, 'hosts-ipv6.txt'), body)
 
     # ③ AdGuard DNS 语法
-    body = HEADER.format(title='Home DNS Adblock — AdGuard DNS 语法 / AdGuard syntax', ts=ts, n=n)
+    body = HEADER.format(title='Home DNS Adblock — AdGuard DNS 语法 / AdGuard syntax', fp=fp, n=n)
     body += '\n'.join(f'||{d}^' for d in domains) + '\n'
     write(os.path.join(outdir, 'adguard-dns.txt'), body)
 
     # ④ 纯域名
-    body = HEADER.format(title='Home DNS Adblock — 纯域名列表 / domain list', ts=ts, n=n)
+    body = HEADER.format(title='Home DNS Adblock — 纯域名列表 / domain list', fp=fp, n=n)
     body += '\n'.join(domains) + '\n'
     write(os.path.join(outdir, 'domains.txt'), body)
 
     # ⑤ dnsmasq
-    body = HEADER.format(title='Home DNS Adblock — dnsmasq 语法（address=/domain/# 双栈黑洞）', ts=ts, n=n)
+    body = HEADER.format(title='Home DNS Adblock — dnsmasq 语法（address=/domain/# 双栈黑洞）', fp=fp, n=n)
     body += '\n'.join(f'address=/{d}/#' for d in domains) + '\n'
     write(os.path.join(outdir, 'dnsmasq-adblock.conf'), body)
 
     # ⑥ Clash / Surge / Mihomo（同一套 DOMAIN-SUFFIX 语法，可两用）
     body = HEADER.format(
-        title='Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）', ts=ts, n=n)
+        title='Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）', fp=fp, n=n)
     body += '\n'.join(f'DOMAIN-SUFFIX,{d},REJECT' for d in domains) + '\n'
     write(os.path.join(outdir, 'clash-surge-rules.txt'), body)
 
     # ⑦ Quantumult X / Loon（host-suffix 语法）
     body = HEADER.format(
-        title='Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）', ts=ts, n=n)
+        title='Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）', fp=fp, n=n)
     body += '\n'.join(f'host-suffix, {d}, reject' for d in domains) + '\n'
     write(os.path.join(outdir, 'quantumultx-rules.txt'), body)
 
