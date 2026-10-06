@@ -1,7 +1,7 @@
 # Home DNS Adblock — hosts 格式 / hosts format
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: e7b3dba87a8214ae    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 4032e3f66de5279d    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 206
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,21 +56,16 @@
 0.0.0.0 api-access.pangolin-sdk-toutiao.com
 0.0.0.0 api-access.pangolin-sdk-toutiao1.com
 0.0.0.0 api.iegadp.qq.com
-0.0.0.0 api3-normal-sinfonlinea.fqnovel.com
 0.0.0.0 api5-normal-sinfonlinea.fqnovel.com
 0.0.0.0 apm-native.xiaohongshu.com
-0.0.0.0 bytegoofy.com
-0.0.0.0 byteorge.com
 0.0.0.0 cnlogs.umeng.com
 0.0.0.0 dig.bdurl.net
 0.0.0.0 dns.alidns.com
 0.0.0.0 doh.pub
 0.0.0.0 errnewlog.umeng.com
-0.0.0.0 fqnovelvod.com
 0.0.0.0 i-lq-snssdk.com
 0.0.0.0 i-lq.snssdk.com
 0.0.0.0 i.snssdk.com
-0.0.0.0 is.snssdk.com
 0.0.0.0 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
 0.0.0.0 lf-webcast-gr-sourcecdn.bytegecko.com
 0.0.0.0 lf9-webcast-cdn-tos-ncdn.bytegecko.com
@@ -149,9 +144,7 @@
 0.0.0.0 p3-sign.douyinpic.com
 0.0.0.0 p3-webcast.douyinpic.com
 0.0.0.0 p6-ad-sign.byteimg.com
-0.0.0.0 p6-novel-sign.byteimg.com
 0.0.0.0 p9-ad-sign.byteimg.com
-0.0.0.0 p9-novel-sign.byteimg.com
 0.0.0.0 pangle.io
 0.0.0.0 pangolin-sdk-toutiao.com
 0.0.0.0 pglstatp-toutiao.com
@@ -220,4 +213,3 @@
 0.0.0.0 v99-se-daily-reading-ad.qznovelvod.com
 0.0.0.0 v99-se-sjy-daily-reading-ad.qznovelvod.com
 0.0.0.0 vas-lf-x.snssdk.com
-0.0.0.0 volcengineapi.com

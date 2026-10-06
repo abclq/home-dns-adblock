@@ -1,7 +1,7 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: e7b3dba87a8214ae    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 4032e3f66de5279d    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 206
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,21 +56,16 @@ DOMAIN-SUFFIX,apd-pcdnwxlogin.teg.tencent-cloud.net,REJECT
 DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao.com,REJECT
 DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao1.com,REJECT
 DOMAIN-SUFFIX,api.iegadp.qq.com,REJECT
-DOMAIN-SUFFIX,api3-normal-sinfonlinea.fqnovel.com,REJECT
 DOMAIN-SUFFIX,api5-normal-sinfonlinea.fqnovel.com,REJECT
 DOMAIN-SUFFIX,apm-native.xiaohongshu.com,REJECT
-DOMAIN-SUFFIX,bytegoofy.com,REJECT
-DOMAIN-SUFFIX,byteorge.com,REJECT
 DOMAIN-SUFFIX,cnlogs.umeng.com,REJECT
 DOMAIN-SUFFIX,dig.bdurl.net,REJECT
 DOMAIN-SUFFIX,dns.alidns.com,REJECT
 DOMAIN-SUFFIX,doh.pub,REJECT
 DOMAIN-SUFFIX,errnewlog.umeng.com,REJECT
-DOMAIN-SUFFIX,fqnovelvod.com,REJECT
 DOMAIN-SUFFIX,i-lq-snssdk.com,REJECT
 DOMAIN-SUFFIX,i-lq.snssdk.com,REJECT
 DOMAIN-SUFFIX,i.snssdk.com,REJECT
-DOMAIN-SUFFIX,is.snssdk.com,REJECT
 DOMAIN-SUFFIX,l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com,REJECT
 DOMAIN-SUFFIX,lf-webcast-gr-sourcecdn.bytegecko.com,REJECT
 DOMAIN-SUFFIX,lf9-webcast-cdn-tos-ncdn.bytegecko.com,REJECT
@@ -149,9 +144,7 @@ DOMAIN-SUFFIX,p3-novel-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p3-sign.douyinpic.com,REJECT
 DOMAIN-SUFFIX,p3-webcast.douyinpic.com,REJECT
 DOMAIN-SUFFIX,p6-ad-sign.byteimg.com,REJECT
-DOMAIN-SUFFIX,p6-novel-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p9-ad-sign.byteimg.com,REJECT
-DOMAIN-SUFFIX,p9-novel-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,pangle.io,REJECT
 DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
 DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
@@ -220,4 +213,3 @@ DOMAIN-SUFFIX,v99-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v99-se-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v99-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,vas-lf-x.snssdk.com,REJECT
-DOMAIN-SUFFIX,volcengineapi.com,REJECT

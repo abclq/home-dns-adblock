@@ -1,7 +1,7 @@
 # Home DNS Adblock — 纯域名列表 / domain list
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: e7b3dba87a8214ae    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 4032e3f66de5279d    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 206
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,21 +56,16 @@ apd-pcdnwxlogin.teg.tencent-cloud.net
 api-access.pangolin-sdk-toutiao.com
 api-access.pangolin-sdk-toutiao1.com
 api.iegadp.qq.com
-api3-normal-sinfonlinea.fqnovel.com
 api5-normal-sinfonlinea.fqnovel.com
 apm-native.xiaohongshu.com
-bytegoofy.com
-byteorge.com
 cnlogs.umeng.com
 dig.bdurl.net
 dns.alidns.com
 doh.pub
 errnewlog.umeng.com
-fqnovelvod.com
 i-lq-snssdk.com
 i-lq.snssdk.com
 i.snssdk.com
-is.snssdk.com
 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
 lf-webcast-gr-sourcecdn.bytegecko.com
 lf9-webcast-cdn-tos-ncdn.bytegecko.com
@@ -149,9 +144,7 @@ p3-novel-sign.byteimg.com
 p3-sign.douyinpic.com
 p3-webcast.douyinpic.com
 p6-ad-sign.byteimg.com
-p6-novel-sign.byteimg.com
 p9-ad-sign.byteimg.com
-p9-novel-sign.byteimg.com
 pangle.io
 pangolin-sdk-toutiao.com
 pglstatp-toutiao.com
@@ -220,4 +213,3 @@ v99-reading-ad.qznovelvod.com
 v99-se-daily-reading-ad.qznovelvod.com
 v99-se-sjy-daily-reading-ad.qznovelvod.com
 vas-lf-x.snssdk.com
-volcengineapi.com

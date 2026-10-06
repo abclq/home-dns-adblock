@@ -1,7 +1,7 @@
 # Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: e7b3dba87a8214ae    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 4032e3f66de5279d    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 206
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,21 +56,16 @@ host-suffix, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
 host-suffix, api-access.pangolin-sdk-toutiao.com, reject
 host-suffix, api-access.pangolin-sdk-toutiao1.com, reject
 host-suffix, api.iegadp.qq.com, reject
-host-suffix, api3-normal-sinfonlinea.fqnovel.com, reject
 host-suffix, api5-normal-sinfonlinea.fqnovel.com, reject
 host-suffix, apm-native.xiaohongshu.com, reject
-host-suffix, bytegoofy.com, reject
-host-suffix, byteorge.com, reject
 host-suffix, cnlogs.umeng.com, reject
 host-suffix, dig.bdurl.net, reject
 host-suffix, dns.alidns.com, reject
 host-suffix, doh.pub, reject
 host-suffix, errnewlog.umeng.com, reject
-host-suffix, fqnovelvod.com, reject
 host-suffix, i-lq-snssdk.com, reject
 host-suffix, i-lq.snssdk.com, reject
 host-suffix, i.snssdk.com, reject
-host-suffix, is.snssdk.com, reject
 host-suffix, l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com, reject
 host-suffix, lf-webcast-gr-sourcecdn.bytegecko.com, reject
 host-suffix, lf9-webcast-cdn-tos-ncdn.bytegecko.com, reject
@@ -149,9 +144,7 @@ host-suffix, p3-novel-sign.byteimg.com, reject
 host-suffix, p3-sign.douyinpic.com, reject
 host-suffix, p3-webcast.douyinpic.com, reject
 host-suffix, p6-ad-sign.byteimg.com, reject
-host-suffix, p6-novel-sign.byteimg.com, reject
 host-suffix, p9-ad-sign.byteimg.com, reject
-host-suffix, p9-novel-sign.byteimg.com, reject
 host-suffix, pangle.io, reject
 host-suffix, pangolin-sdk-toutiao.com, reject
 host-suffix, pglstatp-toutiao.com, reject
@@ -220,4 +213,3 @@ host-suffix, v99-reading-ad.qznovelvod.com, reject
 host-suffix, v99-se-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v99-se-sjy-daily-reading-ad.qznovelvod.com, reject
 host-suffix, vas-lf-x.snssdk.com, reject
-host-suffix, volcengineapi.com, reject
