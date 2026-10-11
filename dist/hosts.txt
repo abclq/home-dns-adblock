@@ -1,7 +1,7 @@
 # Home DNS Adblock — hosts 格式 / hosts format
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 872784e958faaea5    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 218
+# 规则指纹: 36825a8970edd2ee    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 214
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -67,8 +67,6 @@
 0.0.0.0 i-lq.snssdk.com
 0.0.0.0 i.snssdk.com
 0.0.0.0 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
-0.0.0.0 lf-webcast-gr-sourcecdn.bytegecko.com
-0.0.0.0 lf9-webcast-cdn-tos-ncdn.bytegecko.com
 0.0.0.0 lng.xiaohongshu.com
 0.0.0.0 log-api.pangolin-sdk-toutiao.com
 0.0.0.0 log5-applog-hl.fqnovel.com
@@ -141,8 +139,6 @@
 0.0.0.0 ossnt-errlog.umeng.com
 0.0.0.0 p3-ad-sign.byteimg.com
 0.0.0.0 p3-novel-sign.byteimg.com
-0.0.0.0 p3-sign.douyinpic.com
-0.0.0.0 p3-webcast.douyinpic.com
 0.0.0.0 p6-ad-sign.byteimg.com
 0.0.0.0 p9-ad-sign.byteimg.com
 0.0.0.0 pangle.io

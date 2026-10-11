@@ -1,7 +1,7 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 872784e958faaea5    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 218
+# 规则指纹: 36825a8970edd2ee    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 214
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -67,8 +67,6 @@ DOMAIN-SUFFIX,i-lq-snssdk.com,REJECT
 DOMAIN-SUFFIX,i-lq.snssdk.com,REJECT
 DOMAIN-SUFFIX,i.snssdk.com,REJECT
 DOMAIN-SUFFIX,l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com,REJECT
-DOMAIN-SUFFIX,lf-webcast-gr-sourcecdn.bytegecko.com,REJECT
-DOMAIN-SUFFIX,lf9-webcast-cdn-tos-ncdn.bytegecko.com,REJECT
 DOMAIN-SUFFIX,lng.xiaohongshu.com,REJECT
 DOMAIN-SUFFIX,log-api.pangolin-sdk-toutiao.com,REJECT
 DOMAIN-SUFFIX,log5-applog-hl.fqnovel.com,REJECT
@@ -141,8 +139,6 @@ DOMAIN-SUFFIX,msync-im1-vip6-std.easemob.com,REJECT
 DOMAIN-SUFFIX,ossnt-errlog.umeng.com,REJECT
 DOMAIN-SUFFIX,p3-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p3-novel-sign.byteimg.com,REJECT
-DOMAIN-SUFFIX,p3-sign.douyinpic.com,REJECT
-DOMAIN-SUFFIX,p3-webcast.douyinpic.com,REJECT
 DOMAIN-SUFFIX,p6-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p9-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,pangle.io,REJECT
