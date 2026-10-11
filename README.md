@@ -1,6 +1,6 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `214 条规则` · `零误伤`
+**中文** | [English](README.en.md) · `MIT` · `218 条规则` · `零误伤`
 
 **家庭 DNS 广告拦截 —— 7×24 在家跑，出门在外照样生效**
 
@@ -12,7 +12,7 @@
 >
 > | | 通用方案（Pi-hole / AdGuard）| App Hook 方案 | **本项目** |
 > |---|---|---|---|
-> | 规则数量 | 10 万+ 宽泛规则 | — | **214 条精确规则** |
+> | 规则数量 | 10 万+ 宽泛规则 | — | **218 条精确规则** |
 > | 误伤风险 | 有可能 | — | **零（白名单保护正片）** |
 > | 需要 root / 越狱 | 不需要 | **需要** | **不需要** |
 > | 出门在外可用 | ✗ | ✗ | **✓ Tailscale 隧道** |
@@ -52,7 +52,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 规则条数 | 214 条精确域名（无一条宽泛关键字规则） |
+| 规则条数 | 218 条精确域名（无一条宽泛关键字规则） |
 | 服务资源占用 | **内存 2.5 MB · CPU 0.0%** |
 | 出门链路延迟 | **39 ms（P2P 直连，不走中继）** |
 | 异地实测 | 医院 WiFi 下，1431 条 DNS 查询全部回落本机并正常拦截 |
@@ -109,7 +109,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 ```bash
 sudo apt-get install -y dnsmasq
 sudo mkdir -p /etc/dnsmasq-adblock
-sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 214 条现成规则
+sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 218 条现成规则
 sudo cp config/adblock-extra.conf /etc/dnsmasq-adblock/       # 手工补充规则
 sudo cp config/dnsmasq.conf.example /etc/dnsmasq-adblock/dnsmasq.conf
 ```
@@ -230,7 +230,7 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 ├── CHANGELOG.md
 ├── CONTRIBUTORS.md
 ├── config/
-│   ├── adblock-fq.conf            # ★ 现成规则，社区规则集（去重后 214 条精确域名）
+│   ├── adblock-fq.conf            # ★ 现成规则，社区规则集（去重后 218 条精确域名）
 │   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
