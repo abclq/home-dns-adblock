@@ -65,8 +65,8 @@ grep -c "<手机的Tailscale IP>" /etc/dnsmasq-adblock/queries.log
 **症状**：往 dnsmasq 配置里加了 `listen-address=<新IP>`，
 发 `SIGHUP` 让它重载，**新地址死活监听不上**。
 
-**原因**：`SIGHUP` 只重载**规则类配置**（`address=` / `conf-file` 等），
-**网络监听地址的变更必须重启整个进程**。
+**原因**：`SIGHUP` 只会清缓存、重读 `/etc/hosts` 之类，**不会重读 `dnsmasq.conf`
+和 `conf-file=` 里的规则**——监听地址、`address=` 规则改了都必须重启整个进程。
 
 **解法**：
 
@@ -75,6 +75,9 @@ grep -c "<手机的Tailscale IP>" /etc/dnsmasq-adblock/queries.log
 sudo pkill -HUP dnsmasq
 
 # ✓ 必须整进程重启
+sudo systemctl restart dnsmasq-home.service
+
+# 没有 systemd（OpenWrt 等）：
 sudo pkill -x dnsmasq        # ★ -x 精确匹配进程名；-f 会匹配到你自己那条命令
 sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 ```
@@ -113,7 +116,7 @@ ss -tulnp | grep :53
 ```bash
 sudo systemctl stop dnsmasq
 sudo systemctl disable dnsmasq     # 防止重启后又回来
-# 然后用本项目自己的配置文件手动起（或写成独立 service）
+# 然后用本项目自己的独立 service 起：sudo systemctl enable --now dnsmasq-home.service
 ```
 
 **本项目选择"独立配置文件 + 独立进程"**的原因：避免和系统服务打架，

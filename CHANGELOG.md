@@ -2,6 +2,30 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [Unreleased]
+
+### 新增
+
+- **`config/dnsmasq-home.service` —— systemd 单元模板**
+  - 原因：文档里一直让人 `systemctl restart dnsmasq-home.service`，仓库却没提供这个单元；
+    实际部署时 dnsmasq 静默死掉 **36 小时**无人发现，全屋去广告停摆
+  - `Type=forking` + `PIDFile=/run/dnsmasq-home.pid`
+  - `ExecStartPre=dnsmasq --test`：配置/规则文件有错就不启动，不会带病上线
+  - `Restart=always` + `RestartSec=5` + `StartLimitIntervalSec=0`：死多少次都自动拉起
+  - `After=network-online.target tailscaled.service`（没装 Tailscale 时自动忽略）
+- **`scripts/install.sh` 支持 systemd**：检测到 systemd → 安装单元 + `daemon-reload` + `enable` + `restart`；
+  没有 systemd（OpenWrt 等）→ 回退为裸进程启动
+
+### 修复
+
+- `install.sh` 只拷了 `adblock-fq.conf`，但配置模板还引用 `adblock-extra.conf` / `adblock-upstream.conf` → dnsmasq 直接起不来；现在三个规则文件都会部署
+- `install.sh` 原样保留模板末尾的 Tailscale 占位符 `listen-address=100.x.y.z` → 语法错误；现在部署时先注释掉并提示
+- `install.sh` 不再 `pkill -x dnsmasq`（会连系统里其它 dnsmasq 实例一起杀掉），改为按配置路径精确找本项目的旧进程
+- 文档里「改完规则 `pkill -HUP dnsmasq` 生效」的说法有误：实测 `SIGHUP` 不重读 `conf-file=` 规则，
+  统一改为 `sudo systemctl restart dnsmasq-home.service`（README Tailscale 段 / pitfalls / tailscale-remote；principles 补注 SIGHUP 不重读规则）
+
+---
+
 ## [1.1.3] — 2026-10-13
 
 一次**仓库自审**驱动的整轮修正 —— 由云电脑上的大模型巡检任务（每天 09:30）扫出 5 类问题，

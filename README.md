@@ -170,14 +170,21 @@ conf-file=/etc/dnsmasq-adblock/adblock-fq.conf
 conf-file=/etc/dnsmasq-adblock/adblock-upstream.conf
 ```
 
-启动：
+启动（推荐交给 systemd 托管：开机自启 + 挂了 5 秒自动拉起）：
 
 ```bash
-sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
+sudo cp config/dnsmasq-home.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now dnsmasq-home.service
+systemctl status dnsmasq-home.service     # 看到 active (running) 即可
 ```
 
+> 💡 以上 1、启动 两步可以直接用一键脚本：`sudo ./scripts/install.sh 192.168.1.2`
+> —— 有 systemd 时自动装好 `dnsmasq-home.service`；没有 systemd（如 OpenWrt）时回退为
+> `sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf` 裸进程启动（无自愈、无开机自启）。
+
 > 注意：**dnsmasq 系统服务默认占用 53 端口**，若与系统自带实例冲突，
-> 先 `sudo systemctl stop dnsmasq && sudo systemctl disable dnsmasq`（本项目用自己的配置文件手动起）。
+> 先 `sudo systemctl stop dnsmasq && sudo systemctl disable dnsmasq`（本项目用自己的 `dnsmasq-home.service` 和独立配置目录）。
 
 ### 2. 让设备用上
 
@@ -202,8 +209,8 @@ sudo tailscale up --hostname=my-dns --accept-dns=false --accept-routes=false
 # ② dnsmasq 增加监听 Tailscale 网段
 echo "listen-address=100.x.y.z" | sudo tee -a /etc/dnsmasq-adblock/dnsmasq.conf
 echo "interface=tailscale0"     | sudo tee -a /etc/dnsmasq-adblock/dnsmasq.conf
-sudo pkill -x dnsmasq        # ★ -x 精确匹配进程名；别用 -f（会杀掉你自己）
-sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
+sudo systemctl restart dnsmasq-home.service
+# 没有 systemd：sudo pkill -x dnsmasq && sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 
 # ③ 后台 https://login.tailscale.com/admin/dns
 #    添加 nameserver = 100.x.y.z  +  打开「Override local DNS」★
@@ -284,6 +291,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，929 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
+│   ├── dnsmasq-home.service       # ★ systemd 单元（开机自启 + 挂了自动拉起）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
 ├── dist/                          # ★ 多格式规则，供第三方软件直接订阅
 │   ├── README.md                  #   订阅地址与用法
@@ -299,7 +307,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 │   ├── sync_upstream.py           # ★ 上游同步（云端跑，拉社区规则 + 白名单过滤 + 刻意例外）
 │   ├── export_lists.py            # ★ 导出多格式规则（生成 dist/）
 │   ├── adblock-helper.sh          # 抓包速查工具（发现新广告域的利器）
-│   ├── install.sh                 # 一键部署
+│   ├── install.sh                 # 一键部署（有 systemd 自动装 dnsmasq-home.service）
 │   └── verify.sh                  # 部署后自检
 └── docs/
     ├── principles.md              # 原理与架构详解
@@ -326,7 +334,7 @@ grep "NXDOMAIN" /etc/dnsmasq-adblock/queries.log | tail -30
 # 某台设备在查什么
 grep "from 192.168.1.150" /etc/dnsmasq-adblock/queries.log | tail -50
 
-# 重新生成规则（dnsmasq 重载配置）
+# 重新生成规则后让 dnsmasq 生效（SIGHUP 不重读规则，必须 restart）
 sudo systemctl restart dnsmasq-home.service
 
 # 回退（配置改动前先备份）

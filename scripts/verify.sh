@@ -25,7 +25,7 @@ if pgrep -f "dnsmasq -C $CONF" >/dev/null; then
   pass "运行中 (PID $PID)"
   ps -o etime=,rss=,pcpu= -p "$PID" 2>/dev/null | awk '{printf "      已运行 %s | 内存 %.1f MB | CPU %s%%\n", $1, $2/1024, $3}'
 else
-  fail "未运行 —— 启动: sudo dnsmasq -C $CONF"
+  fail "未运行 —— 启动: sudo systemctl restart dnsmasq-home.service（无 systemd: sudo dnsmasq -C $CONF）"
 fi
 echo
 

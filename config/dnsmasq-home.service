@@ -1,0 +1,46 @@
+# home-dns-adblock —— dnsmasq 去广告 systemd 单元
+#
+# 安装（scripts/install.sh 会自动做）：
+#   sudo cp config/dnsmasq-home.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now dnsmasq-home.service
+#
+# 日常：
+#   改规则 / 改配置后   sudo systemctl restart dnsmasq-home.service
+#   看状态             systemctl status dnsmasq-home.service
+#   看日志             journalctl -u dnsmasq-home.service -e
+#
+# ⚠️ 千万不要用 pkill -f "dnsmasq -C /etc/dnsmasq-adblock/..." 来重启：
+#    -f 匹配整条命令行，会连你自己那条 pkill / sudo 命令一起匹配上，
+#    把自己杀掉、后面的启动命令根本没执行 —— 本项目踩过，53 端口裸奔。
+#    一律用 systemctl restart。
+#
+# ⚠️ pkill -HUP / systemctl reload 都不行：dnsmasq 收到 SIGHUP 只重读
+#    /etc/hosts 之类，不会重读 conf-file= 里的 address= 规则。改规则必须 restart。
+
+[Unit]
+Description=home-dns-adblock dnsmasq (family DNS ad blocker)
+Documentation=https://github.com/abclq/home-dns-adblock
+# 等网络真正就绪再起（bind-interfaces 需要 listen-address 对应的 IP 已存在）。
+# tailscaled.service 只写在 After= 里、不写进 Wants=：
+#   装了 Tailscale → 等它起来再启动（tailnet IP 才存在）；
+#   没装 → systemd 忽略这个不存在的单元，不影响启动。
+Wants=network-online.target
+After=network-online.target tailscaled.service
+# 本项目真踩过：dnsmasq 静默死掉 36 小时没人发现，全屋去广告停摆。
+# 0 = 不限制重启次数，无论死多少次都会一直拉起来。
+StartLimitIntervalSec=0
+# 和系统自带的 dnsmasq.service 抢 53 端口，二者只能留一个
+Conflicts=dnsmasq.service
+
+[Service]
+Type=forking
+PIDFile=/run/dnsmasq-home.pid
+# 先验证语法 + 规则文件是否都在，不过就不启动（ExecStartPre 失败 → 单元失败）
+ExecStartPre=/usr/sbin/dnsmasq --test -C /etc/dnsmasq-adblock/dnsmasq.conf
+ExecStart=/usr/sbin/dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf --pid-file=/run/dnsmasq-home.pid
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
