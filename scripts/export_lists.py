@@ -111,8 +111,8 @@ def main():
     write(os.path.join(outdir, 'domains.txt'), body)
 
     # ⑤ dnsmasq
-    body = HEADER.format(title='Home DNS Adblock — dnsmasq 语法（address=/domain/# 双栈黑洞）', fp=fp, n=n)
-    body += '\n'.join(f'address=/{d}/#' for d in domains) + '\n'
+    body = HEADER.format(title='Home DNS Adblock — dnsmasq 语法（address=/domain/ 返回 NXDOMAIN）', fp=fp, n=n)
+    body += '\n'.join(f'address=/{d}/' for d in domains) + '\n'
     write(os.path.join(outdir, 'dnsmasq-adblock.conf'), body)
 
     # ⑥ Clash / Surge / Mihomo（同一套 DOMAIN-SUFFIX 语法，可两用）
