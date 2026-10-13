@@ -1,41 +1,51 @@
-# 红果广告域侦察用 dnsmasq —— 只记录 + 正常转发（先抓后拦）
+# 家庭 dnsmasq 去广告 —— 配置模板
+# 用法：复制到 /etc/dnsmasq-adblock/dnsmasq.conf，改标注的 3 处即可
 port=53
-listen-address=192.168.1.2
+listen-address=192.168.1.2          # ← 改①：你主机的内网 IP
 bind-interfaces
-# 记录所有查询
+
+# 记录所有查询（排查广告域的关键数据源）
 log-queries
 log-facility=/etc/dnsmasq-adblock/queries.log
+
 # 上游 DNS（国内快）
 no-resolv
 server=223.5.5.5
 server=119.29.29.29
 server=180.76.76.76
+
 cache-size=2000
-# ===== 广告域黑名单（0.0.0.0 = 黑洞）=====
-# 2026-10-04 从 iPhone 192.168.1.150 实测抓取
-# 广告主域（按线路有多个子域变体：hl/lf/zj/gr/sg/zj...）
-address=/ads3-normal-hl.zijieapi.com/#
-address=/ads3-normal-lf.zijieapi.com/#
-address=/ads3-normal-zj.zijieapi.com/#
-address=/ads3-normal-gr.zijieapi.com/#
-address=/ads3-normal-sg.zijieapi.com/#
-address=/ads3-normal-hk.zijieapi.com/#
-address=/p3-ad-sign.byteimg.com/#
-address=/p6-ad-sign.byteimg.com/#
-address=/p9-ad-sign.byteimg.com/#
-address=/p3-novel-sign.byteimg.com/#
-# 广告计费 / 跳转追踪
-address=/api5-normal-sinfonlinea.fqnovel.com/#
-address=/dig.bdurl.net/#
-# 广告视频素材域（番茄/红果子域，带 -ad 标记）
-address=/v5-bd-daily-reading-ad.qznovelvod.com/#
-address=/v9-reading-ad.qznovelvod.com/#
-address=/v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com/#
-# [已回退 21:33] douyinliving.com / webcast*.douyin.com —— 会误伤抖音正常直播
+# 并发转发上限：红果/抖音启动瞬间会爆发几百个查询，默认 150 会排队
+dns-forward-max=2000
 
-# 红果/番茄社区规则（现成规则集）
+# ===== 规则文件 =====
+# adblock-fq.conf      : 主规则（实机抓包确认，200 条）
+# adblock-extra.conf   : 手工补充（埋点统计 / DoH 加固）
+# adblock-upstream.conf: 上游社区规则（GitHub Actions 自动生成，勿手改）
 conf-file=/etc/dnsmasq-adblock/adblock-fq.conf
+conf-file=/etc/dnsmasq-adblock/adblock-extra.conf
+conf-file=/etc/dnsmasq-adblock/adblock-upstream.conf
 
-# --- Tailscale（2026-10-05 加）：手机在外通过 tailnet 用本机 DNS ---
-listen-address=100.x.y.z
+# ===== 拦截写法说明（重要）=====
+#   address=/域名/     → 返回 NXDOMAIN（「域名不存在」）  ★ 推荐，见下
+#   address=/域名/#    → 返回 NOERROR + 0.0.0.0（黑洞地址） 旧写法
+#
+# 实测：0.0.0.0 会让 App 以为「服务器暂时不可用」而**反复重试**
+#       （某广告上报域 20 分钟被重试 206 次）；
+#       改成 NXDOMAIN 后 App 认为「域名不存在」，**立刻放弃**，重试归零。
+# 需要 dnsmasq ≥ 2.86（`address=/X/` 空地址即 NXDOMAIN）。
+#
+# 规则文件里的写法示例：
+#   address=/ads3-normal-hl.zijieapi.com/
+#   address=/api5-normal-sinfonlinea.fqnovel.com/
+#
+# ===== 白名单（绝不能拦，拦了整个 App 就废）=====
+# 详见 config/whitelist.txt，核心几条：
+#   正片/直播流 : qznovelvod.com · douyincdn.com · douyinliving.com · fqnovelpic.com
+#   图床/风控   : byteimg.com · is.snssdk.com
+#   ★ 已回退教训：douyinliving.com / webcast*.douyin.com 会误伤抖音正常直播
+#   ★ 只拦具体子域，绝不拦整个域（如 .zijieapi.com 会让字节系 App 全废）
+
+# --- Tailscale（可选）：手机在外通过 tailnet 用本机 DNS ---
+listen-address=100.x.y.z            # ← 改②：你主机的 Tailscale IP
 interface=tailscale0

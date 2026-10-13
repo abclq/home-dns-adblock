@@ -67,7 +67,10 @@
 
 App 要显示一条广告，第一步必须**解析广告服务器的域名**（查号）。
 
-我们在这一层做手脚：**凡是问广告域的，一律回答 `0.0.0.0`（黑洞地址）** → App 连不上 → 广告加载失败 → 被跳过。
+我们在这一层做手脚：**凡是问广告域的，一律回答 `NXDOMAIN`（「域名不存在」）** → App 拿不到地址 → 广告加载失败 → 被跳过。
+
+> 为什么不是 `0.0.0.0`：那是「服务器不可用」，App 会**反复重试**（实测某广告域 20 分钟被重试 206 次）；
+> 而 `NXDOMAIN` 是「域名不存在」，App **立刻放弃**，重试归零。
 
 **为什么比拦 IP 聪明**：广告服务器的 IP 天天变，但**域名是固定的**。拦住"查号"这一步，它换多少 IP 都没用。
 
@@ -95,6 +98,43 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 **关键设计**：在家走局域网直连，在外走 Tailscale 隧道 —— **两个入口共用同一份黑名单和同一份日志**，
 规则只需要维护一处。
 
+### 规则是怎么进来的（双向自动同步）
+
+规则有**两个来源**，各走各的自动链路，互不干扰：
+
+```
+                    ┌──────────── ① 主动同步别人的（主要）────────────┐
+   社区规则仓库 ──> GitHub Actions（云端，每天 04:00）
+   AWAvenue 等        └─ 拉取 → 解析 AdGuard 语法 → 白名单硬保护
+                          → 提交 config/adblock-upstream.conf
+                                    │
+   家里主机（每天 05:00）<───────────┘  git pull
+        └─ 语法门校验 → 通过才重载 dnsmasq → 验白名单未被误伤
+           （失败自动回滚，保留上一版）
+
+                    ┌──────────── ② 我们手动同步自己的 ─────────────┐
+   本机实机抓包确认的新广告域 ──> config/adblock-fq.conf
+        └─ 本机每 6h 推送到本仓库（只推不拉）
+```
+
+**为什么上游同步放云端**：不依赖家里机器开机、不受家里网络影响，仓库自己就能保持最新。
+
+**两条链路的产物是分开的文件**：
+
+| 文件 | 来源 | 谁维护 | 条数 |
+|------|------|--------|------|
+| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 200 |
+| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 16 |
+| `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 929 |
+
+**安全三重门**（缺一不可，否则会误伤正片）：
+
+1. **白名单硬保护** —— `config/whitelist.txt` 列出的域（正片 CDN / 直播流 / 图床 / 风控）
+   及其所有子域，**永不入规则**，上游列表里有也一律剔除
+2. **裸域危险规则剔除** —— 上游列表里 `.zijieapi.com`、`.isnssdk.com` 这种**封整个域**的规则
+   直接丢掉（合进来会让字节系 App 全废）
+3. **语法门 + 回滚** —— 新规则先 `dnsmasq --test`，通过才重载；不通过自动回滚到上一版
+
 ---
 
 ## 🚀 快速开始
@@ -110,7 +150,9 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 ```bash
 sudo apt-get install -y dnsmasq
 sudo mkdir -p /etc/dnsmasq-adblock
-sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 218 条现成规则
+sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 200 条现成规则（实机抓包确认）
+sudo cp config/adblock-upstream.conf /etc/dnsmasq-adblock/    # 929 条上游社区规则（自动生成）
+sudo cp config/whitelist.txt /etc/dnsmasq-adblock/            # 白名单（保护域，务必一起装）
 sudo cp config/adblock-extra.conf /etc/dnsmasq-adblock/       # 手工补充规则
 sudo cp config/dnsmasq.conf.example /etc/dnsmasq-adblock/dnsmasq.conf
 ```
@@ -120,7 +162,9 @@ sudo cp config/dnsmasq.conf.example /etc/dnsmasq-adblock/dnsmasq.conf
 ```conf
 listen-address=192.168.1.2        # ← 改成你主机的内网 IP
 log-facility=/etc/dnsmasq-adblock/queries.log
+dns-forward-max=2000             # 并发转发上限（红果启动会爆发几百查询）
 conf-file=/etc/dnsmasq-adblock/adblock-fq.conf
+conf-file=/etc/dnsmasq-adblock/adblock-upstream.conf
 ```
 
 启动：
@@ -231,9 +275,11 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 ├── CHANGELOG.md
 ├── CONTRIBUTORS.md
 ├── config/
-│   ├── adblock-fq.conf            # ★ 现成规则，社区规则集（去重后 218 条精确域名）
-│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固）
-│   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
+│   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（200 条精确域名）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，16 条）
+│   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，929 条，勿手改）
+│   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
+│   ├── dnsmasq.conf.example       # 配置模板（改 2 处即可用）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
 ├── dist/                          # ★ 多格式规则，供第三方软件直接订阅
 │   ├── README.md                  #   订阅地址与用法
@@ -242,9 +288,11 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 │   ├── clash-surge-rules.txt
 │   ├── quantumultx-rules.txt
 │   ├── domains.txt
+│   ├── upstream-domains.txt       #   上游规则纯域名版（929 条）
 │   └── dnsmasq-adblock.conf
 ├── scripts/
 │   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护）
+│   ├── sync_upstream.py           # ★ 上游同步（云端跑，拉社区规则 + 白名单过滤）
 │   ├── export_lists.py            # ★ 导出多格式规则（生成 dist/）
 │   ├── adblock-helper.sh          # 抓包速查工具（发现新广告域的利器）
 │   ├── install.sh                 # 一键部署
@@ -269,18 +317,20 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 tail -f /etc/dnsmasq-adblock/queries.log
 
 # 只看被拦下的广告
-grep "is 0.0.0.0" /etc/dnsmasq-adblock/queries.log | tail -30
+grep "NXDOMAIN" /etc/dnsmasq-adblock/queries.log | tail -30
 
 # 某台设备在查什么
 grep "from 192.168.1.150" /etc/dnsmasq-adblock/queries.log | tail -50
 
-# 重新生成规则
-python3 scripts/gen_rules.py && sudo pkill -HUP dnsmasq
+# 重新生成规则（dnsmasq 重载配置）
+sudo systemctl restart dnsmasq-home.service
 
 # 回退（配置改动前先备份）
 sudo cp /etc/dnsmasq-adblock/dnsmasq.conf.bak /etc/dnsmasq-adblock/dnsmasq.conf
-sudo pkill -f "dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf"
-sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
+sudo systemctl restart dnsmasq-home.service
+
+# ⚠️ 千万别用 pkill -f 'dnsmasq -C ...' —— 它会匹配到你自己那条命令，
+#    把自己也杀掉（本项目踩过，53 端口裸奔）。用 systemd 重启。
 ```
 
 ---
