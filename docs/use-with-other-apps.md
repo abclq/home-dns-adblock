@@ -27,26 +27,43 @@
 ## 二、订阅地址
 
 ```
-AdGuard 语法   https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/adguard-dns.txt
-hosts          https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/hosts.txt
-hosts IPv6     https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/hosts-ipv6.txt
-纯域名         https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/domains.txt
-Clash/Surge    https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/clash-surge-rules.txt
-Quantumult X   https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/quantumultx-rules.txt
-dnsmasq        https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/dnsmasq-adblock.conf
+AdGuard 语法   https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+hosts          https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt
+hosts IPv6     https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts-ipv6.txt
+纯域名         https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt
+Clash/Surge    https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt
+Quantumult X   https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt
+dnsmasq        https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/dnsmasq-adblock.conf
 ```
 
-### 国内拉不动 `raw.githubusercontent.com` 怎么办
+### 上面用的是 jsDelivr 全球 CDN，国内国外都能直接拉
 
-GitHub 的原始文件地址在国内时通时不通。两个办法：
+这些地址走的是 **jsDelivr**（Cloudflare + Fastly 双骨干的免费 CDN），
+**国内直连可用、海外同样快**，不需要自己搭服务器，也不用备案。
 
-**① 换 jsDelivr 镜像**（实测可用，把 `raw.githubusercontent.com/abclq/home-dns-adblock/main` 换成 `cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main`）：
+**⚠️ 唯一要避开的坑：别用 `cdn.jsdelivr.net`**
+
+实测（2026-10，国内家宽直连）：
+
+| 域名 | 结果 |
+|---|---|
+| `cdn.jsdelivr.net` | ❌ 连接被重置（不通） |
+| `fastly.jsdelivr.net` | ✅ 200 |
+| `gcore.jsdelivr.net` | ✅ 200 |
+| `testingcf.jsdelivr.net` | ✅ 200 |
+
+**本文档一律用 `fastly.jsdelivr.net`。** 如果哪天它也慢了，把前缀换成 `gcore.` 或 `testingcf.` 即可，路径完全一样：
 
 ```
-https://cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+https://gcore.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+https://testingcf.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
 ```
 
-**② 直接下载文件导入**：本仓库 `dist/` 目录里就是这些文件，下载到本地再"从文件导入"即可。
+**实在不行还有两招**：
+
+1. **GitHub 原始地址**（海外用户首选，国内时通时不通）：
+   `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...`
+2. **下载文件导入**：本仓库 `dist/` 目录里就是这些文件，下载到本地再「从文件导入」即可。
 
 > 规则内容：**214 条精确域名**，只针对国内 App 的广告与埋点，**不含通配符**，不会误伤正片。
 
@@ -120,7 +137,7 @@ rule-providers:
   homedns:
     type: http
     behavior: classical
-    url: "https://cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt"
+    url: "https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt"
     interval: 86400
     path: ./ruleset/homedns.yaml
 
@@ -146,7 +163,7 @@ rules:
 
 在配置的 `[Rule]` 段加：
 ```
-RULE-SET,https://cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt,REJECT
+RULE-SET,https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt,REJECT
 ```
 
 ---
@@ -249,7 +266,7 @@ RULE-SET,https://cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surg
 > Shadowrocket 在**美区** App Store 才有；国区搜不到属正常。
 > Quantumult X 在 `[filter_remote]` 段加：
 > ```
-> https://cdn.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt, tag=home-dns-adblock, force-policy=reject, enabled=true
+> https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt, tag=home-dns-adblock, force-policy=reject, enabled=true
 > ```
 
 #### AdGuard for iOS 说明

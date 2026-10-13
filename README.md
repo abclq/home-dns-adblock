@@ -33,11 +33,12 @@
 
 > **只想用现成软件？** → 看 **[docs/use-with-other-apps.md](docs/use-with-other-apps.md)**
 >
-> 一行订阅（AdGuard 语法）：
+> 一行订阅（AdGuard 语法，走 **jsDelivr 全球 CDN**，国内直连可用、海外同样快）：
 > ```
-> https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/adguard-dns.txt
+> https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
 > ```
 > 其它格式（hosts / Clash / Surge / Quantumult X / dnsmasq）见 [`dist/`](dist/)。
+> 拉不动就把 `fastly` 换成 `gcore` 或 `testingcf`；**别用 `cdn.jsdelivr.net`**（国内会被重置）。
 
 ---
 

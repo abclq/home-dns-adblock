@@ -25,7 +25,7 @@ python3 scripts/export_lists.py
 
 **AdGuard Home**：过滤器 → DNS 黑名单 → 添加 URL 订阅
 ```
-https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/adguard-dns.txt
+https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
 ```
 
 **AdGuard / RethinkDNS App**：自定义过滤规则 → 从 URL 导入（同上）
@@ -39,12 +39,21 @@ conf-file=/path/to/dnsmasq-adblock.conf
 
 ## 订阅地址
 
+**走 jsDelivr 全球 CDN —— 国内直连可用，海外同样快。** 前缀统一用 `fastly.`（`cdn.jsdelivr.net` 在国内会被重置，别用）。
+
 | 格式 | URL |
 |---|---|
-| AdGuard 语法 | `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/adguard-dns.txt` |
-| hosts | `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/hosts.txt` |
-| hosts IPv6 | `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/hosts-ipv6.txt` |
-| 纯域名 | `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/domains.txt` |
+| AdGuard 语法 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
+| hosts | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt` |
+| hosts IPv6 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts-ipv6.txt` |
+| 纯域名 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt` |
+| Clash / Surge / Mihomo | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-surge-rules.txt` |
+| Quantumult X / Loon | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt` |
+| dnsmasq | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/dnsmasq-adblock.conf` |
+| 打包下载 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/home-dns-adblock-v1.1.0-rules.zip` |
+
+> 拉不动就把 `fastly` 换成 `gcore` 或 `testingcf`，路径不变。
+> 海外用户也可直接用 `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...`。
 
 ## 定位说明
 

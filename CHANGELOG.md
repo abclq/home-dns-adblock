@@ -2,6 +2,30 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [1.1.2] — 2026-10-13
+
+订阅地址全部改为 **jsDelivr 全球 CDN（`fastly.jsdelivr.net`）** —— 国内直连可用，海外同样快，给大伙一个开箱即用的链接。
+
+### 修复
+
+- **全仓库订阅地址从 `raw.githubusercontent.com` 换成 `fastly.jsdelivr.net`**
+  - 原因：GitHub 原始文件地址在国内时通时不通，用户拿到链接经常直接拉不动
+  - 涉及 `README.md` / `README.en.md` / `docs/use-with-other-apps.md` / `dist/README.md`
+- **修掉文档里推荐的 `cdn.jsdelivr.net` 前缀**（3 处真实配置示例）
+  - 实测：`cdn.jsdelivr.net` 国内**连接被重置**；`fastly.` / `gcore.` / `testingcf.` 三个前缀均 200
+  - 受影响：Clash 配置示例、Quantumult X 配置示例
+
+### 验证
+
+| 项目 | 结果 |
+|------|------|
+| 7 个规则文件走 `fastly.jsdelivr.net` | ✓ 全部 200 |
+| 三镜像一致性 | ✓ `fastly` / `gcore` / `testingcf` 均 200 |
+| `cdn.jsdelivr.net` | ✗ 连接被重置（已在文档中标注避开） |
+| 海外访问 | ✓ jsDelivr 为 Cloudflare + Fastly 全球 CDN |
+
+---
+
 ## [1.1.1] — 2026-10-11
 
 补漏红果短剧广告域名 —— 修复 issue #1「还是有很多漏网之鱼」。

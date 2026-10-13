@@ -47,7 +47,7 @@ This project solves a different problem:
 | Quantumult X / Loon | `dist/quantumultx-rules.txt` |
 | dnsmasq | `dist/dnsmasq-adblock.conf` |
 
-> Replace `dist/...` with `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...` to subscribe.
+> Replace `dist/...` with `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/...` to subscribe.
 > Software-by-software instructions: **[docs/use-with-other-apps.md](docs/use-with-other-apps.md)** (Chinese).
 > Note: **RethinkDNS does not accept custom URLs** — it only offers its own preset lists.
 
