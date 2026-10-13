@@ -1,7 +1,7 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 36825a8970edd2ee    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 276c4dc2c8113d69    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 215
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,7 +56,6 @@ DOMAIN-SUFFIX,apd-pcdnwxlogin.teg.tencent-cloud.net,REJECT
 DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao.com,REJECT
 DOMAIN-SUFFIX,api-access.pangolin-sdk-toutiao1.com,REJECT
 DOMAIN-SUFFIX,api.iegadp.qq.com,REJECT
-DOMAIN-SUFFIX,api5-normal-sinfonlinea.fqnovel.com,REJECT
 DOMAIN-SUFFIX,apm-native.xiaohongshu.com,REJECT
 DOMAIN-SUFFIX,cnlogs.umeng.com,REJECT
 DOMAIN-SUFFIX,dig.bdurl.net,REJECT
@@ -138,7 +137,6 @@ DOMAIN-SUFFIX,mon11-misc-hl.fqnovel.com,REJECT
 DOMAIN-SUFFIX,msync-im1-vip6-std.easemob.com,REJECT
 DOMAIN-SUFFIX,ossnt-errlog.umeng.com,REJECT
 DOMAIN-SUFFIX,p3-ad-sign.byteimg.com,REJECT
-DOMAIN-SUFFIX,p3-novel-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p6-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,p9-ad-sign.byteimg.com,REJECT
 DOMAIN-SUFFIX,pangle.io,REJECT
@@ -174,6 +172,7 @@ DOMAIN-SUFFIX,tnc3-aliec3.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc1.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc2.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc3.zijieapi.com,REJECT
+DOMAIN-SUFFIX,tnc3-bjlgy.snssdk.com,REJECT
 DOMAIN-SUFFIX,ulogs.umeng.com,REJECT
 DOMAIN-SUFFIX,v100-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v100-reading-ad.qznovelvod.com,REJECT
@@ -194,7 +193,6 @@ DOMAIN-SUFFIX,v26-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com,REJECT
 DOMAIN-SUFFIX,v5-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v6-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v6-reading-ad.qznovelvod.com,REJECT
@@ -221,3 +219,6 @@ DOMAIN-SUFFIX,v99-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v99-se-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v99-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,vas-lf-x.snssdk.com,REJECT
+DOMAIN-SUFFIX,webcast5-open-hl.douyin.com,REJECT
+DOMAIN-SUFFIX,webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net,REJECT
+DOMAIN-SUFFIX,wmzfylgdsz.com,REJECT

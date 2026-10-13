@@ -1,7 +1,7 @@
 # Home DNS Adblock — hosts 格式 / hosts format
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 36825a8970edd2ee    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 214
+# 规则指纹: 276c4dc2c8113d69    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 215
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -56,7 +56,6 @@
 0.0.0.0 api-access.pangolin-sdk-toutiao.com
 0.0.0.0 api-access.pangolin-sdk-toutiao1.com
 0.0.0.0 api.iegadp.qq.com
-0.0.0.0 api5-normal-sinfonlinea.fqnovel.com
 0.0.0.0 apm-native.xiaohongshu.com
 0.0.0.0 cnlogs.umeng.com
 0.0.0.0 dig.bdurl.net
@@ -138,7 +137,6 @@
 0.0.0.0 msync-im1-vip6-std.easemob.com
 0.0.0.0 ossnt-errlog.umeng.com
 0.0.0.0 p3-ad-sign.byteimg.com
-0.0.0.0 p3-novel-sign.byteimg.com
 0.0.0.0 p6-ad-sign.byteimg.com
 0.0.0.0 p9-ad-sign.byteimg.com
 0.0.0.0 pangle.io
@@ -174,6 +172,7 @@
 0.0.0.0 tnc3-alisc1.zijieapi.com
 0.0.0.0 tnc3-alisc2.zijieapi.com
 0.0.0.0 tnc3-alisc3.zijieapi.com
+0.0.0.0 tnc3-bjlgy.snssdk.com
 0.0.0.0 ulogs.umeng.com
 0.0.0.0 v100-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v100-reading-ad.qznovelvod.com
@@ -194,7 +193,6 @@
 0.0.0.0 v5-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v5-reading-ad.qznovelvod.com
 0.0.0.0 v5-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v5-se-sjy-daily-reading-ad-qznovelvod-qhwhu2.dizgslb.com
 0.0.0.0 v5-se-sjy-daily-reading-ad.qznovelvod.com
 0.0.0.0 v6-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v6-reading-ad.qznovelvod.com
@@ -221,3 +219,6 @@
 0.0.0.0 v99-se-daily-reading-ad.qznovelvod.com
 0.0.0.0 v99-se-sjy-daily-reading-ad.qznovelvod.com
 0.0.0.0 vas-lf-x.snssdk.com
+0.0.0.0 webcast5-open-hl.douyin.com
+0.0.0.0 webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net
+0.0.0.0 wmzfylgdsz.com
