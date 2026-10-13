@@ -76,7 +76,7 @@ Oct  5 16:54:13 dnsmasq[687996]: config ads3-normal-hl.zijieapi.com is 0.0.0.0
 1. 用户刷 App 时看到广告 → **记下大概时间**
 2. 事后从全量日志里**切出那个时间窗口**
 3. 窗口内那些"**只在广告时刻出现、平时不出现**"的域名 = 广告域
-4. 补进 `gen_rules.py` → 重新生成 → `pkill -HUP dnsmasq` 生效
+4. 补进 `gen_rules.py` → 跑一次看差异 → **手动合并**进 `config/adblock-fq.conf` → `sudo systemctl restart dnsmasq-home.service` 生效
 
 工具：
 

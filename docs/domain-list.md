@@ -197,7 +197,8 @@ volcengineapi.com
 ③ 加进 scripts/gen_rules.py，写好注释说明来源
 
 ④ 重新生成 + 重载
-     └─ python3 scripts/gen_rules.py && sudo pkill -HUP dnsmasq
+     └─ python3 scripts/gen_rules.py    # 看差异，手动合并进 config/adblock-fq.conf
+     └─ sudo systemctl restart dnsmasq-home.service
 
 ⑤ ★ 先在**一台设备**上验证正片正常播放
      └─ 播放 3 分钟以上，确认不卡不断

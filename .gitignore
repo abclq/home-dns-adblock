@@ -1,4 +1,6 @@
 # 运行时产物
+adblock-fq.generated.conf
+scripts/adblock-fq.generated.conf
 queries.log
 *.log
 *.log.*

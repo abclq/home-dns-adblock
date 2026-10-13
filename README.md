@@ -221,7 +221,8 @@ sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 **精确域名，绝不使用宽泛关键字。** 这是本方案不误伤的核心。
 
 ```bash
-python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
+python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.generated.conf 并打印差异
+                                  #   不会覆盖 config/adblock-fq.conf（那是唯一真源，手工维护 + 上游自动同步）
 ```
 
 规则来源（社区规则集交叉验证 + 实机抓包确认）：
@@ -244,7 +245,7 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 ```
 
 广告域的特征：**只在广告出现的那一瞬间被查询，平时完全不出现**。
-用这个特征可以把广告域从几百条日志里精准挑出来 → 补进 `gen_rules.py` → 重新生成。
+用这个特征可以把广告域从几百条日志里精准挑出来 → 补进 `gen_rules.py` → 跑一次看差异 → **人工确认后手动合并**到 `config/adblock-fq.conf`。
 
 ---
 
@@ -291,7 +292,7 @@ python3 scripts/gen_rules.py     # 重新生成 config/adblock-fq.conf
 │   ├── upstream-domains.txt       #   上游规则纯域名版（929 条）
 │   └── dnsmasq-adblock.conf
 ├── scripts/
-│   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护）
+│   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护，★ 安全模式：不覆盖线上）
 │   ├── sync_upstream.py           # ★ 上游同步（云端跑，拉社区规则 + 白名单过滤）
 │   ├── export_lists.py            # ★ 导出多格式规则（生成 dist/）
 │   ├── adblock-helper.sh          # 抓包速查工具（发现新广告域的利器）
@@ -347,7 +348,7 @@ sudo systemctl restart dnsmasq-home.service
 4. **只提交精确域名** —— 不接受 `DOMAIN-KEYWORD` 类的宽泛规则
 
 **贡献流程**：Fork → 在 `scripts/gen_rules.py` 里加上你的域名（**并写好注释说明来源**）→
-跑 `python3 scripts/gen_rules.py` 重新生成 → 提交 PR 附带实测证据。
+跑 `python3 scripts/gen_rules.py` 看差异 → **手动合并**进 `config/adblock-fq.conf` → 提交 PR 附带实测证据。
 
 **绝不要提交**的域名类型见 [docs/domain-list.md](docs/domain-list.md) 的「禁拦清单」。
 

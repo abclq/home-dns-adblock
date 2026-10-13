@@ -203,7 +203,7 @@ address=/snssdk.com/0.0.0.0   # aweme.snssdk.com 是抖音核心 API → 功能�
 ```
 
 **解法**：把 `qznovelvod.com` 整个加进白名单保护，然后**在代码里显式穿透**
-（见 `scripts/gen_rules.py` 的白名单 + 例外逻辑）。
+（见 `scripts/gen_rules.py` 的白名单 + 例外逻辑。★ 该脚本已改安全模式：只生成建议文件，不覆盖线上）
 
 **同理适用于**：
 - `douyinpic.com`（图床）→ 只拦 `p3-webcast` / `p3-sign` 这种具体子域
