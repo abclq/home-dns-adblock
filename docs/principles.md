@@ -28,31 +28,42 @@ App 启动
 **本方案选 DNS 的理由**：域名是广告商**最不常变**的东西（换域名要走合规和灰度流程），
 而 IP 是**最常变**的（CDN 调度 + 弹性扩容）。拦域名 = 打它的软肋。
 
-### 1.3 dnsmasq 的两种黑洞写法
+### 1.3 dnsmasq 的三种黑洞写法（实测对照）
 
 ```conf
-# 写法 A：答 0.0.0.0（推荐）
+# 写法 A：只答 0.0.0.0（AAAA 会正常转发出去）
 address=/ads3-normal-hl.zijieapi.com/0.0.0.0
 
-# 写法 B：答 NXDOMAIN（更"诚实"，告诉客户端这个域名不存在）
+# 写法 B：双栈黑洞，A 答 0.0.0.0、AAAA 答 ::
 address=/ads3-normal-hl.zijieapi.com/#
+
+# 写法 C：答 NXDOMAIN ★ 本项目用这个
+address=/ads3-normal-hl.zijieapi.com/
 ```
 
-**本方案用写法 A**，原因：`0.0.0.0` 是"有效但不可路由"的地址，
-客户端拿到后会**尝试连接然后立刻失败**（connect refused），整个过程毫秒级；
-而 NXDOMAIN 会让某些 App 触发**重试 + 换备用域名**逻辑，反而多打几个请求。
+实测对照（dnsmasq 2.90，`dig` 直查）：
 
-两种写法在日志里的表现：
+| 写法 | A 记录 | AAAA 记录 | 响应状态 |
+|---|---|---|---|
+| A `…/0.0.0.0` | `0.0.0.0` | 转发真实值 | NOERROR |
+| B `…/#` | `0.0.0.0` | `::` | NOERROR |
+| C `…/`（空尾）★ | 无 | 无 | **NXDOMAIN** |
 
-```
-写法 A →  reply ads3-normal-hl.zijieapi.com is 0.0.0.0      ← 被黑洞
-写法 B →  config error is REFUSED (NXDOMAIN)                ← 不存在
-```
+**本项目用写法 C**（2026-10-13 实测切换）。原因：
 
-**注意**：`address=/domain/0.0.0.0` **只对该域名本身生效**，不含子域。
-若要连子域一起拦，需写成 `address=/example.com/0.0.0.0`（dnsmasq 对 `address=` 的匹配
-会同时覆盖该域及其所有子域 —— **这也是本项目坚持写精确完整域名的原因**，
-写宽了会连正片一起拦掉）。
+- 写法 A / B 返回的是"有效但不可路由"的地址，客户端拿到后会**尝试连接再失败**，
+  在日志里表现为同一个广告域被**反复查询**（重试风暴）
+- 写法 C 直接告诉客户端"这个域名不存在"，客户端立刻放弃、不再重试
+- 实测切换后，同一批广告域的重试次数 **12 → 0**
+
+> **勘误**：早期文档把写法 B（`#`）误标为 NXDOMAIN，并把 `0.0.0.0` 标为"推荐"。
+> 实测证明 `#` 是**双栈黑洞**（0.0.0.0 + ::），不是 NXDOMAIN；
+> 真正的 NXDOMAIN 是**空尾**写法 `address=/域名/`。本文档已按实测更正。
+
+**注意**：`address=` 的匹配**会同时覆盖该域及其所有子域** ——
+写 `address=/example.com/` 会连 `a.example.com`、`b.example.com` 一起拦。
+**这也是本项目坚持写精确完整域名的原因**：写父域会连正片一起拦掉
+（比如写 `snssdk.com` 会废掉抖音核心 API `is.snssdk.com`）。
 
 ---
 
@@ -66,7 +77,7 @@ DNS 日志长这样（每行一条）：
 Oct  5 16:54:12 dnsmasq[687996]: query[A] v11-reading-video.qznovelvod.com from 192.168.1.150
 Oct  5 16:54:12 dnsmasq[687996]: reply v11-reading-video.qznovelvod.com is 121.40.x.x
 Oct  5 16:54:13 dnsmasq[687996]: query[A] ads3-normal-hl.zijieapi.com from 192.168.1.150
-Oct  5 16:54:13 dnsmasq[687996]: config ads3-normal-hl.zijieapi.com is 0.0.0.0
+Oct  5 16:54:13 dnsmasq[687996]: config ads3-normal-hl.zijieapi.com is NXDOMAIN
 ```
 
 **关键特征**：广告域**只在广告出现的那一瞬间被查询**，平时完全不出现。
@@ -210,14 +221,15 @@ Tailscale 的**控制面**和**数据面**是分开的：
 ```
 <时间> dnsmasq[PID]: query[类型] <域名> from <来源IP>
 <时间> dnsmasq[PID]: reply  <域名> is <结果>            ← 正常解析
-<时间> dnsmasq[PID]: config <域名> is 0.0.0.0          ← 被本项目黑洞 ★
+<时间> dnsmasq[PID]: config <域名> is NXDOMAIN        ← 被本项目拦下 ★
 ```
 
 **过滤技巧**：
 
 ```bash
 # 只看被拦下的（这就是"拦截统计"）
-grep "is 0.0.0.0" queries.log | wc -l
+# 注意前缀：config = 我们自己拦的 ★  /  reply = 上游说这域名不存在（正常）
+grep "config .* is NXDOMAIN" queries.log | wc -l
 
 # 按来源设备分组
 grep -oE "from [0-9.]+" queries.log | sort | uniq -c | sort -rn

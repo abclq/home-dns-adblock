@@ -186,7 +186,7 @@ address=/snssdk.com/0.0.0.0   # aweme.snssdk.com 是抖音核心 API → 功能�
 **本项目原则**：**只写精确完整域名**。
 宁可规则少（214 条精确规则），也不要一条误伤。
 
-**注意 `address=` 的匹配语义**：写 `address=/example.com/0.0.0.0`
+**注意 `address=` 的匹配语义**：写 `address=/example.com/`（本项目用的 NXDOMAIN 写法）
 **会同时覆盖 `example.com` 及其所有子域** —— 所以写父域极其危险。
 
 ---
@@ -298,7 +298,7 @@ sudo logrotate -d /etc/logrotate.d/dnsmasq-adblock
 1. dnsmasq 进程是否在跑
 2. 53 端口是否在监听（内网 IP + Tailscale IP）
 3. 规则文件条数是否正确
-4. 广告域是否真的被答 `0.0.0.0`
+4. 广告域是否真的被答 `NXDOMAIN`
 5. 正常域是否正常解析
 6. 日志是否在写入
 

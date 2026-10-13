@@ -8,7 +8,7 @@ DNS-level ad blocking for Chinese "watch ads to unlock free content" apps
 **No root. No config profiles. No CA certificates. No app modification.**
 Just a DNS blackhole running on an always-on Linux box.
 
-- **At home** — point your device DNS at the box → ad domains answer `0.0.0.0`
+- **At home** — point your device DNS at the box → ad domains answer `NXDOMAIN`
 - **Away** (4G / hotel WiFi) — a Tailscale tunnel carries DNS queries back home → same protection
 
 ---

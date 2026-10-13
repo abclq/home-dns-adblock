@@ -149,11 +149,12 @@ sudo tailscale ping <手机主机名>
 # 手机上网后，看有没有来自手机 Tailscale IP 的查询
 grep "<手机TailscaleIP>" /etc/dnsmasq-adblock/queries.log | tail -10
 
-# 看有没有广告域被黑洞
-grep "is 0.0.0.0" /etc/dnsmasq-adblock/queries.log | tail -20
+# 看有没有广告域被拦下
+grep "config .* is NXDOMAIN" /etc/dnsmasq-adblock/queries.log | tail -20
 ```
 
-**出现 `config xxx is 0.0.0.0` = 拦截生效** ✓
+**出现 `config xxx is NXDOMAIN` = 拦截生效** ✓
+（`reply xxx is NXDOMAIN` 是上游说这域名不存在，不算拦截）
 
 ---
 
