@@ -43,7 +43,17 @@ def load_whitelist() -> list[str]:
     return out
 
 
+# 白名单的「刻意例外」：这些具体子域【仍然要拦】——
+# 正片走 *-reading-video（不同子域），封 -reading-ad 不影响正片。
+# 详见 docs/domain-list.md 第二节。加了例外后白名单对它们不生效。
+WL_EXCEPTIONS = [
+    re.compile(r"^v\d+-(?:bd-daily-|se-daily-|se-sjy-daily-)?reading-ad\.qznovelvod\.com$"),
+]
+
+
 def is_whitelisted(domain: str, wl: list[str]) -> bool:
+    if any(rx.match(domain) for rx in WL_EXCEPTIONS):
+        return False                       # 例外优先
     return any(domain == w or domain.endswith("." + w) for w in wl)
 
 

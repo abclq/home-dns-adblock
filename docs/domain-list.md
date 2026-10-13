@@ -65,6 +65,10 @@
 
 **这个发现是整套规则的核心** —— 它让"拦广告视频"和"保正片"得以同时成立。
 
+> **同步脚本也认这个例外**：`sync_upstream.py` / `sync_upstream.sh` 里有一份
+> `WL_EXCEPTIONS`，匹配 `v\d+-(bd-daily-|se-daily-|se-sjy-daily-)?reading-ad.qznovelvod.com`
+> 的规则**不会**被白名单过滤剔掉 —— 否则上游列表里出现同类域会被误删。
+
 ---
 
 ## 三、✅ 该拦清单（199 条，按类别）
