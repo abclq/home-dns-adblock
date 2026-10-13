@@ -114,3 +114,11 @@
 - **直播插播广告**拦不住 —— 与正片共用视频 CDN 域名，拦了会连正片一起废
 - **已缓存的广告**拦不住 —— DNS 只管"新的解析请求"
 - **只验证了 iOS + Ubuntu** —— Android / OpenWrt / 群晖待社区补充
+
+## [未发布] 上游规则云同步
+
+- 新增 `.github/workflows/sync-upstream.yml`：GitHub Actions 每天 04:00(北京) 自动拉取社区规则
+- 新增 `scripts/sync_upstream.py`：上游列表解析 + 白名单硬保护 + 裸域危险规则剔除
+- 新增 `config/whitelist.txt`：15 条保护域（正片/直播流/图床/风控）
+- 新增 `config/adblock-upstream.conf`：自动生成的上游规则（默认 929 条，NXDOMAIN 写法）
+- 新增 `dist/upstream-domains.txt`：纯域名版，供第三方工具订阅

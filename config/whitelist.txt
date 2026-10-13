@@ -1,0 +1,21 @@
+# 白名单 —— 这些域【永远不许封】，上游列表里出现也一律剔除
+# 一行一个，子域自动匹配（写 douyincdn.com 等于保护 *.douyincdn.com）
+#
+# ── 正片 / 直播流（封了红果、抖音直接废）──
+qznovelvod.com
+douyincdn.com
+douyinliving.com
+fqnovelpic.com
+douyinpic.com
+bytefcdn.com
+volcgslb.com
+bytegecko.com
+ixigua.com
+amemv.com
+# ── 字节正片 API / 风控（封了 App 功能异常）──
+is.snssdk.com
+gecko.snssdk.com
+api3-normal-sinfonlinea.fqnovel.com
+# ── 基础设施（DNS / 时间 / 证书）──
+apple.com
+icloud.com
