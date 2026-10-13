@@ -70,7 +70,7 @@ for i in range(4):
 
 # ⑦ 字节广告/统计 SDK（社区规则交叉验证 + 实机抓包确认）
 D.update({
-    "i.snssdk.com", "i-lq.snssdk.com", "i-lq-snssdk.com", "is.snssdk.com",
+    "i.snssdk.com", "i-lq.snssdk.com", "is.snssdk.com",
     "mcs.snssdk.com", "security-lq.snssdk.com", "vas-lf-x.snssdk.com",
     "activity-ag.awemeughun.com",
     "sf3-ttcdn-tos.pstatp.com",

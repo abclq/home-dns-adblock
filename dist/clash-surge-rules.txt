@@ -1,7 +1,7 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 276c4dc2c8113d69    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 215
+# 规则指纹: 03297d9709cd8d20    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 214
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -62,7 +62,6 @@ DOMAIN-SUFFIX,dig.bdurl.net,REJECT
 DOMAIN-SUFFIX,dns.alidns.com,REJECT
 DOMAIN-SUFFIX,doh.pub,REJECT
 DOMAIN-SUFFIX,errnewlog.umeng.com,REJECT
-DOMAIN-SUFFIX,i-lq-snssdk.com,REJECT
 DOMAIN-SUFFIX,i-lq.snssdk.com,REJECT
 DOMAIN-SUFFIX,i.snssdk.com,REJECT
 DOMAIN-SUFFIX,l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com,REJECT

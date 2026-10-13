@@ -40,7 +40,7 @@
 | `p3/p6/p9-ad-sign.byteimg.com` | **广告图片签名** | 图床上的特定子域 |
 | `p3/p6/p9-novel-sign.byteimg.com` | **小说广告签名** | 同上 |
 | `i.snssdk.com` / `is.snssdk.com` / `mcs.snssdk.com` | 广告上报 / 归因 | 不是 `aweme.snssdk.com` 那种核心 API |
-| `i-lq.snssdk.com` / `i-lq-snssdk.com` | 同上 | 同上 |
+| `i-lq.snssdk.com` | 同上 | 同上 |
 | `security-lq.snssdk.com` / `vas-lf-x.snssdk.com` | 风控 / 广告相关 | 同上 |
 
 ### ★ 最值得学习的一条
@@ -59,7 +59,7 @@
 
 ---
 
-## 三、✅ 该拦清单（200 条，按类别）
+## 三、✅ 该拦清单（199 条，按类别）
 
 ### 3.1 广告计费接口（最典型）
 
@@ -134,7 +134,7 @@ lf-webcast-gr-sourcecdn.bytegecko.com
 
 ```
 i.snssdk.com  ·  is.snssdk.com  ·  mcs.snssdk.com
-i-lq.snssdk.com  ·  i-lq-snssdk.com
+i-lq.snssdk.com
 security-lq.snssdk.com  ·  vas-lf-x.snssdk.com
 activity-ag.awemeughun.com
 sf3-ttcdn-tos.pstatp.com

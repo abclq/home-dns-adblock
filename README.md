@@ -1,6 +1,6 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `215 条精确规则 + 929 条上游社区规则` · `零误伤`
+**中文** | [English](README.en.md) · `MIT` · `214 条精确规则 + 929 条上游社区规则` · `零误伤`
 
 **家庭 DNS 广告拦截 —— 7×24 在家跑，出门在外照样生效**
 
@@ -12,7 +12,7 @@
 >
 > | | 通用方案（Pi-hole / AdGuard）| App Hook 方案 | **本项目** |
 > |---|---|---|---|
-> | 规则数量 | 10 万+ 宽泛规则 | — | **215 条精确规则 + 929 条上游社区规则**（去重后合计 1141 条） |
+> | 规则数量 | 10 万+ 宽泛规则 | — | **214 条精确规则 + 929 条上游社区规则**（去重后合计 1140 条） |
 > | 误伤风险 | 有可能 | — | **零（白名单保护正片）** |
 > | 需要 root / 越狱 | 不需要 | **需要** | **不需要** |
 > | 出门在外可用 | ✗ | ✗ | **✓ Tailscale 隧道** |
@@ -53,7 +53,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 规则条数 | 215 条精确域名（无一条宽泛关键字规则）+ 929 条上游社区规则 |
+| 规则条数 | 214 条精确域名（无一条宽泛关键字规则）+ 929 条上游社区规则 |
 | 服务资源占用 | **内存 2.5 MB · CPU 0.0%** |
 | 出门链路延迟 | **39 ms（P2P 直连，不走中继）** |
 | 异地实测 | 医院 WiFi 下，1431 条 DNS 查询全部回落本机并正常拦截 |
@@ -123,7 +123,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 
 | 文件 | 来源 | 谁维护 | 条数 |
 |------|------|--------|------|
-| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 200 |
+| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 199 |
 | `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 16 |
 | `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 929 |
 
@@ -150,7 +150,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 ```bash
 sudo apt-get install -y dnsmasq
 sudo mkdir -p /etc/dnsmasq-adblock
-sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 200 条现成规则（实机抓包确认）
+sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 199 条现成规则（实机抓包确认）
 sudo cp config/adblock-upstream.conf /etc/dnsmasq-adblock/    # 929 条上游社区规则（自动生成）
 sudo cp config/whitelist.txt /etc/dnsmasq-adblock/            # 白名单（保护域，务必一起装）
 sudo cp config/adblock-extra.conf /etc/dnsmasq-adblock/       # 手工补充规则
@@ -276,7 +276,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 ├── CHANGELOG.md
 ├── CONTRIBUTORS.md
 ├── config/
-│   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（200 条精确域名）
+│   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（199 条精确域名）
 │   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，16 条）
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，929 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
