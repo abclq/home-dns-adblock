@@ -63,7 +63,7 @@ EOF
 **★ 必须整进程重启**（`SIGHUP` 对 `listen-address` 无效，见 pitfalls 坑 3）：
 
 ```bash
-sudo pkill -f "dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf"
+sudo pkill -x dnsmasq        # ★ -x 精确匹配进程名；-f 会匹配到你自己那条命令
 sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 
 # 验证：应该看到两个监听地址

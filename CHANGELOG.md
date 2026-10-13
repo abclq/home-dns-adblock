@@ -2,6 +2,75 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [1.1.3] — 2026-10-13
+
+一次**仓库自审**驱动的整轮修正 —— 由云电脑上的大模型巡检任务（每天 09:30）扫出 5 类问题，
+逐条在本机核实（**全部为真**）后修复。核心是「**文档必须和实际规则一致**」。
+
+### 新增
+
+- **双向自动同步** —— 规则从此有两个来源，各走各的链路：
+  - **① 主动同步别人的（主要）**：`GitHub Actions` 每天 04:00（北京时间）拉社区规则
+    （AWAvenue / AdRules / anti-AD）→ 解析 AdGuard 语法 → 白名单硬保护 → 写
+    `config/adblock-upstream.conf`；家里主机每天 05:00 `git pull`
+  - **② 手动同步自己的**：本机实机抓包确认的新广告域，每 6h 推送到本仓库（只推不拉）
+  - 上游同步放云端的原因：不依赖家里机器开机、不受家里网络影响
+- **云电脑大模型巡检** —— 每天 09:30 让云上的模型读仓库、查文档与规则是否对得上，
+  结果投递到 Telegram。**脚本出事实，模型出判断**，规则/白名单/配置的修改一律要人确认。
+
+### 修复
+
+- **`scripts/gen_rules.py` 改为安全模式** —— 原脚本会**直接覆盖线上** `adblock-fq.conf`，
+  实跑一次会抹掉 16 条手工规则、加回 14 个已确认误伤的域（`is.snssdk.com`、裸域
+  `fqnovelvod.com`、`p3-sign`/`p3-webcast.douyinpic.com` 等）、并把写法退回 `0.0.0.0`。
+  现在**只生成 `adblock-fq.generated.conf` 建议文件**，生成时把线上已有规则并进来，
+  并新增 `DEPRECATED` 集合永久排除那 14 个误伤域；跑完打印差异。
+- **拦截写法统一为 NXDOMAIN** —— `address=/域/#`（回 `0.0.0.0` + NOERROR）会让 App
+  拿到地址去连、卡一下才失败；`address=/域/`（空尾，真 NXDOMAIN）直接告知域名不存在。
+  实测重试风暴 **12 → 0**。本轮把 `adblock-extra.conf` 16 条 + 主配置 13 条一并统一
+  （`adblock-fq.conf` 此前已转）。**`dist/` 导出文件保持 `#` 写法** —— 那是给
+  AdGuard / hosts 等第三方工具用的，`0.0.0.0` 是它们的通用写法。
+- **清掉笔误死规则 `i-lq-snssdk.com`** —— 把点打成了横杠，真域 `i-lq.snssdk.com` 早已在
+  第 60 行。该错域外部 DNS 全部 NXDOMAIN、日志 0 次查询（永不生效），但传染了
+  生成器 / 文档 / 导出文件共 5 处，全套清理。
+- **`docs/domain-list.md` 按实际规则全面校正（15 处）** ——
+  - 禁拦清单原本与 `config/whitelist.txt` 脱节：列了 `bytedance.com` / `aweme.snssdk.com`
+    等不在白名单里的，反而漏了 `bytegecko.com` / `apple.com` / `icloud.com` 等 8 个
+  - 「白名单例外 · 仍要拦」表里 8 个域实际**早已移除**（`p3-sign.douyinpic.com`、
+    `p3-webcast.douyinpic.com`、`p3/p6/p9-novel-sign.byteimg.com`、裸域 `fqnovelvod.com`、
+    两个 `bytegecko` 直播域）—— 已从表里拿掉
+  - `-reading-ad` 版本号 **8 组 → 11 组**（补 `v11` / `v13` / `v96`），44 条
+  - `README.md`「配置模板（改 2 处）」→「改 3 处」
+- **同步脚本加「白名单刻意例外」** —— `sync_upstream.py` / `sync_upstream.sh` 原本用后缀
+  匹配过白名单，会把 `qznovelvod.com` 下 44 条**刻意穿透**的 `v{N}-*-reading-ad` 规则
+  也剔掉。新增 `WL_EXCEPTIONS`（`^v\d+-(bd-daily-|se-daily-|se-sjy-daily-)?reading-ad\.qznovelvod\.com$`）
+  **例外优先**，不被白名单剔除。
+- **`docs/principles.md` 1.3 整节重写** —— 原文把 `#` 说成 NXDOMAIN、把 `0.0.0.0` 标成
+  「推荐」，两个结论都是错的（起临时实例实测三种写法后定论）。
+
+### 文档
+
+- `README.md` 新增「**规则是怎么进来的（双向自动同步）**」章节 + 安全三重门说明
+- `config/whitelist.txt` 注明 `-reading-ad` 的刻意例外（原文写「这些域永远不许封」，
+  与实际的 44 条穿透规则字面上像自相矛盾）
+- 全仓库规则条数口径统一：**精确规则 199 + 16 = 215 条（本机生效）/ 214 条（对外分发，
+  故意排除 `_dns.resolver.arpa`）+ 上游社区规则 929 条，去重后合计 1140 条**
+- 加 `.gitignore`（忽略 `__pycache__` / `*.pyc` / `*.log` / `*.bak.*` / 生成文件）
+
+### 验证
+
+| 项目 | 结果 |
+|------|------|
+| `dnsmasq --test` | ✓ 语法检查 OK |
+| `dnsmasq-home.service` | ✓ active（systemd 托管，`Restart=always`） |
+| 生效规则 | ✓ 1157 条（199+16+929+13），`#` 写法 **0 条** |
+| 该拦的域 | ✓ `v5-reading-ad` / `v11-se-sjy-daily-reading-ad` / `ads0-normal-lq.zijieapi.com` 均 NXDOMAIN |
+| 该放的域 | ✓ `v11-reading-video.qznovelvod.com` / `is.snssdk.com` / `gecko.snssdk.com` / `pull-f5.flive.douyincdn.com` 均正常解析 |
+| 文档一致性 | ✓ 文档里每个域展开后与三份规则文件比对，「说要拦、实际没拦」**0 个** |
+| `WL_EXCEPTIONS` | ✓ 44/44 命中；`v5-reading-video` / 裸域 / `evil.qznovelvod.com` / `*.qznovelvod.com.evil.com` 零误命中 |
+
+---
+
 ## [1.1.2] — 2026-10-13
 
 订阅地址全部改为 **jsDelivr 全球 CDN（`fastly.jsdelivr.net`）** —— 国内直连可用，海外同样快，给大伙一个开箱即用的链接。

@@ -131,6 +131,9 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 
 1. **白名单硬保护** —— `config/whitelist.txt` 列出的域（正片 CDN / 直播流 / 图床 / 风控）
    及其所有子域，**永不入规则**，上游列表里有也一律剔除
+   - **刻意例外**：`qznovelvod.com` 下 44 条 `v{N}-*-reading-ad` 是**故意穿透**的
+     （正片走 `*-reading-video`，不同子域）。脚本里的 `WL_EXCEPTIONS` 让它们**例外优先**，
+     不被白名单剔掉。详见 [`docs/domain-list.md`](docs/domain-list.md) 第二节
 2. **裸域危险规则剔除** —— 上游列表里 `.zijieapi.com`、`.isnssdk.com` 这种**封整个域**的规则
    直接丢掉（合进来会让字节系 App 全废）
 3. **语法门 + 回滚** —— 新规则先 `dnsmasq --test`，通过才重载；不通过自动回滚到上一版
@@ -199,7 +202,7 @@ sudo tailscale up --hostname=my-dns --accept-dns=false --accept-routes=false
 # ② dnsmasq 增加监听 Tailscale 网段
 echo "listen-address=100.x.y.z" | sudo tee -a /etc/dnsmasq-adblock/dnsmasq.conf
 echo "interface=tailscale0"     | sudo tee -a /etc/dnsmasq-adblock/dnsmasq.conf
-sudo pkill -f "dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf"
+sudo pkill -x dnsmasq        # ★ -x 精确匹配进程名；别用 -f（会杀掉你自己）
 sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 
 # ③ 后台 https://login.tailscale.com/admin/dns
@@ -293,7 +296,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 │   └── dnsmasq-adblock.conf
 ├── scripts/
 │   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护，★ 安全模式：不覆盖线上）
-│   ├── sync_upstream.py           # ★ 上游同步（云端跑，拉社区规则 + 白名单过滤）
+│   ├── sync_upstream.py           # ★ 上游同步（云端跑，拉社区规则 + 白名单过滤 + 刻意例外）
 │   ├── export_lists.py            # ★ 导出多格式规则（生成 dist/）
 │   ├── adblock-helper.sh          # 抓包速查工具（发现新广告域的利器）
 │   ├── install.sh                 # 一键部署
@@ -331,7 +334,9 @@ sudo cp /etc/dnsmasq-adblock/dnsmasq.conf.bak /etc/dnsmasq-adblock/dnsmasq.conf
 sudo systemctl restart dnsmasq-home.service
 
 # ⚠️ 千万别用 pkill -f 'dnsmasq -C ...' —— 它会匹配到你自己那条命令，
-#    把自己也杀掉（本项目踩过，53 端口裸奔）。用 systemd 重启。
+#    把自己也杀掉（本项目踩过，53 端口裸奔）。
+#    裸进程用: sudo pkill -x dnsmasq && sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
+#    有 systemd 就用: sudo systemctl restart dnsmasq-home.service
 ```
 
 ---

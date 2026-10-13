@@ -75,7 +75,7 @@ grep -c "<手机的Tailscale IP>" /etc/dnsmasq-adblock/queries.log
 sudo pkill -HUP dnsmasq
 
 # ✓ 必须整进程重启
-sudo pkill -f "dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf"
+sudo pkill -x dnsmasq        # ★ -x 精确匹配进程名；-f 会匹配到你自己那条命令
 sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf
 ```
 
@@ -202,13 +202,20 @@ address=/snssdk.com/0.0.0.0   # aweme.snssdk.com 是抖音核心 API → 功能�
 广告  v11-reading-ad.qznovelvod.com      ← 要拦
 ```
 
-**解法**：把 `qznovelvod.com` 整个加进白名单保护，然后**在代码里显式穿透**
-（见 `scripts/gen_rules.py` 的白名单 + 例外逻辑。★ 该脚本已改安全模式：只生成建议文件，不覆盖线上）
+**解法**：把 `qznovelvod.com` 整个加进白名单保护，然后**在代码里显式穿透**：
 
-**同理适用于**：
-- `douyinpic.com`（图床）→ 只拦 `p3-webcast` / `p3-sign` 这种具体子域
-- `byteimg.com`（图床）→ 只拦 `p*-ad-sign` / `p*-novel-sign`
-- `snssdk.com`（核心）→ 只拦 `i.` / `is.` / `mcs.` 这种上报子域
+- `scripts/gen_rules.py` —— 生成规则时把 `-reading-ad` 从白名单里放出来
+  （★ 该脚本已改**安全模式**：只生成 `adblock-fq.generated.conf` 建议文件，**不覆盖线上**）
+- `scripts/sync_upstream.py` / 本机 `sync_upstream.sh` —— 里面的 `WL_EXCEPTIONS`
+  让这些规则**例外优先**，不被白名单过滤误剔
+
+**同理适用于**（下面这些是**当前实际生效**的，别照抄已废弃的例子）：
+- `byteimg.com`（图床）→ 只拦 `p{3,6,9}-ad-sign.byteimg.com`
+- `snssdk.com`（核心）→ 只拦 `i.` / `mcs.` / `i-lq.` / `security-lq.` / `vas-lf-x.` 上报子域
+  （`is.snssdk.com` 是**风控**，已在白名单）
+- ⚠️ `p3-webcast` / `p3-sign.douyinpic.com`、`p*-novel-sign.byteimg.com`、
+  裸域 `fqnovelvod.com`、`v6-novelapp.ixigua.com` —— 这些都**曾经拦过、实测误伤已移除**，
+  **不要再加回来**。`gen_rules.py` 的 `DEPRECATED` 集合会永久排除它们
 
 ---
 

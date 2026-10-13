@@ -84,7 +84,9 @@ fi
 # ── 5. 启动 ───────────────────────────────────
 echo
 echo "  [4/5] 启动 dnsmasq"
-pkill -f "dnsmasq -C $CONF_DIR/dnsmasq.conf" 2>/dev/null || true
+# ★ 用 -x（精确进程名）而不是 -f（匹配整条命令行）——
+#   `pkill -f "dnsmasq -C ..."` 会匹配到【脚本自己这条命令】，把自己也杀掉（本项目踩过）
+pkill -x dnsmasq 2>/dev/null || true
 sleep 1
 dnsmasq -C "$CONF_DIR/dnsmasq.conf"
 sleep 1

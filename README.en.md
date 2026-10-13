@@ -67,6 +67,10 @@ Parent-domain whitelisting + precise child-domain blocking make
 "block the ad videos" and "keep the real ones" hold simultaneously.
 Without this trick you either keep the ads or break playback.
 
+The sync scripts carry a matching `WL_EXCEPTIONS` list so these
+deliberate overrides survive whitelist filtering instead of being
+stripped out of the upstream list.
+
 ### 2. Finding ad domains without packet capture
 
 No mitmproxy, no CA certificates. Just **timestamp clustering in DNS logs**:
