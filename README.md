@@ -280,7 +280,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 │   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，16 条）
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，929 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
-│   ├── dnsmasq.conf.example       # 配置模板（改 2 处即可用）
+│   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
 ├── dist/                          # ★ 多格式规则，供第三方软件直接订阅
 │   ├── README.md                  #   订阅地址与用法

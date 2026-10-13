@@ -5,26 +5,37 @@
 
 ---
 
-## 一、⚠️ 禁拦清单（白名单，拦了整个 App 就废）
+## 一、⚠️ 禁拦清单（= `config/whitelist.txt`，拦了整个 App 就废）
 
-这些域名**看起来**完全符合"广告/CDN"的特征，但它们是**正片、图片、核心业务**的载体：
+这些域名**看起来**完全符合"广告/CDN"的特征，但它们是**正片、图片、核心业务**的载体。
+**权威来源是 `config/whitelist.txt`（15 条），本文档与它保持一致** ——
+上游社区列表里出现这些域，同步脚本会**自动剔除**：
 
 | 域名 | 实际是什么 | 拦了会怎样 |
 |------|-----------|-----------|
 | `qznovelvod.com` | 红果/番茄**正片视频** CDN | **整个 App 无法播放** ★ |
 | `fqnovelpic.com` | 小说图床 | 封面、插图全部白屏 |
-| `douyincdn.com` | 抖音系通用视频 CDN | 直播流断开 |
+| `douyincdn.com` | 抖音系通用视频 / 直播流 CDN | 直播流断开 |
 | `douyinliving.com` | 直播业务 | 直播打不开 |
-| `bytedance.com` | 字节母公司域 | 多处业务异常 |
-| `aweme.snssdk.com` | 抖音核心 API | 功能大面积异常 |
-| `ecombdimg.com` / `ecombdapi.com` | 电商图片 / 接口 | 商城页白屏 |
 | `douyinpic.com` | **图床**（图片 CDN） | 页面图片全挂 |
-| `snssdk.com` | 核心域名 | 大面积异常 |
-| `byteimg.com` | **图床** | 图片全挂 |
+| `bytefcdn.com` | 字节前端 CDN | 页面资源加载失败 |
+| `volcgslb.com` | 火山引擎 GSLB 调度 | 后端节点连不上 |
+| `bytegecko.com` | 字节 H5 **离线包**系统 | 红果界面可能白屏 |
 | `ixigua.com` | 西瓜视频 | 相关功能异常 |
+| `amemv.com` | 抖音短视频主域 | 功能大面积异常 |
+| `is.snssdk.com` | **风控 / 设备注册**（不是广告） | App 直接功能异常 ★ |
+| `gecko.snssdk.com` | H5 离线包 | 界面白屏 |
+| `api3-normal-sinfonlinea.fqnovel.com` | 反作弊风控 | App 功能异常 |
+| `apple.com` | 苹果基础设施（DNS / 证书） | 系统级异常 |
+| `icloud.com` | 同上 | 同上 |
 
-**为什么 `douyinpic.com` 和 `byteimg.com` 特别危险**：广告素材**和正常图片共用这两个图床** ——
-一刀切拦掉，页面所有图片都会消失。只能精确拦**具体的广告子域**（见下节）。
+> **另外两条"裸域也不要拦"的约定**（不在 whitelist.txt 里，因为规则里本来就没有它们）：
+> `byteimg.com`、`snssdk.com` 这两个**裸域**绝不能整域封 ——
+> 广告素材和正常图片共用它们，一刀切拦掉页面图片全挂。
+> 只能精确拦**具体广告子域**（见第三节）。
+
+**为什么 `douyinpic.com` / `byteimg.com` 特别危险**：广告素材**和正常图片共用这两个图床** ——
+一刀切拦掉，页面所有图片都会消失。
 
 ---
 
@@ -34,12 +45,9 @@
 
 | 域名 | 为什么拦它 | 为什么它安全 |
 |------|-----------|-------------|
-| `v{5,6,7,9,26,95,99,100}-reading-ad.qznovelvod.com` | **广告视频** | 正片走 `*-reading-**video**`，是**不同子域** ★ |
-| `p3-webcast.douyinpic.com` | 直播封面广告位图 | 不是直播流本身（流走 `douyincdn`） |
-| `p3-sign.douyinpic.com` | 广告素材签名 | 图床上的一个特定子域 |
+| `v{5,6,7,9,11,13,26,95,96,99,100}-*-reading-ad.qznovelvod.com` | **广告视频**（11 组 × 4 类 = 44 条） | 正片走 `*-reading-**video**`，是**不同子域** ★ |
 | `p3/p6/p9-ad-sign.byteimg.com` | **广告图片签名** | 图床上的特定子域 |
-| `p3/p6/p9-novel-sign.byteimg.com` | **小说广告签名** | 同上 |
-| `i.snssdk.com` / `is.snssdk.com` / `mcs.snssdk.com` | 广告上报 / 归因 | 不是 `aweme.snssdk.com` 那种核心 API |
+| `i.snssdk.com` / `mcs.snssdk.com` | 广告上报 / 归因 | 不是 `aweme.snssdk.com` 那种核心 API |
 | `i-lq.snssdk.com` | 同上 | 同上 |
 | `security-lq.snssdk.com` / `vas-lf-x.snssdk.com` | 风控 / 广告相关 | 同上 |
 
@@ -72,18 +80,20 @@ ads{0-5}-normal-{lq,hl,lf,zj,gr,sg,hk}.zijieapi.com        ← 42 条
 ### 3.2 广告素材签名
 
 ```
-p{3,6,9}-ad-sign.byteimg.com          ← 广告图片签名
-p{3,6,9}-novel-sign.byteimg.com       ← 小说广告签名
+p{3,6,9}-ad-sign.byteimg.com          ← 广告图片签名（3 条）
 ```
 签名校验不通过 → 素材无法加载 → 广告空白被跳过
+
+> ⚠️ **`p{3,6,9}-novel-sign.byteimg.com` 不要拦**（2026-10-06 实测误伤，已移除）——
+> 那是**正片**签名 CDN，和 `-ad-sign` 一字之差。
 
 ### 3.3 小说广告计费
 
 ```
-api{3,5}-normal-sinfonlinea.fqnovel.com
+（空 —— 这一节已作废）
 ```
-`sinfonlinea` = 统计/计费在线服务。**拦了它广告照样能显示但拿不到钱**，
-配合其它规则一起用效果最好。
+`sinfonlinea` 看似是"统计/计费"，但 **`api3-normal-sinfonlinea.fqnovel.com` 是反作弊风控**，
+拦了 App 直接功能异常 → 已进白名单。`api5` 同理，**两条都不拦**。
 
 ### 3.4 点击跳转追踪
 
@@ -110,30 +120,31 @@ tnc{0-3}-alisc{1,2,3}.zijieapi.com     ← 阿里云线路
 ```
 `tnc` = Traffic Network Controller，负责决定"这个位置放哪条广告"
 
-### 3.7 广告视频（★ 见第二节）
+### 3.7 广告视频（★ 见第二节；11 组 × 4 类 = 44 条）
+
+> ⚠️ **不要拦 `fqnovelvod.com` 裸域**（正片 CDN 主域，2026-10-06 实测误伤）。
 
 ```
-fqnovelvod.com                                          ← 整个广告视频域
-v{5,6,7,9,26,95,99,100}-reading-ad.qznovelvod.com
-v{5,6,7,9,26,95,99,100}-bd-daily-reading-ad.qznovelvod.com
-v{5,6,7,9,26,95,99,100}-se-daily-reading-ad.qznovelvod.com
-v{5,6,7,9,26,95,99,100}-se-sjy-daily-reading-ad.qznovelvod.com
+v{5,6,7,9,11,13,26,95,96,99,100}-reading-ad.qznovelvod.com
+v{5,6,7,9,11,13,26,95,96,99,100}-bd-daily-reading-ad.qznovelvod.com
+v{5,6,7,9,11,13,26,95,96,99,100}-se-daily-reading-ad.qznovelvod.com
+v{5,6,7,9,11,13,26,95,96,99,100}-se-sjy-daily-reading-ad.qznovelvod.com
 ```
 
 ### 3.8 直播封面广告位图
 
 ```
-p3-webcast.douyinpic.com
-lf9-webcast-cdn-tos-ncdn.bytegecko.com
-lf-webcast-gr-sourcecdn.bytegecko.com
+（空 —— 这一节已作废）
 ```
-`webcast` = 直播；**注意这里拦的是"封面/广告位图"，不是直播流** ——
-直播流走 `douyincdn.com` / `douyinliving.com`，在白名单里。
+`webcast` = 直播。**注意**：这里的三个域（`p3-webcast.douyinpic.com`、
+`lf9-webcast-cdn-tos-ncdn.bytegecko.com`、`lf-webcast-gr-sourcecdn.bytegecko.com`）
+**都已被移除**（2026-10-06 / 10-13 实测误伤，封了直播卡顿 / 界面白屏）。
+**直播相关一律不拦** —— 流走 `douyincdn.com` / `douyinliving.com`，都在白名单。
 
 ### 3.9 统计 / 归因 SDK
 
 ```
-i.snssdk.com  ·  is.snssdk.com  ·  mcs.snssdk.com
+i.snssdk.com  ·  mcs.snssdk.com        ← 注意 is.snssdk.com 不在此列（风控，已白名单）
 i-lq.snssdk.com
 security-lq.snssdk.com  ·  vas-lf-x.snssdk.com
 activity-ag.awemeughun.com
@@ -143,21 +154,22 @@ sf3-ttcdn-tos.pstatp.com
 ### 3.10 实测新发现（社区规则里没有，抓包确认）
 
 ```
-p3-sign.douyinpic.com                            ← 与 p3-ad-sign 同时出现
 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
 minigame{1-9}-normal-{lq,hl,lf,zj,gr,sg,hk}.zijieapi.com   ← 小游戏广告位 63 条
 ```
 
 ### 3.11 其它
 
+> ⚠️ **已移除、不要再加回的**（都是实测误伤）：
+> `v6-novelapp.ixigua.com`（`ixigua.com` 在白名单）、`byteorge.com`、`bytegoofy.com`、
+> `volcengineapi.com`、`fqnovelvod.com`、`p3-sign.douyinpic.com`、`p3-webcast.douyinpic.com`、
+> `p{3,6,9}-novel-sign.byteimg.com`。
+
 ```
 praisewindow.ugsdk.cn            ← 激励视频/弹窗 SDK
-v6-novelapp.ixigua.com           ← 小说 App 相关
-byteorge.com  ·  bytegoofy.com
 msync-im1-vip6-std.easemob.com
 apd-pcdnwxlogin.teg.tencent-cloud.net
 api.iegadp.qq.com
-volcengineapi.com
 ```
 
 ---
@@ -194,7 +206,7 @@ volcengineapi.com
 ② 确认它**只在广告时刻出现**
      └─ 正片播放时查不到它 → 安全
 
-③ 加进 scripts/gen_rules.py，写好注释说明来源
+③ 写进 `config/adblock-fq.conf`（**手工维护**；`gen_rules.py` 已改安全模式，只生成建议文件不覆盖线上）
 
 ④ 重新生成 + 重载
      └─ python3 scripts/gen_rules.py    # 看差异，手动合并进 config/adblock-fq.conf

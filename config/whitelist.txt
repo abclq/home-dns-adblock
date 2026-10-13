@@ -1,6 +1,11 @@
 # 白名单 —— 这些域【永远不许封】，上游列表里出现也一律剔除
 # 一行一个，子域自动匹配（写 douyincdn.com 等于保护 *.douyincdn.com）
 #
+# ⚠️ 唯一例外：qznovelvod.com 下有一批广告视频子域【故意穿透】——
+#    v{5,6,7,9,11,13,26,95,96,99,100}-*-reading-ad.qznovelvod.com（44 条）
+#    正片走 *-reading-video（不同子域），所以封 -reading-ad 不影响正片。
+#    详见 docs/domain-list.md 第二节。
+#
 # ── 正片 / 直播流（封了红果、抖音直接废）──
 qznovelvod.com
 douyincdn.com
