@@ -2,6 +2,12 @@
 
 **中文** | [English](README.en.md) · `MIT` · `85 条精确规则 + 928 条上游社区规则` · `零误伤`
 
+[![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
+[![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)
+[![license](https://img.shields.io/github/license/abclq/home-dns-adblock?style=flat-square)](LICENSE)
+[![rules](https://img.shields.io/badge/rules-85%20precise%20%2B%20928%20upstream-blue?style=flat-square)](docs/domain-list.md)
+[![upstream](https://img.shields.io/badge/upstream-auto--synced-success?style=flat-square)](.github/workflows/sync-upstream.yml)
+
 **家庭 DNS 广告拦截 —— 7×24 在家跑，出门在外照样生效**
 
 针对国内「看广告换免费内容」类 App（红果免费短剧 / 番茄小说 / 字节系）的 DNS 层广告拦截方案。
@@ -21,6 +27,21 @@
 
 **不 root、不装描述文件、不装 CA 证书、不改任何 App** —— 只在一台常开的 Linux 主机上做 DNS 层黑洞。
 家里所有设备把 DNS 指过来即可生效；人在外面（4G / 别人家 WiFi）通过 Tailscale 隧道，**同样生效**。
+
+---
+
+## 📖 目录
+
+- [两种用法，挑一个](#-两种用法挑一个) —— 只想订阅规则 vs 想自己搭一套
+- [效果一览](#-效果一览) —— 拦了什么、实测数据
+- [原理（30 秒版）](#-原理30-秒版) —— 为什么 DNS 层能拦住
+- [架构](#-架构) —— 双向自动同步是怎么跑的
+- [🚀 快速开始](#-快速开始) —— 前置条件 / 安装 / 让设备用上 / 出门也能用
+- [规则是怎么来的](#-规则是怎么来的) —— 抓包回溯的方法论
+- [⚠️ 效果边界](#-效果边界诚实说明别抱不切实际的期待) —— **先看这个，别抱不切实际的期待**
+- [目录结构](#-目录结构)
+- [常用命令](#-常用命令)
+- [贡献](#-贡献) · [给机器人 / 协作者的作业说明](#-给机器人--协作者的作业说明) · [致谢](#-致谢) · [License](#-license)
 
 ---
 
