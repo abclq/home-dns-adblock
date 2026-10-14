@@ -18,7 +18,7 @@
 
 ## 二、三方布局（先搞清楚谁是谁，别改错地方）
 
-- **本机（权威）** `/home/wang/.hermes/dns/` —— 实际生效的 dnsmasq 配置。人工 + 本机 cron 可改
+- **本机（权威）** `~/.hermes/dns/` —— 实际生效的 dnsmasq 配置。人工 + 本机 cron 可改
 - **GitHub 仓库** `abclq/home-dns-adblock` —— 对外分发源。人工 + 两条自动化可改
 - **云端 Actions** `.github/workflows/sync-upstream.yml` —— 每天 04:00 生成上游规则。只有云上可改
 
@@ -35,7 +35,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 ```
 
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
-监听 `192.168.31.88:53` + `100.120.42.82:53`（Tailscale，给手机在外用）
+监听 `192.168.1.88:53` + `100.64.0.1:53`（Tailscale，给手机在外用）
 
 **当前条数基线**（改完拿这个对）：`fq 51 / extra 35 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 
@@ -135,7 +135,7 @@ GitHub Actions 每天 04:00(北京)  →  .github/workflows/sync-upstream.yml
    └ 无变化 → 完全静默（no_agent）
 ```
 
-**⚠️ 改完本机别等下一班 6h**，当天手动跑一次：`/home/wang/.hermes/scripts/sync_adblock_repo.sh`
+**⚠️ 改完本机别等下一班 6h**，当天手动跑一次：`~/.hermes/scripts/sync_adblock_repo.sh`
 
 **⚠️ 2026-10-14 修过的坑**：云端 Actions 会往仓库推 `adblock-upstream.conf`，本机直接 push 会被
 `! [rejected] ... (fetch first)` 拒绝。脚本已加**自动 rebase 重推**；真冲突才报错退出（不硬覆盖）。
@@ -152,25 +152,25 @@ cp ~/.hermes/dns/adblock-extra.conf ~/.hermes/dns/adblock-extra.conf.bak.$(date 
 #    ...
 
 # 3. 语法门（不过就别重启）
-sudo dnsmasq --test -C /home/wang/.hermes/dns/dnsmasq.conf     # 必须 "syntax check OK"
+sudo dnsmasq --test -C ~/.hermes/dns/dnsmasq.conf     # 必须 "syntax check OK"
 
 # 4. 重启（只有 restart 生效）
 sudo systemctl restart dnsmasq-home.service
 systemctl is-active dnsmasq-home.service                        # active
 
 # 5. ★ 双向验证 —— 只证明"新规则生效"不够，必须同时证明"没误伤"
-dig +short @192.168.31.88 <新拦的域>        # 必须 NXDOMAIN（+short 为空）
-dig @192.168.31.88 <白名单正片域>           # 必须 NOERROR（如 v5-reading-video.qznovelvod.com）
+dig +short @192.168.1.88 <新拦的域>        # 必须 NXDOMAIN（+short 为空）
+dig @192.168.1.88 <白名单正片域>           # 必须 NOERROR（如 v5-reading-video.qznovelvod.com）
 
 # 6. 三方一致性核对（本地 / 仓库 / 生效）
 for f in adblock-fq.conf adblock-extra.conf whitelist.txt; do
   printf '%-22s 本地 %s 仓库 %s\n' $f \
     "$(grep -c '^address=' ~/.hermes/dns/$f)" \
-    "$(grep -c '^address=' /home/wang/projects/home-dns-adblock/config/$f)"
+    "$(grep -c '^address=' ~/projects/home-dns-adblock/config/$f)"
 done
 
 # 7. 同步仓库
-/home/wang/.hermes/scripts/sync_adblock_repo.sh
+~/.hermes/scripts/sync_adblock_repo.sh
 ```
 
 **白名单域回 NXDOMAIN 时先别慌**：用 `dig +short @223.5.5.5 <域>` 对比外部 DNS，
@@ -186,7 +186,7 @@ done
 
 ```bash
 pgrep -ax dnsmasq || echo '❌ 服务没在跑'
-ss -lunp | grep '192.168.31.88:53'                          # 没有监听 = 没跑
+ss -lunp | grep '192.168.1.88:53'                          # 没有监听 = 没跑
 ls -l --time-style=+%m-%d\ %H:%M ~/.hermes/dns/queries.log   # 0 字节 = 服务没在写
 ```
 
@@ -205,7 +205,7 @@ grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ 
 grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ ]+) is .*/\1/' | grep -iE 'vod|video|cdn|novel|sign'
 ```
 
-- 客户端 IP：手机 = `192.168.31.150`
+- 客户端 IP：手机 = `192.168.1.150`
 - **`config` vs `reply` 前缀必须分清** —— 巡检脚本抓 `reply` 会一条都抓不到
 
 ### 第三步：「卡一下」不是 DNS 问题
@@ -339,20 +339,20 @@ DNS 健康度实测：单查询中位 25ms，并发 300 最慢 361ms。
 # 服务
 systemctl is-active dnsmasq-home.service
 sudo systemctl restart dnsmasq-home.service
-sudo dnsmasq --test -C /home/wang/.hermes/dns/dnsmasq.conf
+sudo dnsmasq --test -C ~/.hermes/dns/dnsmasq.conf
 
 # 查条数
 grep -c '^address=' ~/.hermes/dns/adblock-*.conf
 
 # 查某域拦没拦
-dig @192.168.31.88 <域> | grep status
+dig @192.168.1.88 <域> | grep status
 
 # 查误封（只抓我们拦的）
 grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ ]+) is .*/\1/' | sort | uniq -c | sort -rn | head -20
 
 # 同步
-/home/wang/.hermes/scripts/sync_adblock_repo.sh
-cd /home/wang/projects/home-dns-adblock && git pull --rebase && git push
+~/.hermes/scripts/sync_adblock_repo.sh
+cd ~/projects/home-dns-adblock && git pull --rebase && git push
 
 # 仓库侧（必须走代理）
 export https_proxy=socks5://127.0.0.1:10808

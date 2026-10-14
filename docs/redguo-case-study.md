@@ -56,7 +56,7 @@
 第一反应是给手机设 HTTP 代理，**实测行不通**：
 
 ```
-adb shell settings put global http_proxy 192.168.31.88:8080
+adb shell settings put global http_proxy 192.168.1.88:8080
 → 代理日志 0 字节
 ```
 
@@ -69,11 +69,11 @@ adb shell settings put global http_proxy 192.168.31.88:8080
 
 ```bash
 # ① 双向 ARP 劫持（告诉手机：网关的 MAC 是我；告诉网关：手机的 MAC 是我）
-sudo arpspoof -i enp2s0 -t 192.168.31.170 192.168.31.1 &
-sudo arpspoof -i enp2s0 -t 192.168.31.1   192.168.31.170 &
+sudo arpspoof -i enp2s0 -t 192.168.1.170 192.168.1.1 &
+sudo arpspoof -i enp2s0 -t 192.168.1.1   192.168.1.170 &
 
 # ② 抓包（只存每包前 500 字节，够拿 DNS 查询名和 TLS SNI，文件小很多）
-sudo tcpdump -i enp2s0 -s 500 -w hg3h.pcap host 192.168.31.170
+sudo tcpdump -i enp2s0 -s 500 -w hg3h.pcap host 192.168.1.170
 
 # ③ 抓完必须清干净，否则手机会断网
 sudo pkill -x arpspoof
@@ -97,8 +97,8 @@ sudo iptables -L FORWARD -n
 修法（**只放行被劫持的那台设备，别整体放开**）：
 
 ```bash
-sudo iptables -I FORWARD 1 -s 192.168.31.170 -j ACCEPT
-sudo iptables -I FORWARD 1 -d 192.168.31.170 -j ACCEPT
+sudo iptables -I FORWARD 1 -s 192.168.1.170 -j ACCEPT
+sudo iptables -I FORWARD 1 -d 192.168.1.170 -j ACCEPT
 ```
 
 ### 坑 ②：`pkill -f` 会把自己杀掉
@@ -279,7 +279,7 @@ RULE-SET,https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-s
 
 ## 六、复现：自己抓一遍
 
-工具在 `/home/wang/hg_capture/`（本项目实测用的脚本，非仓库正式脚本）：
+工具在 `~/hg_capture/`（本项目实测用的脚本，非仓库正式脚本）：
 
 | 文件 | 作用 |
 |---|---|

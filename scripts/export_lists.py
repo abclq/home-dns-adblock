@@ -127,6 +127,27 @@ def main():
     body += '\n'.join(f'host-suffix, {d}, reject' for d in domains) + '\n'
     write(os.path.join(outdir, 'quantumultx-rules.txt'), body)
 
+    # ⑧ 打包 zip —— 固定名给 jsDelivr 订阅用（链接永不过期），带版本号给 Release 资产用
+    import zipfile
+    ver = '0.0.0'
+    _cl = os.path.join(ROOT, 'CHANGELOG.md')
+    if os.path.exists(_cl):
+        for _line in open(_cl, encoding='utf-8'):
+            _m = re.match(r'## \[(\d+\.\d+\.\d+)\]', _line.strip())
+            if _m:
+                ver = _m.group(1)
+                break
+    members = ['hosts.txt', 'hosts-ipv6.txt', 'adguard-dns.txt', 'domains.txt',
+               'dnsmasq-adblock.conf', 'clash-surge-rules.txt', 'quantumultx-rules.txt',
+               'README.md']
+    for zname in ('home-dns-adblock-rules.zip', f'home-dns-adblock-v{ver}-rules.zip'):
+        with zipfile.ZipFile(os.path.join(outdir, zname), 'w', zipfile.ZIP_DEFLATED) as z:
+            for nm in members:
+                src = os.path.join(outdir, nm)
+                if os.path.exists(src):
+                    z.write(src, nm)
+        print(f'  打包: {zname}')
+
     print()
     print(f'  输出目录: {outdir}')
 

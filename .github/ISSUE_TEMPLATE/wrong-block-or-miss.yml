@@ -1,0 +1,61 @@
+name: 漏拦 / 误拦
+description: 某个广告没被拦住，或者正片 / 正常功能被误拦
+title: "[漏拦/误拦] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请尽量填全，**尤其是 DNS 日志片段** —— 没有日志我们只能猜。
+        日志可以用仓库里的 `scripts/adblock-helper.sh win 30` 抓最近 30 分钟。
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 问题类型
+      options:
+        - 漏拦（广告没被拦住）
+        - 误拦（正片 / 正常功能用不了）
+    validations:
+      required: true
+
+  - type: input
+    id: app
+    attributes:
+      label: App 名称与版本
+      placeholder: 例：红果短剧 v6.9.2
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: 相关域名（若已知）
+      placeholder: 例：v11-reading-ad.qznovelvod.com
+    validations:
+      required: false
+
+  - type: textarea
+    id: log
+    attributes:
+      label: DNS 日志片段
+      description: 从 dnsmasq 的 queries.log 里贴相关几行（**要带时间戳**）
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: 设备 / 系统版本
+      placeholder: 例：Android 10 / iOS 18.2 / OpenWrt 23.05
+    validations:
+      required: false
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 补充说明
+      description: 复现步骤、是否必现、换网络后是否一样
+    validations:
+      required: false

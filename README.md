@@ -1,6 +1,6 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `85 条精确规则 + 928 条上游社区规则` · `零误伤`
+**中文** | [English](README.en.md) · `MIT` · `85 条精确规则 + 928 条上游社区规则` · `白名单保护正片，已知正片域零误拦`
 
 [![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
 [![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)
@@ -398,7 +398,7 @@ sudo systemctl restart dnsmasq-home.service
 
 那一份是**写给机器人看的**，内容包括：
 
-- **三方布局**：本机 `/home/wang/.hermes/dns/`（权威）· GitHub 仓库 · 云端 Actions，谁是谁、谁能改
+- **三方布局**：本机 `~/.hermes/dns/`（权威）· GitHub 仓库 · 云端 Actions，谁是谁、谁能改
 - **🔴 铁律清单**：禁拦裸域 / NXDOMAIN 空尾写法 / 跨标签必须列全域名 / 只插入不重排 / 禁用 `pkill -f` / SIGHUP 无效 / 条数只信 `grep -c`
 - **改规则标准流程**：备份 → 改 → `dnsmasq --test` → restart → **双向验证**（新域 NXDOMAIN **且**白名单域 NOERROR）
 - **排查误封流程**：第一步永远是先确认服务活着（血泪：静默死 36 小时）

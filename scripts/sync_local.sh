@@ -1,6 +1,6 @@
 #!/bin/bash
 # ⚠️ 本文件是【只读镜像】，仅供云机巡检时审阅代码用。
-#    权威版本在【本机】 /home/wang/.hermes/scripts/sync_adblock_repo.sh —— 改它才生效。
+#    权威版本在【本机】 ~/.hermes/scripts/sync_adblock_repo.sh —— 改它才生效。
 #    本镜像由本机手工同步（不自动覆盖），最后同步：2026-10-14 23:22:58
 # 行为：
 #   无变化  → 完全静默退出（不产生提交、不发通知）
@@ -11,8 +11,8 @@
 
 set -uo pipefail
 
-REPO=/home/wang/projects/home-dns-adblock
-SRC=/home/wang/.hermes/dns
+REPO=~/projects/home-dns-adblock
+SRC=~/.hermes/dns
 BRANCH=main
 
 cd "$REPO" 2>/dev/null || { echo "✗ 仓库目录不存在: $REPO"; exit 1; }

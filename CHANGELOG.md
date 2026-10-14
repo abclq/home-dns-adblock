@@ -2,32 +2,65 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
-## [Unreleased]
+## [1.2.0] — 2026-10-15
 
-### 新增
+规则瘦身 + 公开面清理。删掉 148 条从不生效的规则，口径从 215 收紧到 **85 条精确规则**；
+同时按外部审查（云机巡检）意见把公开仓库里的隐私细节脱敏，并补上发布资产的自动化打包。
 
-- **`config/dnsmasq-home.service` —— systemd 单元模板**
-  - 原因：文档里一直让人 `systemctl restart dnsmasq-home.service`，仓库却没提供这个单元；
-    实际部署时 dnsmasq 静默死掉 **36 小时**无人发现，全屋去广告停摆
-  - `Type=forking` + `PIDFile=/run/dnsmasq-home.pid`
-  - `ExecStartPre=dnsmasq --test`：配置/规则文件有错就不启动，不会带病上线
-  - `Restart=always` + `RestartSec=5` + `StartLimitIntervalSec=0`：死多少次都自动拉起
-  - `After=network-online.target tailscaled.service`（没装 Tailscale 时自动忽略）
-- **`scripts/install.sh` 支持 systemd**：检测到 systemd → 安装单元 + `daemon-reload` + `enable` + `restart`；
-  没有 systemd（OpenWrt 等）→ 回退为裸进程启动
+### 变更
+
+- **精确规则 215 → 85 条**（`adblock-fq.conf` 199 → 51；`adblock-extra.conf` 16 → 35 条唯一域名）
+  - 删掉 **93 条从不生效的组合规则**，只保留 12 条实测在用的
+    `ads{3,5}-normal-{hl,lf,lq}.zijieapi.com` / `minigame{3,5}-normal-{hl,lf,lq}.zijieapi.com`
+  - 删掉 **55 条死规则** —— 4 个公共解析器（阿里 DNS / 腾讯 DNS 等）实测全部 NXDOMAIN、
+    本机日志 0 次查询，从来不会命中
+- **条数口径写进文档**（两个数都对，含义不同）：
+  - **34 = 可导出口径** —— 去重并排除 `_` 开头（`export_lists.py:50`），用于文档展示和 `dist/`
+  - **35 = dnsmasq 实际加载口径** —— 原始行数，多的一条是 `address=/_dns.resolver.arpa/`（屏蔽 DDR 发现）
+- **措辞收紧**：「零误伤」→「**白名单保护正片，已知正片域零误拦**」
+  - 原因：该结论只对白名单里的已知正片域成立（每轮巡检实测 0 误拦）；
+    928 条上游第三方规则没有逐条人工验证过，写成「零误伤」是过度承诺
 
 ### 修复
 
-- `install.sh` 只拷了 `adblock-fq.conf`，但配置模板还引用 `adblock-extra.conf` / `adblock-upstream.conf` → dnsmasq 直接起不来；现在三个规则文件都会部署
-- `install.sh` 原样保留模板末尾的 Tailscale 占位符 `listen-address=100.x.y.z` → 语法错误；现在部署时先注释掉并提示
-- `install.sh` 不再 `pkill -x dnsmasq`（会连系统里其它 dnsmasq 实例一起杀掉），改为按配置路径精确找本项目的旧进程
-- 文档里「改完规则 `pkill -HUP dnsmasq` 生效」的说法有误：实测 `SIGHUP` 不重读 `conf-file=` 规则，
-  统一改为 `sudo systemctl restart dnsmasq-home.service`（README Tailscale 段 / pitfalls / tailscale-remote；principles 补注 SIGHUP 不重读规则）
+- **`update_counts.py` 刷新范围不全**（上游每天同步，数字随时会过期）
+  - 徽章 shields URL 里的 `85%20precise%20%2B%20928%20upstream`（`README.md` / `README.en.md`）
+  - `docs/README.md`「几个关键数字」四行
+  - 已补 5 条正则，并把 `docs/README.md` 加进刷新文件清单
+- **`README.en.md` 语言切换链接写反** —— 英文页上「中文」没链接、「English」指向自己；
+  与中文版一字不差。改为 `[中文](README.md) | **English**`
+- **`dist/README.md` 打包下载链接写死 `v1.1.0` 文件名** —— 每次发版都会过期；
+  改为不带版本号的固定名 `home-dns-adblock-rules.zip`
+- **打包逻辑此前不在仓库里**（`grep` 无结果，无法复现别人下载到的 zip 是怎么来的）
+  → 写进 `scripts/export_lists.py`：每次导出同时生成
+  固定名 zip（给 jsDelivr 订阅用）和带版本号 zip（给 Release 资产用），版本号从本文件读
 
-### 文档
+### 安全
 
-- 上游社区规则条数 929 → **928**（2026-10-13 上游同步去掉了与 `adblock-fq.conf` 重复的 `tnc3-bjlgy.snssdk.com`；
-  去重后合计仍为 1140 条）—— README.md / README.en.md / principles / use-with-other-apps 同步更正
+- **公开仓库脱敏（34 处）**
+  - 本机绝对路径 `/home/wang/...` → `~/...`；脚本改用 `os.path.expanduser()` / `$HOME`（不是简单替换，否则跑坏）
+  - 家庭内网 IP `192.168.31.x` → `192.168.1.x`
+  - Tailscale 地址 → `100.64.0.x` 占位符
+  - 派活邮箱地址从公开仓库移除（云机按「发件人 + 主题前缀」认派活邮件，公开地址等于告诉别人该冒充谁）
+- `config/adblock-extra.conf` 的**本机同步源同步修改**，否则下次同步会把脱敏改动盖回去
+
+### 新增
+
+- **`.github/ISSUE_TEMPLATE/wrong-block-or-miss.yml`** —— 「漏拦 / 误拦」结构化 Issue 模板
+  （要求填：问题类型 / App 与版本 / 域名 / **DNS 日志片段** / 设备），
+  比泛泛的 CONTRIBUTING 对这个项目更实用
+
+### 验证
+
+| 项目 | 结果 |
+|------|------|
+| `dnsmasq --test` | ✓ 语法检查 OK |
+| `update_counts.py` 幂等 | ✓ 复跑刷新 0 处 |
+| `update_counts.py` 覆盖 | ✓ 把徽章和 `docs/README.md` 数字故意改成 99，复跑全部刷回真实值（20 处）|
+| 脱敏回读 | ✓ `/home/wang` / `192.168.31.x` / Tailscale / 邮箱 全库剩余 **0** 处 |
+| `gen_rules.py` / `sync_local.sh` | ✓ 改完仍可跑（`ast.parse` + `bash -n` 通过）|
+| 条数三方对齐 | ✓ fq 51 / extra 34(导出)·35(加载) / upstream 928 / dist 85 |
+| 本机线上规则 | ✓ 零改动（只改注释，`dnsmasq --test` 通过）|
 
 ---
 

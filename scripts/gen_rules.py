@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 _LIVE_CANDIDATES = [
     os.environ.get("LIVE_FQ"),
     os.path.join(HERE, "..", "config", "adblock-fq.conf"),      # 仓库布局
-    "/home/wang/.hermes/dns/adblock-fq.conf",                   # 本机布局
+    os.path.expanduser("~/.hermes/dns/adblock-fq.conf"),         # 本机布局
 ]
 LIVE = next((p for p in _LIVE_CANDIDATES if p and os.path.exists(p)), None)
 

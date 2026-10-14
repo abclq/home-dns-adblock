@@ -57,7 +57,7 @@ conf-file=/path/to/dnsmasq-adblock.conf
 | Quantumult X / Loon | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt` |
 | dnsmasq | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/dnsmasq-adblock.conf` |
 | **上游规则（纯域名）** | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/upstream-domains.txt` |
-| 打包下载 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/home-dns-adblock-v1.1.0-rules.zip` |
+| 打包下载（全部格式） | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/home-dns-adblock-rules.zip` |
 
 > 拉不动就把 `fastly` 换成 `gcore` 或 `testingcf`，路径不变。
 > 海外用户也可直接用 `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...`。

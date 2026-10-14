@@ -1,6 +1,6 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `85 precise rules + 928 upstream community rules` · `zero false positives`
+[中文](README.md) | **English** · `MIT` · `85 precise rules + 928 upstream community rules` · `whitelist-protected: zero false blocks on known-good domains`
 
 [![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
 [![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)

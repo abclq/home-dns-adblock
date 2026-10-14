@@ -76,12 +76,21 @@ RULES = [
     (r"手工精挑补充（\d+ 条）",               f"手工精挑补充（{N_EX} 条）"),
     (r"\| `config/adblock-extra\.conf` \| 手工补充（埋点 / DoH 加固） \| \*\*人\*\* \| \d+ \|",
      f"| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | {N_EX} |"),
+    # 徽章 shields URL（README.md:8 / README.en.md:8）—— 上游每天同步，928 随时会变
+    (r"rules-\d+%20precise%20%2B%20\d+%20upstream-blue",
+     f"rules-{PRECISE}%20precise%20%2B%20{N_UP}%20upstream-blue"),
+    # docs/README.md「几个关键数字」四行（云机 #16 新发现 B）
+    (r"\*\*\d+\*\* = 精确规则条数",                 f"**{PRECISE}** = 精确规则条数"),
+    (r"\*\*\d+\*\* = dnsmasq 实际加载的 extra 条数",  f"**{N_EX_RAW}** = dnsmasq 实际加载的 extra 条数"),
+    (r"\*\*\d+\*\* = 上游社区规则条数",              f"**{N_UP}** = 上游社区规则条数"),
+    (r"\*\*\d+\*\* = 去重后合计",                   f"**{TOTAL}** = 去重后合计"),
 ]
 
 FILES = [
     "README.md",
     "README.en.md",
     "dist/README.md",
+    "docs/README.md",
     "docs/domain-list.md",
     "docs/for-agents.md",
     "docs/pitfalls.md",
