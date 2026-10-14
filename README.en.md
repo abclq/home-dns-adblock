@@ -1,5 +1,12 @@
 # 🏠 home-dns-adblock
 
+**中文** | [English](README.en.md) · `MIT` · `85 precise rules + 928 upstream community rules` · `zero false positives`
+
+[![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
+[![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)
+[![license](https://img.shields.io/github/license/abclq/home-dns-adblock?style=flat-square)](LICENSE)
+[![rules](https://img.shields.io/badge/rules-85%20precise%20%2B%20928%20upstream-blue?style=flat-square)](docs/domain-list.md)
+
 **Home DNS ad-blocking — works at home, and away from home too.**
 
 DNS-level ad blocking for Chinese "watch ads to unlock free content" apps
