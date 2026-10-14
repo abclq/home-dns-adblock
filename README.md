@@ -315,6 +315,8 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
     ├── pitfalls.md                # ★ 踩坑全记录
     ├── tailscale-remote.md        # 出门在外方案
     ├── use-with-other-apps.md     # ★ 配合其他软件使用（只订阅，不自建）
+    ├── for-agents.md              # ★ 给 AI 助手的作业说明（先读这个再动手）
+    ├── coordination.md            # 📋 多 agent 协作台账（本机 ↔ 云机对账用，内部）
     └── redguo-case-study.md       # ★ 实测案例：红果短剧（抓包→测漏洞→补规则，DNS/小火箭两套怎么用）
 ```
 
@@ -382,6 +384,10 @@ sudo systemctl restart dnsmasq-home.service
 - **用户常设要求** + **巡检机器人该查什么**
 
 > 这份文档存在的意义：**规则本身会过时，踩过的坑不会。** 别重复踩。
+
+**📋 多个 AI 助手同时改这个仓库？** 用 [docs/coordination.md](docs/coordination.md) 对账 ——
+那是内部协作台账（当前状态 / 待办 / 对账记录 / 争议），**开工前先读，干完往里写**。
+放仓库里而不是走聊天，就是因为**只靠 `git pull` 就能读，不依赖任何账号登录态**。
 
 ---
 
