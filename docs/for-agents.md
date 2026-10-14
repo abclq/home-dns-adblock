@@ -291,6 +291,8 @@ DNS 健康度实测：单查询中位 25ms，并发 300 最慢 361ms。
   - 云机那边能改的也可以改（`/workspace` 那份随便试；拿到 push 权限就能直接推）
 - 云机的定时任务建在 **Hark 平台**（右上角头像 → Scheduled tasks），本机不依赖
 - 本机侧：`~/.hermes/scripts/hark_relay.sh` + Hermes cron **每 2 小时**读云机对话，有新回复就播报给用户
+- **📋 工作台账在 [`docs/coordination.md`](coordination.md)** —— 两边开工前都先读它，
+  干完往里写，有分歧写「争议」小节。**这是两边唯一的协作入口。**
 
 ---
 
