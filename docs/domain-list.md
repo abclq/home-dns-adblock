@@ -45,7 +45,7 @@
 
 | 域名 | 为什么拦它 | 为什么它安全 |
 |------|-----------|-------------|
-| `v{5,6,7,9,11,13,26,95,96,99,100}-*-reading-ad.qznovelvod.com` | **广告视频**（11 组 × 4 类 = 44 条） | 正片走 `*-reading-**video**`，是**不同子域** ★ |
+| `v{N}-*-reading-ad.qznovelvod.com`（现存 9 条，见 3.7） | **广告视频** | 正片走 `*-reading-**video**`，是**不同子域** ★ |
 | `p3/p6/p9-ad-sign.byteimg.com` | **广告图片签名** | 图床上的特定子域 |
 | `i.snssdk.com` / `mcs.snssdk.com` | 广告上报 / 归因 | 不是 `aweme.snssdk.com` 那种核心 API |
 | `i-lq.snssdk.com` | 同上 | 同上 |
@@ -121,21 +121,23 @@ ad.toutiao.com
 ### 3.6 广告位调度（TNC）
 
 ```
-tnc{0-3}-aliec{1,2,3}.zijieapi.com     ← 阿里云线路
-tnc{0-3}-alisc{1,2,3}.zijieapi.com     ← 阿里云线路
+tnc0-aliec2.zijieapi.com  ·  tnc0-alisc1.zijieapi.com   ← 阿里云线路
+tnc3-aliec2.zijieapi.com  ·  tnc3-alisc1.zijieapi.com   （共 4 条）
+tnc3-bjlgy.snssdk.com                                    ← 实测补充
 ```
+- ⚠️ 2026-10-14：原展开 `tnc{0-3}-{aliec,alisc}{1-3}` 共 24 条，其中 20 条四个公网解析器全 NXDOMAIN → 已删
 `tnc` = Traffic Network Controller，负责决定"这个位置放哪条广告"
 
-### 3.7 广告视频（★ 见第二节；11 组 × 4 类 = 44 条）
+### 3.7 广告视频（★ 见第二节；现存 9 条）
 
 > ⚠️ **不要拦 `fqnovelvod.com` 裸域**（正片 CDN 主域，2026-10-06 实测误伤）。
 
 ```
-v{5,6,7,9,11,13,26,95,96,99,100}-reading-ad.qznovelvod.com
-v{5,6,7,9,11,13,26,95,96,99,100}-bd-daily-reading-ad.qznovelvod.com
-v{5,6,7,9,11,13,26,95,96,99,100}-se-daily-reading-ad.qznovelvod.com
-v{5,6,7,9,11,13,26,95,96,99,100}-se-sjy-daily-reading-ad.qznovelvod.com
+v{5,6,9,11,13,26,96}-reading-ad.qznovelvod.com            ← 7 条
+v5-bd-daily-reading-ad.qznovelvod.com
+v5-se-sjy-daily-reading-ad.qznovelvod.com
 ```
+- ⚠️ 2026-10-14：原展开 11 代 × 4 类共 44 条，其中 35 条四个公网解析器全 NXDOMAIN → 已删
 
 ### 3.8 直播封面广告位图
 
@@ -161,6 +163,8 @@ sf3-ttcdn-tos.pstatp.com
 
 ```
 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
+webcast5-open-hl.douyin.com  ·  webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net   ← 连 CNAME 真身一起封
+wmzfylgdsz.com                                            ← 随机子域广告 CDN
 minigame{3,5}-normal-{hl,lf,lq}.zijieapi.com               ← 小游戏广告位 6 条
 ```
 - ⚠️ 2026-10-14：原为 `{1-9}×7` 共 63 条，实测只剩 `{3,5}×{hl,lf,lq}` 6 条能解析 → 已删 57 条

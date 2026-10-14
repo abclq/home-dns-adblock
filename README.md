@@ -131,7 +131,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 
 1. **白名单硬保护** —— `config/whitelist.txt` 列出的域（正片 CDN / 直播流 / 图床 / 风控）
    及其所有子域，**永不入规则**，上游列表里有也一律剔除
-   - **刻意例外**：`qznovelvod.com` 下 44 条 `v{N}-*-reading-ad` 是**故意穿透**的
+   - **刻意例外**：`qznovelvod.com` 下的 `v{N}-*-reading-ad`（现存 9 条） 是**故意穿透**的
      （正片走 `*-reading-video`，不同子域）。脚本里的 `WL_EXCEPTIONS` 让它们**例外优先**，
      不被白名单剔掉。详见 [`docs/domain-list.md`](docs/domain-list.md) 第二节
 2. **裸域危险规则剔除** —— 上游列表里 `.zijieapi.com`、`.isnssdk.com` 这种**封整个域**的规则

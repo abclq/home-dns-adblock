@@ -92,13 +92,18 @@ D.update({
 
 # ⑧ 红果/番茄广告视频域（正片走 qznovelvod 的 *-reading-video，广告走 *-reading-ad）
 D.add("fqnovelvod.com")
-# ⚠️ 2026-10-14：v11/v13/v96 是实机确认在用的三代，之前漏了 → 补上（8 → 11 代）
-#    同时补上 se-sjy 这一路（线上有、生成器之前没展开）
-for v in ("v5", "v6", "v7", "v9", "v11", "v13", "v26", "v95", "v96", "v99", "v100"):
-    D.add(f"{v}-reading-ad.qznovelvod.com")
-    D.add(f"{v}-bd-daily-reading-ad.qznovelvod.com")
-    D.add(f"{v}-se-daily-reading-ad.qznovelvod.com")
-    D.add(f"{v}-se-sjy-daily-reading-ad.qznovelvod.com")
+# ⚠️ 2026-10-14：11 代 × 4 类 = 44 个组合里，只有下面 9 个公网能解析，
+#    其余 35 个四个公网解析器全 NXDOMAIN，已从线上删除。同 ads/tnc，不再盲目展开，
+#    新组合靠手机抓包发现。（⑧ 段会被 qznovelvod 白名单滤掉，真正生效的是下方「例外」段）
+READING_AD_ALIVE = (
+    "v5-reading-ad.qznovelvod.com", "v6-reading-ad.qznovelvod.com",
+    "v9-reading-ad.qznovelvod.com", "v11-reading-ad.qznovelvod.com",
+    "v13-reading-ad.qznovelvod.com", "v26-reading-ad.qznovelvod.com",
+    "v96-reading-ad.qznovelvod.com",
+    "v5-bd-daily-reading-ad.qznovelvod.com",
+    "v5-se-sjy-daily-reading-ad.qznovelvod.com",
+)
+D.update(READING_AD_ALIVE)
 
 # ⑨ 直播封面/广告位图（webcast 封面图，非直播流本身）
 D.update({
@@ -150,12 +155,8 @@ else:
 D = {d for d in D if not any(d == w or d.endswith("." + w) for w in WL)}
 
 # 例外：*_reading-ad_* 是广告视频（正片是 *_reading-video_*），必须绕过 qznovelvod 白名单
-# ⚠️ 这个块才是真正生效的（上面的 ⑧ 会被白名单滤掉，这里再补回来）—— 两处版本表要一致
-for v in ("v5", "v6", "v7", "v9", "v11", "v13", "v26", "v95", "v96", "v99", "v100"):
-    D.add(f"{v}-reading-ad.qznovelvod.com")
-    D.add(f"{v}-bd-daily-reading-ad.qznovelvod.com")
-    D.add(f"{v}-se-daily-reading-ad.qznovelvod.com")
-    D.add(f"{v}-se-sjy-daily-reading-ad.qznovelvod.com")
+# ⚠️ 这个块才是真正生效的（上面的 ⑧ 会被白名单滤掉，这里再补回来）—— 共用 READING_AD_ALIVE，只有一份表
+D.update(READING_AD_ALIVE)
 
 # ★★ 已知误伤：历史上手工删掉的域，绝不能再靠生成器加回来
 # （这 14 条 = 生成器源列表里有、但线上 adblock-fq.conf 里没有的，即你手工删过的）
