@@ -16,8 +16,13 @@ CFG = os.path.join(ROOT, "config")
 DRY = "--dry-run" in sys.argv
 
 
-def doms(name):
-    """从 adblock-*.conf 里取出所有被拦的域名集合。"""
+def doms(name, raw=False):
+    """从 adblock-*.conf 里取出所有被拦的域名集合。
+
+    默认跳过 `_` 开头的特殊名字（如 _dns.resolver.arpa），与 export_lists.py 的
+    口径保持一致 —— 这样文档数字、dist/、同步脚本三者永远同一个数。
+    raw=True 时不做过滤（给「当前条数基线」用，那个要反映文件里的真实行数）。
+    """
     s = set()
     p = os.path.join(CFG, name)
     if not os.path.exists(p):
@@ -25,7 +30,7 @@ def doms(name):
     with open(p, encoding="utf-8") as f:
         for line in f:
             m = re.match(r"^address=/([^/]+)/", line.strip())
-            if m:
+            if m and (raw or not m.group(1).startswith("_")):
                 s.add(m.group(1))
     return s
 
@@ -37,6 +42,9 @@ up = doms("adblock-upstream.conf")
 N_FQ = len(fq)
 N_EX = len(ex)
 N_UP = len(up)
+# 「当前条数基线」用原始行数（不过滤 _ 开头），对数字时跟 grep -c '^address=' 一致
+N_FQ_RAW = len(doms("adblock-fq.conf", raw=True))
+N_EX_RAW = len(doms("adblock-extra.conf", raw=True))
 PRECISE = len(fq | ex)        # 精确规则合计（fq + extra 去重）
 TOTAL = len(fq | ex | up)     # 三者去重合计
 
@@ -51,7 +59,7 @@ RULES = [
     (r"红果/番茄系手工规则（\d+ 条）",        f"红果/番茄系手工规则（{N_FQ} 条）"),
     (r"# \d+ 条现成规则",                   f"# {N_FQ} 条现成规则"),
     (r"（\d+ 条精确域名）",                  f"（{N_FQ} 条精确域名）"),
-    (r"fq \d+ / extra \d+",               f"fq {N_FQ} / extra {N_EX}"),
+    (r"fq \d+ / extra \d+",               f"fq {N_FQ_RAW} / extra {N_EX_RAW}"),
     (r"\| \d+ \| 实机 DNS 日志逐条提取",     f"| {PRECISE} | 实机 DNS 日志逐条提取"),
     (r"\| `config/adblock-fq\.conf` \| 实机抓包 \+ 社区规则交叉验证 \| \*\*人\*\*（本仓库） \| \d+ \|",
      f"| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | {N_FQ} |"),

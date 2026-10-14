@@ -23,7 +23,7 @@ This project solves a different problem:
 
 | | Generic blockers | App Hook solutions | **This project** |
 |---|---|---|---|
-| Domain list | 100k+ broad rules | — | **141 precise rules + 928 upstream community rules** (1066 unique after dedup) |
+| Domain list | 100k+ broad rules | — | **140 precise rules + 928 upstream community rules** (1065 unique after dedup) |
 | App breakage | possible | — | **zero (whitelist protection)** |
 | Root / jailbreak | not needed | **required** | **not needed** |
 | Works away from home | ✗ | ✗ | **✓ via Tailscale** |
@@ -113,7 +113,7 @@ For away-from-home coverage see [`docs/tailscale-remote.md`](docs/tailscale-remo
 
 | Metric | Value |
 |--------|-------|
-| Rules | **141** precise domains (no broad keyword rules) + 928 upstream community rules |
+| Rules | **140** precise domains (no broad keyword rules) + 928 upstream community rules |
 | Memory | **2.5 MB** |
 | CPU | **0.0%** |
 | Away-from-home latency | **39 ms** (Tailscale P2P direct, no relay) |
