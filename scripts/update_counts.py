@@ -71,6 +71,11 @@ RULES = [
     # config/ 文件头（云机巡检每天挑这个：文件头写 199、实际 106）
     (r"共 \d+ 条（手工维护",                f"共 {N_FQ_RAW} 条（手工维护"),
     (r"主规则（实机抓包确认，\d+ 条）",        f"主规则（实机抓包确认，{N_FQ_RAW} 条）"),
+    # extra 的三处（云机巡检挑出：README 290 行 / for-agents 30 行写 37、README 127 行表格写 16）
+    (r"（埋点统计 \+ DoH 加固，\d+ 条）",     f"（埋点统计 + DoH 加固，{N_EX} 条）"),
+    (r"手工精挑补充（\d+ 条）",               f"手工精挑补充（{N_EX} 条）"),
+    (r"\| `config/adblock-extra\.conf` \| 手工补充（埋点 / DoH 加固） \| \*\*人\*\* \| \d+ \|",
+     f"| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | {N_EX} |"),
 ]
 
 FILES = [

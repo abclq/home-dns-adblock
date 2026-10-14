@@ -124,7 +124,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 | 文件 | 来源 | 谁维护 | 条数 |
 |------|------|--------|------|
 | `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 51 |
-| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 16 |
+| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 34 |
 | `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 928 |
 
 **安全三重门**（缺一不可，否则会误伤正片）：
@@ -287,7 +287,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 ├── CONTRIBUTORS.md
 ├── config/
 │   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（51 条精确域名）
-│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，35 条）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，34 条）
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，928 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
