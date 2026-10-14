@@ -105,11 +105,33 @@ for i in range(1, 10):
         D.add(f"minigame{i}-normal-{seg}.zijieapi.com")
 
 # ★ 白名单：绝不能拦（红果正片 / 图床 / 通用视频 CDN / 正常业务）
-WL = (
+# 下面这份硬编码只是【兜底】；权威名单是 config/whitelist.txt —— 与上游过滤、文档共用同一份。
+# 两份取并集，保证不会因为哪边漏了而误拦。
+WL = {
     "qznovelvod.com", "fqnovelpic.com", "douyincdn.com", "douyinliving.com",
     "bytedance.com", "aweme.snssdk.com", "ecombdimg.com", "ecombdapi.com",
     "douyinpic.com", "snssdk.com", "byteimg.com", "ixigua.com",
-)
+}
+_WL_CANDIDATES = [
+    os.path.join(HERE, "whitelist.txt"),
+    os.path.join(HERE, "config", "whitelist.txt"),
+    os.path.join(os.path.dirname(HERE), "config", "whitelist.txt"),
+]
+_WL_LOADED = None
+for _p in _WL_CANDIDATES:
+    if os.path.exists(_p):
+        with open(_p, encoding="utf-8") as _f:
+            for _l in _f:
+                _l = _l.split("#")[0].strip().rstrip(".")
+                if _l:
+                    WL.add(_l)
+        _WL_LOADED = _p
+        break
+if _WL_LOADED:
+    print(f"✓ 白名单 {len(WL)} 条（硬编码 ∪ {_WL_LOADED}）")
+else:
+    print(f"⚠️ 找不到 whitelist.txt（找过 {_WL_CANDIDATES}），只用硬编码 {len(WL)} 条")
+
 D = {d for d in D if not any(d == w or d.endswith("." + w) for w in WL)}
 
 # 例外：*_reading-ad_* 是广告视频（正片是 *_reading-video_*），必须绕过 qznovelvod 白名单
