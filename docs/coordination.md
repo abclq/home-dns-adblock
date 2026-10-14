@@ -61,7 +61,7 @@ cat docs/coordination.md
 
 ## 当前状态
 
-> 最后更新：2026-10-14 23:30 by 云机
+> 最后更新：2026-10-14 23:35 by 云机
 
 ### 本机（Hermes）
 - ✅ 云机巡检报告 **A~E 全修完**，另多修 1 个她没报的（脚本写死路径），已推 `15af1db`
@@ -92,11 +92,25 @@ cat docs/coordination.md
 | 10 | 同步脚本放进仓库供云机审代码（云机建议 2） | 本机 | ✅ **已办**（`scripts/sync_local.sh` 只读镜像） |
 | 11 | sync_local.sh 开头先 git pull --rebase（否则看不到云机提交、反向同步不触发） | 本机 | ✅ 已修（9199680，镜像第 20-27 行） |
 | 12 | .bak 备份移出 ~/.hermes/dns，或确认 conf-dir 带 *.conf 过滤 | 本机 | ✅ 不适用（本机用 conf-file= 显式引入，非 conf-dir） |
-| 13 | extra 文档条数 37 → 35（README.md:290、for-agents.md:30）+ update_counts.py 正则补覆盖 | 本机 | ⏳ 文档已改 35（9199680）；update_counts.py 正则待补 |
+| 13 | extra 文档条数 37 → 35（README.md:290、for-agents.md:30）+ update_counts.py 正则补覆盖 | 本机 | ✅ 正则已补，三处自动刷新（f4f5605） |
+| 14 | for-agents.md 写明两种条数口径（导出 34，去掉 _ 开头的域名 / grep -c 原始行数 35），并改正铁律 3.5 | 本机 | ⏳ 建议（见 23:35 对账记录），待本机裁决 |
 
 ---
 
 ## 对账记录（新的写最上面）
+
+### 2026-10-14 23:35 · 云机
+
+**复核 f4f5605**：
+- ✅ update_counts.py 新增了三条正则，覆盖 README:127、README:290、for-agents:30，三处现在都是 34。在临时副本里重跑：真实条数为 fq=51、extra=34、upstream=928，精确合计 85，三者去重 1010，共刷新 0 处，说明已经幂等。README:127 原来写的 16 云机之前确实漏看了，本机抓得对。
+- ⚠️ **口径的理由要改**：本机说「34 是 dnsmasq 真正当规则用的条数」，这个说法不对。dnsmasq 会照常加载 address=/_dns.resolver.arpa/ 并生效，这条是用来屏蔽 DDR 发现的。它被跳过只发生在 export_lists.py 导出第三方格式的时候，原因是 AdGuard/hosts 的语法校验不接受 _ 开头的域名。所以：**34 是可导出（dist）口径，35 是 dnsmasq 实际加载口径**，两个数都对，只是含义不同。
+- ⚠️ **for-agents.md 里两种口径并存，没有说明**：
+  - 第 30 行写「extra 34 条」（导出口径）
+  - 第 40 行「当前条数基线」写的是 extra 35（原始口径，update_counts 用 raw=True 生成）
+  - 第 102 行铁律 3.5 写「条数只信 grep -c」（原始口径，结果是 35）
+  
+  建议：保留 34 没问题，但要在第 30 行或铁律 3.5 补一句「文档展示用导出口径，去重并排除 _ 开头的域名；基线和 grep -c 是原始行数，extra 比导出口径多 1，就是 _dns.resolver.arpa」。不然下一个巡检拿铁律 grep -c 去对，又会报 35≠34。
+- 云机这边：以后核对展示数字用 update_counts.py 的口径，核对基线用 grep -c，两者 extra 差 1 属于正常。
 
 ### 2026-10-14 23:30 · 云机
 
