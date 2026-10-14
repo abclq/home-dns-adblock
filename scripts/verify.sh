@@ -3,7 +3,18 @@
 # 用法: sudo ./scripts/verify.sh
 set -uo pipefail
 
-CONF_DIR="${CONF_DIR:-/etc/dnsmasq-adblock}"   # 可用环境变量覆盖，便于自测
+# ── 自动定位配置目录 ──────────────────────────
+# 优先环境变量 CONF_DIR；否则从【正在跑的 dnsmasq】命令行里读 -C 参数；
+# 都没有才退回默认安装路径。这样本机（~/.hermes/dns）和标准安装（/etc/dnsmasq-adblock）都能自检。
+# ⚠️ 之前写死 /etc/dnsmasq-adblock，在本机跑必然误报「规则文件不存在 / 日志不存在」。
+if [ -z "${CONF_DIR:-}" ]; then
+  _RUN_CONF=$(pgrep -x dnsmasq -a 2>/dev/null | grep -oE '\-C [^ ]+' | head -1 | awk '{print $2}')
+  if [ -n "${_RUN_CONF:-}" ] && [ -f "$_RUN_CONF" ]; then
+    CONF_DIR=$(dirname "$_RUN_CONF")
+  else
+    CONF_DIR=/etc/dnsmasq-adblock
+  fi
+fi
 CONF="$CONF_DIR/dnsmasq.conf"
 RULES="$CONF_DIR/adblock-fq.conf"
 LOG="$CONF_DIR/queries.log"
@@ -20,8 +31,14 @@ echo
 
 # ── 1. dnsmasq 进程 ───────────────────────────
 echo "  [1/6] dnsmasq 进程"
-if pgrep -f "dnsmasq -C $CONF" >/dev/null; then
+PID=""
+if pgrep -f "dnsmasq -C $CONF" >/dev/null 2>&1; then
   PID=$(pgrep -f "dnsmasq -C $CONF" | head -1)
+elif pgrep -x dnsmasq >/dev/null 2>&1; then
+  # 有些部署（如 systemd unit 里已带 -C）命令行匹配不上，退一步按进程名找
+  PID=$(pgrep -x dnsmasq | head -1)
+fi
+if [ -n "$PID" ]; then
   pass "运行中 (PID $PID)"
   ps -o etime=,rss=,pcpu= -p "$PID" 2>/dev/null | awk '{printf "      已运行 %s | 内存 %.1f MB | CPU %s%%\n", $1, $2/1024, $3}'
 else
