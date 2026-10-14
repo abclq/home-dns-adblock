@@ -13,6 +13,7 @@ __pycache__/
 # 备份文件
 *.bak
 *.bak.*
+*.bak-*
 
 # 编辑器 / 系统
 .vscode/

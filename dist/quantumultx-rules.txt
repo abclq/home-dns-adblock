@@ -1,7 +1,7 @@
 # Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 3e8965d576d23447    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 232
+# 规则指纹: 2517779863683b4a    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 234
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -9,6 +9,7 @@
 #       不含通用/国外广告域名 —— 那部分请另配 EasyList / anti-AD 等。
 host-suffix, abtest3-misc-hl.zijieapi.com, reject
 host-suffix, activity-ag.awemeughun.com, reject
+host-suffix, ad-sign.byteimg.com, reject
 host-suffix, ad.toutiao.com, reject
 host-suffix, ads-vp5.xhscdn.com, reject
 host-suffix, ads0-normal-gr.zijieapi.com, reject
@@ -53,6 +54,7 @@ host-suffix, ads5-normal-lf.zijieapi.com, reject
 host-suffix, ads5-normal-lq.zijieapi.com, reject
 host-suffix, ads5-normal-sg.zijieapi.com, reject
 host-suffix, ads5-normal-zj.zijieapi.com, reject
+host-suffix, aeventlog.beacon.qq.com, reject
 host-suffix, apd-pcdnwxlogin.teg.tencent-cloud.net, reject
 host-suffix, api-access.pangolin-sdk-toutiao.com, reject
 host-suffix, api-access.pangolin-sdk-toutiao1.com, reject
