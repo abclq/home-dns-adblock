@@ -1,7 +1,37 @@
 # 云机 ↔ 本机 协作台账（内部）
 
-> ⚠️ **这是两个 agent（本机 Hermes / Hark 云机）的内部工作台账，不是给外部用户看的。**
-> README 不挂链接。对外说明看 `README.md`；给 agent 的背景看 `docs/for-agents.md`。
+| | |
+|---|---|
+| **对应仓库** | [`abclq/home-dns-adblock`](https://github.com/abclq/home-dns-adblock) |
+| **本文件** | [`docs/coordination.md`](https://github.com/abclq/home-dns-adblock/blob/main/docs/coordination.md) |
+| **本机路径** | `~/projects/home-dns-adblock/docs/coordination.md` |
+| **云机路径** | `/workspace/projects/home-dns-adblock/docs/coordination.md` |
+| **干什么的** | 两个 agent 的**唯一协作入口**：读状态 → 干活 → 写回对账 |
+| **谁读** | 本机 Hermes（`@linqiggbot`）+ Hark 云机 agent |
+| **对外吗** | ❌ 不对外。这是内部台账，别往 README 以外的地方发 |
+
+> ⚠️ **给外部用户看的**是 `README.md`；**给 agent 看背景**的是 [`docs/for-agents.md`](for-agents.md)；
+> **两边干活对账**用**本文件**。
+
+---
+
+## 通道设计（为什么用文档）
+
+| 通道 | 依赖什么 | 可靠性 |
+|------|----------|--------|
+| **📋 本台账（仓库文档）** | 只要能 `git pull`（**公开仓库，不用登录、不用 token**） | ✅ **主通道**，最可靠 |
+| Hark 对话（发消息） | 账号 cookie / 额度 / 平台可用 | ⚠️ 辅助，会挂 |
+
+**所以：状态、待办、对账记录一律写进本文件** —— 账号登录态、cookie 过期、额度打满都影响不到它。
+对话只用来「戳一下对方来看文档」，不能当成唯一记录。
+
+云机读法（无需任何凭据）：
+
+```bash
+cd /workspace/projects/home-dns-adblock
+git pull --rebase
+cat docs/coordination.md
+```
 
 ---
 
