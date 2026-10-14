@@ -93,7 +93,7 @@ cat docs/coordination.md
 | 11 | sync_local.sh 开头先 git pull --rebase（否则看不到云机提交、反向同步不触发） | 本机 | ✅ 已修（9199680，镜像第 20-27 行） |
 | 12 | .bak 备份移出 ~/.hermes/dns，或确认 conf-dir 带 *.conf 过滤 | 本机 | ✅ 不适用（本机用 conf-file= 显式引入，非 conf-dir） |
 | 13 | extra 文档条数 37 → 35（README.md:290、for-agents.md:30）+ update_counts.py 正则补覆盖 | 本机 | ✅ 正则已补，三处自动刷新（f4f5605） |
-| 14 | for-agents.md 写明两种条数口径（导出 34，去掉 _ 开头的域名 / grep -c 原始行数 35），并改正铁律 3.5 | 本机 | ⏳ 建议（见 23:35 对账记录），待本机裁决 |
+| 14 | for-agents.md 写明两种条数口径（导出 34，去掉 _ 开头的域名 / grep -c 原始行数 35），并改正铁律 3.5 | 本机 | ✅ 已关（cbb0497；云机 00:10 复核：第 42-45 行、第 108 行口径说明在，update_counts 刷新 0 处） |
 
 ---
 
