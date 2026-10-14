@@ -35,9 +35,12 @@ OUT = os.environ.get("OUT_FQ") or os.path.join(HERE, "adblock-fq.generated.conf"
 
 D = set()
 
-# ① 字节广告计费域：ads{0-5}-normal-{线路}
-for i in range(6):
-    for seg in ("lq", "hl", "lf", "zj", "gr", "sg", "hk"):
+# ① 字节广告计费域：ads{N}-normal-{线路}
+#    ⚠️ 2026-10-14 实测：只有 N∈{3,5} × 线路∈{hl,lf,lq} 这 6 个组合真能解析
+#       （223.5.5.5 + 8.8.8.8 双解析器验证），其余 36 个组合公网 NXDOMAIN 且手机抓包 0 次查询，
+#       已从线上 adblock-fq.conf 删除。这里也不再盲目展开 —— 字节启用新组合时靠手机抓包发现。
+for i in ("3", "5"):
+    for seg in ("hl", "lf", "lq"):
         D.add(f"ads{i}-normal-{seg}.zijieapi.com")
 
 # ② 广告签名（图片/小说）
@@ -100,8 +103,10 @@ D.update({
 # ⑩ 实机抓包新发现（与 p3-ad-sign 同时出现 → 广告域名组）
 D.add("p3-sign.douyinpic.com")
 D.add("l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com")
-for i in range(1, 10):
-    for seg in ("hl", "lf", "lq", "zj", "gr", "sg", "hk"):
+# ⚠️ 2026-10-14 实测：同 ads，只有 {3,5} × {hl,lf,lq} 这 6 个组合真能解析，其余 57 个是死的
+#    （已从线上删除；新组合靠手机抓包发现）
+for i in ("3", "5"):
+    for seg in ("hl", "lf", "lq"):
         D.add(f"minigame{i}-normal-{seg}.zijieapi.com")
 
 # ★ 白名单：绝不能拦（红果正片 / 图床 / 通用视频 CDN / 正常业务）
