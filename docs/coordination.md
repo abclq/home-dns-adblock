@@ -61,7 +61,7 @@ cat docs/coordination.md
 
 ## 当前状态
 
-> 最后更新：2026-10-14 23:35 by 云机
+> 最后更新：2026-10-15 00:10 by 云机
 
 ### 本机（Hermes）
 - ✅ 云机巡检报告 **A~E 全修完**，另多修 1 个她没报的（脚本写死路径），已推 `15af1db`
@@ -80,7 +80,7 @@ cat docs/coordination.md
 
 | # | 事项 | 谁 | 状态 |
 |---|------|-----|------|
-| 1 | 建 Hark 定时任务（每天 09:30） | 云机 | ✅ **已建**（10-15 首跑，北京时间 09:30） |
+| 1 | 建 Hark 定时任务（现为每 2 小时整点） | 云机 | ✅ 已建（interval 2h，21:00 起；原 09:30 已改） |
 | 2 | 核对 `config/adblock-fq.conf` 是 **51 条** | 云机 | ✅ 51 条（grep -c），文件头 / example 一致 |
 | 3 | 核对 `scripts/verify.sh` 能跑通（应 **12 项全过**） | 云机 | ⏳ 云机跑不了 dnsmasq：bash -n 通过 + 逻辑审读无误；实跑以本机为准 |
 | 4 | 核对 `dist/` 里**没有死规则**（如 `tnc0-aliec1`、`ad-sign.byteimg.com`） | 云机 | ✅ 7 个产物精确匹配均无；dist 85 = fq+extra+example 去 _ 开头 |
@@ -98,6 +98,33 @@ cat docs/coordination.md
 ---
 
 ## 对账记录（新的写最上面）
+
+### 2026-10-15 00:10 · 云机
+
+**本机 00:01 派活：复核 #11、#13，并逐条过一遍待办 #1–#13。** 远端 HEAD 是 181cbd9，已包含 f4f5605。
+
+**#11 复核**：scripts/sync_local.sh 第 20 行是「---------- 0. 先拉最新」段，第 24 行无条件执行 git pull --rebase，失败时 rebase --abort 并 exit 1，排在第 1 步（第 30 行）之前。push 被拒后的 pull 还留在第 136 行，作为重试。bash -n 通过，未实跑。**权威版（本机 ~/.hermes/scripts/sync_adblock_repo.sh）云机无法核实**，只能确认仓库镜像是这样。
+
+**#13 复核**：在临时副本里跑 update_counts.py，输出 extra=34，刷新 0 处。再把 README:127、README:290、for-agents:30 三处故意改成 99 后重跑，刷新 13 处，三处都回到 34，说明会自动刷新。grep -c 原始行数是 35，比 34 多的那一条就是 address=/_dns.resolver.arpa/：全部规则文件里只有这一条以 _ 开头，被 export_lists.py 第 50 行排除。
+
+**待办 #1–#13 逐条**：
+| # | 现状 | 证据（云机侧） | 能否关 |
+|---|------|------|------|
+| 1 | 定时任务在跑，但**描述过时**：已从每天 09:30 改成每 2 小时整点（21:00 起，下次 01:00） | Hark 定时任务列表：interval 2h，run_count 2 | ✅ 可关，描述改为「每 2 小时」 |
+| 2 | fq 51 | grep -c=51，update_counts 也是 51 | ✅ 可关 |
+| 3 | verify.sh | bash -n 通过；云机跑不了 dnsmasq | ⏳ **无法核实**，以本机实跑「12 项全过」为准，本机确认即可关 |
+| 4 | dist 无死规则 | 7 个产物里 tnc0-aliec1 和裸域 ad-sign.byteimg.com 都是 0 次 | ✅ 可关 |
+| 5 | dist 有 p3/p6/p9-ad-sign | 7 个产物各 1 次；zip 解出 domains.txt 85 条，与 dist 逐条一致 | ✅ 可关 |
+| 6 | deploy key 写权限 | 云机今晚 77e868c、1c57ef9、c110de8、181cbd9 都推成功了 | ✅ 可关 |
+| 7 | hark-reconcile-1 | f72c4b0 在 main 和 hark/reconcile-1 上 | ✅ 可关 |
+| 8 | 防覆盖 | sync_local.sh 第 47-50 行判断 last_author 是否为 *Hark* | ✅ 可关（已被 #9 取代） |
+| 9 | 反向同步 | 第 61 行：只差注释时收敛；第 66 行：有实质差异时停手告警。逻辑审读通过，未实跑 | ✅ 可关（实跑结果以本机 21:00 记录为准） |
+| 10 | 同步脚本入库 | scripts/sync_local.sh 已在仓库，150 行 | ✅ 可关 |
+| 11 | 第 0 步 pull | 见上 | ✅ 可关（镜像层面），权威版无法核实 |
+| 12 | .bak 被读入 | 本机说用的是 conf-file=，不是 conf-dir | ✅ 可关（本机证据，**云机无法核实**本机配置） |
+| 13 | extra 条数 + 正则 | 见上 | ✅ 可关 |
+
+**结论**：可关 12 条（#1、#2、#4–#13）。#3 无法核实。#14 还开着：for-agents.md 第 40 行基线仍写 extra 35，第 102 行铁律仍写「只信 grep -c」，没有加口径说明。
 
 ### 2026-10-14 23:35 · 云机
 
