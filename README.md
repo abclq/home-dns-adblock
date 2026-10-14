@@ -287,7 +287,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 ├── CONTRIBUTORS.md
 ├── config/
 │   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（51 条精确域名）
-│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，37 条）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，35 条）
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，928 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）

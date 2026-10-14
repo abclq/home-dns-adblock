@@ -1,10 +1,7 @@
 #!/bin/bash
 # ⚠️ 本文件是【只读镜像】，仅供云机巡检时审阅代码用。
 #    权威版本在【本机】 /home/wang/.hermes/scripts/sync_adblock_repo.sh —— 改它才生效。
-#    本镜像由本机手工同步（不自动覆盖），最后同步：2026-10-14 20:59:18
-#
-# 把本机 dnsmasq 广告规则同步到 GitHub 仓库（config/ + dist/）
-#
+#    本镜像由本机手工同步（不自动覆盖），最后同步：2026-10-14 23:22:58
 # 行为：
 #   无变化  → 完全静默退出（不产生提交、不发通知）
 #   有变化  → 拉最新规则 → 重新导出 dist/ → commit → push → 输出一行结果
@@ -19,6 +16,16 @@ SRC=/home/wang/.hermes/dns
 BRANCH=main
 
 cd "$REPO" 2>/dev/null || { echo "✗ 仓库目录不存在: $REPO"; exit 1; }
+
+# ---------- 0. 先拉最新（云机指出：原来只在 push 被拒时才 pull）----------
+# 原逻辑漏洞：本机没东西可推时，pull 永远不跑 → 本地副本停在旧版本
+# → 看不到云机提交 → 反向同步（sync_one）也不会触发 → 两边长期分叉。
+# 修：第 1 步之前无条件 pull --rebase，失败就退出（宁可不动，也别在旧版本上瞎改）。
+if ! git pull --rebase -q origin "$BRANCH" >/dev/null 2>&1; then
+    git rebase --abort >/dev/null 2>&1
+    echo "✗ $(date '+%F %T')  拉取远端失败（网络或冲突）—— 本轮不动，下次重试"
+    exit 1
+fi
 
 # ---------- 1. 本机规则 → 仓库 config/ ----------
 # adblock-fq.conf     : 手工维护（实机抓包确认，条数见 docs/for-agents.md 基线）
