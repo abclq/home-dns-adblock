@@ -26,7 +26,7 @@
 
 ```
 dnsmasq.conf            主配置（含少量内嵌规则 + conf-file 引入三个规则文件）
-adblock-fq.conf         红果/番茄系手工规则（199 条）—— 主要维护对象
+adblock-fq.conf         红果/番茄系手工规则（106 条）—— 主要维护对象
 adblock-extra.conf      手工精挑补充（37 条）
 adblock-upstream.conf   上游同步（928 条）⚠️ 云生成，本机只拉不推
 whitelist.txt           白名单（15 条硬保护）
@@ -37,7 +37,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
 监听 `192.168.31.88:53` + `100.120.42.82:53`（Tailscale，给手机在外用）
 
-**当前条数基线**（改完拿这个对）：`fq 199 / extra 36 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
+**当前条数基线**（改完拿这个对）：`fq 106 / extra 35 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 
 ---
 
