@@ -39,6 +39,11 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 
 **当前条数基线**（改完拿这个对）：`fq 51 / extra 35 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 
+> **extra 的口径差 1，两个数都对，含义不同（云机 2026-10-14 更正）**：
+> - **35** = **dnsmasq 实际加载**的条数（`grep -c '^address='` 就是这个口径）。`address=/_dns.resolver.arpa/` 用来屏蔽 DDR 发现，dnsmasq **照常加载并生效**
+> - **34** = **可导出（dist）**口径。`export_lists.py` 第 50 行导出第三方格式（AdGuard/hosts）时跳过 `_` 开头的域名 —— 是那些格式的语法校验不接受，不是 dnsmasq 不生效。`update_counts.py`、README 用的是这个
+> - 对不上 `dist/` 的 `85 = 51 + 34` 时，先查是不是把这两个口径混用了
+
 ---
 
 ## 三、🔴 铁律（违反直接出事故，没有例外）
@@ -100,6 +105,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 ### 3.5 数字铁律
 
 - **条数只信 `grep -c '^address='`**，别信文件头的注释（实测头写 198、实际 188）
+- **但 `grep -c` 是「dnsmasq 实际加载」口径，跟 `dist/`/README 的「可导出」口径差 1**：`address=/_dns.resolver.arpa/`（屏蔽 DDR 发现，dnsmasq 照常加载生效）在 `export_lists.py` 第 50 行导出第三方格式时被跳过（AdGuard/hosts 语法不接受 `_` 开头）。`extra` 因此是 **35（加载）/ 34（可导出）**。报数前先想清楚用的哪个口径，别拿 35 去对 `dist/` 的 85
 - **`grep -c 'address=/p3-sign.douyinpic.com/'` 会误报** —— 被注释掉的行也含该串。判断生效用 `grep -Fxc "address=/<域>/"` 或直接建集合比对
 
 ---
