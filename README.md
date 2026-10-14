@@ -314,7 +314,8 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
     ├── domain-list.md             # ★ 域名清单：该拦的 / 绝不能拦的
     ├── pitfalls.md                # ★ 踩坑全记录
     ├── tailscale-remote.md        # 出门在外方案
-    └── use-with-other-apps.md     # ★ 配合其他软件使用（只订阅，不自建）
+    ├── use-with-other-apps.md     # ★ 配合其他软件使用（只订阅，不自建）
+    └── redguo-case-study.md       # ★ 实测案例：红果短剧（抓包→测漏洞→补规则，DNS/小火箭两套怎么用）
 ```
 
 ---
