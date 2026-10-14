@@ -24,6 +24,11 @@
 - 文档里「改完规则 `pkill -HUP dnsmasq` 生效」的说法有误：实测 `SIGHUP` 不重读 `conf-file=` 规则，
   统一改为 `sudo systemctl restart dnsmasq-home.service`（README Tailscale 段 / pitfalls / tailscale-remote；principles 补注 SIGHUP 不重读规则）
 
+### 文档
+
+- 上游社区规则条数 929 → **928**（2026-10-13 上游同步去掉了与 `adblock-fq.conf` 重复的 `tnc3-bjlgy.snssdk.com`；
+  去重后合计仍为 1140 条）—— README.md / README.en.md / principles / use-with-other-apps 同步更正
+
 ---
 
 ## [1.1.3] — 2026-10-13
