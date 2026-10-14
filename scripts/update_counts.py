@@ -68,6 +68,9 @@ RULES = [
     (r"上游同步（\d+ 条）",                 f"上游同步（{N_UP} 条）"),
     (r"去重后合计 \d+ 条",                  f"去重后合计 {TOTAL} 条"),
     (r"\(\d+ unique after dedup\)",       f"({TOTAL} unique after dedup)"),
+    # config/ 文件头（云机巡检每天挑这个：文件头写 199、实际 106）
+    (r"共 \d+ 条（手工维护",                f"共 {N_FQ_RAW} 条（手工维护"),
+    (r"主规则（实机抓包确认，\d+ 条）",        f"主规则（实机抓包确认，{N_FQ_RAW} 条）"),
 ]
 
 FILES = [
@@ -79,6 +82,8 @@ FILES = [
     "docs/pitfalls.md",
     "docs/principles.md",
     "docs/use-with-other-apps.md",
+    "config/adblock-fq.conf",
+    "config/dnsmasq.conf.example",
 ]
 
 print(f"真实条数：fq={N_FQ}  extra={N_EX}  upstream={N_UP}  精确合计={PRECISE}  三者去重={TOTAL}")

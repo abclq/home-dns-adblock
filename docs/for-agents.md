@@ -26,7 +26,7 @@
 
 ```
 dnsmasq.conf            主配置（含少量内嵌规则 + conf-file 引入三个规则文件）
-adblock-fq.conf         红果/番茄系手工规则（106 条）—— 主要维护对象
+adblock-fq.conf         红果/番茄系手工规则（51 条）—— 主要维护对象
 adblock-extra.conf      手工精挑补充（37 条）
 adblock-upstream.conf   上游同步（928 条）⚠️ 云生成，本机只拉不推
 whitelist.txt           白名单（15 条硬保护）
@@ -37,7 +37,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
 监听 `192.168.31.88:53` + `100.120.42.82:53`（Tailscale，给手机在外用）
 
-**当前条数基线**（改完拿这个对）：`fq 106 / extra 35 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
+**当前条数基线**（改完拿这个对）：`fq 51 / extra 35 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 
 ---
 
@@ -249,6 +249,44 @@ DNS 健康度实测：单查询中位 25ms，并发 300 最慢 361ms。
   是**有效规则，保留不删**。真实情况：抓包里 App 请求的是 `-lf` 系，规则里只有 `-hl` → 属**漏拦**，不是写错。
 - **修 sync 脚本**：云端 Actions 推 `adblock-upstream.conf` 导致本机 push 被 `fetch first` 拒绝 → 脚本加自动 rebase
 - **三方合并**：本机补 `wmzfylgdsz.com`，仓库补 `ad-sign.byteimg.com` + `aeventlog.beacon.qq.com`，两边对齐 37 条
+  - ⚠️ **后更正**：`ad-sign.byteimg.com` 后来实测是**死规则**（4 次查询全来自本机、公网 NXDOMAIN），
+    已在 `949d732` 删掉。**不要加回来。**
+
+### 2026-10-14 下午 死规则大清 + 云机巡检全修
+
+- **`949d732`** 删死规则 `ad-sign.byteimg.com` + 全量条数对齐（235→234 / 1160→1159 / 929→928 / 214→234）
+- **`9aedae6`** 清理 **93 条**死规则（`ads{0-5}×7` / `minigame{1-9}×7` 这些展开组合，实测只剩 `{3,5}×{hl,lf,lq}` 共 12 条能解析）+ 文档条数改自动生成（`update_counts.py`）
+- **`102d78b`** 文档条数口径与 `dist/` 对齐（141 → 140，差的 1 条是 `_dns.resolver.arpa`，`export_lists.py` 故意跳过）
+- **删 55 条死规则**（本批）：`tnc*` 24 条里 20 条死、`*-reading-ad` 44 条里 34 条死、`ad-sign.byteimg.com` 等
+  → `config/adblock-fq.conf` **106 → 51 条**。判死标准：**4 个公网解析器（223.5.5.5 / 119.29.29.29 / 8.8.8.8 / 1.1.1.1）全 NXDOMAIN**，
+  且跟云机用 7 天轮转日志（10-08~10-14）查的结果对上了。
+  **保留的活规则**：`tnc0-aliec2`（7 天被查 127 次）、`tnc0-alisc1`（150 次）、`tnc3-aliec2`、`tnc3-alisc1`。
+- **修 2 个坏脚本**：`verify.sh` / `adblock-helper.sh` 还在按「答 `0.0.0.0`」判断拦截成功 —— 但线上早就是
+  `address=/X/`（NXDOMAIN 写法）→ 脚本**永远报 fail / 一条都抓不到**。已改成看 NXDOMAIN，
+  并且**加了「本地 NXDOMAIN 且上游 NOERROR 才算我们拦的」逻辑**（否则域本身不存在也会被误判成拦截成功）。
+- **修 6 处过时数字/文档**：`adblock-fq.conf` 文件头 199→51、`dnsmasq.conf.example` 第 22 行、`dist/` 旧 zip、
+  `domain-list.md` 的展开描述、`README.md` 架构图「答 0.0.0.0」→ NXDOMAIN、`export_lists.py` 注释 `address=/domain/#`。
+  `update_counts.py` 补了 config/ 文件头和 example 的规则，以后自动刷。
+- **修生成器 `gen_rules.py`**：
+  - ⑥ TNC 不再展开 24 个组合，只留实测活的 4 条
+  - ⑧ reading-ad 版本表 8 → **11 代**（补 `v11`/`v13`/`v96`）+ 补 `se-sjy` 这一路
+  - **白名单去掉裸域** `snssdk.com` / `byteimg.com` / `bytedance.com` / `ecombd*` ——
+    这些把 `i.snssdk.com`、`mcs.snssdk.com`、`p3-ad-sign.byteimg.com` 等**该拦**的子域一起滤掉了，
+    生成清单和差异报告全失真。**白名单只写具体子域，不写整片。**
+    → 「线上独有」从 **15 条降到 4 条**（只剩真正手工加的 `tnc3-bjlgy.snssdk.com`、
+    `webcast5-open-hl.douyin.com`(+CNAME)、`wmzfylgdsz.com`）
+- **⚠️ 白名单踩坑提醒**：`gen_rules.py` 里 reading-ad 有**两处**版本表（⑧ 段 + 白名单后的「例外」段）。
+  ⑧ 段加的东西会被 `qznovelvod` 白名单滤掉，**真正生效的是「例外」段** —— 改版本表要**两处一起改**，
+  不然改了没用（这次就踩了）。
+
+### 2026-10-14 确立「云机对账」模式
+
+- **不是**「云机只读巡检、本机负责改」—— 是**双向对账**：
+  - 云机定时巡检 → 报告异常 + **核对本机最近的改动对不对**
+  - 本机收到后逐条核实 → 该修的修，云机报错的**明确回「这条不对 + 原因」**
+  - 云机那边能改的也可以改（`/workspace` 那份随便试；拿到 push 权限就能直接推）
+- 云机的定时任务建在 **Hark 平台**（右上角头像 → Scheduled tasks），本机不依赖
+- 本机侧：`~/.hermes/scripts/hark_relay.sh` + Hermes cron **每 2 小时**读云机对话，有新回复就播报给用户
 
 ---
 

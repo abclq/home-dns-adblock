@@ -49,10 +49,17 @@ echo
 echo "  [3/6] 规则文件"
 if [ -f "$RULES" ]; then
   N=$(grep -c '^address=' "$RULES")
-  if [ "$N" -gt 100 ]; then
+  DECL=$(grep -oE '共 [0-9]+ 条' "$RULES" | head -1 | grep -oE '[0-9]+')
+  if [ "$N" -ge 40 ]; then
     pass "共 $N 条规则"
   else
     fail "只有 $N 条，疑似不完整"
+  fi
+  # 文件头声明的条数必须和实际一致（防文档漂移）
+  if [ -n "$DECL" ] && [ "$DECL" -ne "$N" ]; then
+    fail "文件头写「共 $DECL 条」，实际 $N 条 —— 对不上"
+  elif [ -n "$DECL" ]; then
+    pass "文件头条数与实际一致 ($N)"
   fi
   # 抽查关键规则是否存在
   for d in "ads3-normal-hl.zijieapi.com" "p3-ad-sign.byteimg.com"; do
@@ -70,11 +77,17 @@ echo
 # ── 4. ★ 拦截是否真的生效 ─────────────────────
 echo "  [4/6] 拦截功能实测（核心）"
 if command -v dig >/dev/null 2>&1; then
-  ANS=$(dig +short +time=3 +tries=1 @127.0.0.1 ads3-normal-hl.zijieapi.com 2>/dev/null | head -1)
-  if [ "$ANS" = "0.0.0.0" ]; then
-    pass "广告域被黑洞: ads3-normal-hl.zijieapi.com → 0.0.0.0"
+  # 规则是 address=/X/（空尾）→ dnsmasq 回 NXDOMAIN。
+  # 但「域本身不存在」也是 NXDOMAIN，所以要跟上游比：上游能解析、我们 NXDOMAIN = 确实是我们拦的。
+  T="ads3-normal-hl.zijieapi.com"
+  LOC=$(dig +time=3 +tries=1 @127.0.0.1 "$T" 2>/dev/null | grep -oE 'status: [A-Z]+' | head -1 | awk '{print $2}')
+  UP=$(dig +time=3 +tries=1 @223.5.5.5 "$T" 2>/dev/null | grep -oE 'status: [A-Z]+' | head -1 | awk '{print $2}')
+  if [ "$LOC" = "NXDOMAIN" ] && [ "$UP" = "NOERROR" ]; then
+    pass "广告域被拦截: $T → NXDOMAIN（上游本可解析）"
+  elif [ "$LOC" = "NXDOMAIN" ]; then
+    info "$T → NXDOMAIN，但上游也是 ${UP:-无响应}（域本身不存在，无法确认是我们拦的）"
   else
-    fail "广告域未被拦截，返回: ${ANS:-无响应}"
+    fail "广告域未被拦截，本地状态: ${LOC:-无响应}"
   fi
 else
   info "无 dig 命令，跳过（装: apt install dnsutils）"
@@ -86,10 +99,14 @@ echo "  [5/6] 正常域放行实测（防误伤）"
 if command -v dig >/dev/null 2>&1; then
   for d in "v11-reading-video.qznovelvod.com" "www.baidu.com"; do
     ANS=$(dig +short +time=3 +tries=1 @127.0.0.1 "$d" 2>/dev/null | head -1)
-    if [ -n "$ANS" ] && [ "$ANS" != "0.0.0.0" ]; then
+    LOC=$(dig +time=3 +tries=1 @127.0.0.1 "$d" 2>/dev/null | grep -oE 'status: [A-Z]+' | head -1 | awk '{print $2}')
+    UP=$(dig +time=3 +tries=1 @223.5.5.5 "$d" 2>/dev/null | grep -oE 'status: [A-Z]+' | head -1 | awk '{print $2}')
+    if [ -n "$ANS" ]; then
       pass "$d → ${ANS}"
-    elif [ "$ANS" = "0.0.0.0" ]; then
-      fail "$d 被误拦！（正片会挂）"
+    elif [ "$LOC" = "NXDOMAIN" ] && [ "$UP" = "NOERROR" ]; then
+      fail "$d 被误拦（本地 NXDOMAIN，上游本可解析 —— 正片会挂）"
+    elif [ "$LOC" = "NXDOMAIN" ]; then
+      info "$d 本地和上游都是 NXDOMAIN（域本身不存在，非误拦）"
     else
       info "$d 无响应（上游 DNS 问题？）"
     fi
@@ -104,7 +121,7 @@ echo "  [6/6] 日志"
 if [ -f "$LOG" ]; then
   SIZE=$(du -h "$LOG" 2>/dev/null | cut -f1)
   LINES=$(wc -l < "$LOG" 2>/dev/null || echo 0)
-  BLOCKED=$(grep -c 'is 0\.0\.0\.0' "$LOG" 2>/dev/null || echo 0)
+  BLOCKED=$(grep -c 'is NXDOMAIN' "$LOG" 2>/dev/null || true)
   pass "日志存在 ($SIZE / $LINES 行)"
   info "累计拦截: $BLOCKED 次"
   if [ "$LINES" -gt 0 ]; then

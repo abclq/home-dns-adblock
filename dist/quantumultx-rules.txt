@@ -1,7 +1,7 @@
 # Home DNS Adblock — Quantumult X / Loon 规则（贴进 [filter_local] 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 854ebc52aebb9dba    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 140
+# 规则指纹: fdc5466004a6c9b3    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 85
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -69,77 +69,22 @@ host-suffix, sf3-ttcdn-tos.pstatp.com, reject
 host-suffix, spider-tracker.xiaohongshu.com, reject
 host-suffix, thanos.zijieapi.com, reject
 host-suffix, timon.zijieapi.com, reject
-host-suffix, tnc0-aliec1.zijieapi.com, reject
 host-suffix, tnc0-aliec2.zijieapi.com, reject
-host-suffix, tnc0-aliec3.zijieapi.com, reject
 host-suffix, tnc0-alisc1.zijieapi.com, reject
-host-suffix, tnc0-alisc2.zijieapi.com, reject
-host-suffix, tnc0-alisc3.zijieapi.com, reject
-host-suffix, tnc1-aliec1.zijieapi.com, reject
-host-suffix, tnc1-aliec2.zijieapi.com, reject
-host-suffix, tnc1-aliec3.zijieapi.com, reject
-host-suffix, tnc1-alisc1.zijieapi.com, reject
-host-suffix, tnc1-alisc2.zijieapi.com, reject
-host-suffix, tnc1-alisc3.zijieapi.com, reject
-host-suffix, tnc2-aliec1.zijieapi.com, reject
-host-suffix, tnc2-aliec2.zijieapi.com, reject
-host-suffix, tnc2-aliec3.zijieapi.com, reject
-host-suffix, tnc2-alisc1.zijieapi.com, reject
-host-suffix, tnc2-alisc2.zijieapi.com, reject
-host-suffix, tnc2-alisc3.zijieapi.com, reject
-host-suffix, tnc3-aliec1.zijieapi.com, reject
 host-suffix, tnc3-aliec2.zijieapi.com, reject
-host-suffix, tnc3-aliec3.zijieapi.com, reject
 host-suffix, tnc3-alisc1.zijieapi.com, reject
-host-suffix, tnc3-alisc2.zijieapi.com, reject
-host-suffix, tnc3-alisc3.zijieapi.com, reject
 host-suffix, tnc3-bjlgy.snssdk.com, reject
 host-suffix, tracker.xiaomixiaoai.com, reject
 host-suffix, ulogs.umeng.com, reject
-host-suffix, v100-bd-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v100-reading-ad.qznovelvod.com, reject
-host-suffix, v100-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v100-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v11-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v11-reading-ad.qznovelvod.com, reject
-host-suffix, v11-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v11-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v13-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v13-reading-ad.qznovelvod.com, reject
-host-suffix, v13-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v13-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v26-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v26-reading-ad.qznovelvod.com, reject
-host-suffix, v26-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v26-se-sjy-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v5-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v5-reading-ad.qznovelvod.com, reject
-host-suffix, v5-se-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v5-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v6-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v6-reading-ad.qznovelvod.com, reject
-host-suffix, v6-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v6-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v7-bd-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v7-reading-ad.qznovelvod.com, reject
-host-suffix, v7-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v7-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v9-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v9-reading-ad.qznovelvod.com, reject
-host-suffix, v9-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v9-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v95-bd-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v95-reading-ad.qznovelvod.com, reject
-host-suffix, v95-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v95-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v96-bd-daily-reading-ad.qznovelvod.com, reject
 host-suffix, v96-reading-ad.qznovelvod.com, reject
-host-suffix, v96-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v96-se-sjy-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v99-bd-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v99-reading-ad.qznovelvod.com, reject
-host-suffix, v99-se-daily-reading-ad.qznovelvod.com, reject
-host-suffix, v99-se-sjy-daily-reading-ad.qznovelvod.com, reject
 host-suffix, vas-lf-x.snssdk.com, reject
 host-suffix, webcast5-open-hl.douyin.com, reject
 host-suffix, webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net, reject

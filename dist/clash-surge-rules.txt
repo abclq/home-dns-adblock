@@ -1,7 +1,7 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 854ebc52aebb9dba    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 140
+# 规则指纹: fdc5466004a6c9b3    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 85
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -69,77 +69,22 @@ DOMAIN-SUFFIX,sf3-ttcdn-tos.pstatp.com,REJECT
 DOMAIN-SUFFIX,spider-tracker.xiaohongshu.com,REJECT
 DOMAIN-SUFFIX,thanos.zijieapi.com,REJECT
 DOMAIN-SUFFIX,timon.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc0-aliec1.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc0-aliec2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc0-aliec3.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc0-alisc1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc0-alisc2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc0-alisc3.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-aliec1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-aliec2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-aliec3.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-alisc1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-alisc2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc1-alisc3.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-aliec1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-aliec2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-aliec3.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-alisc1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-alisc2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc2-alisc3.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc3-aliec1.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-aliec2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc3-aliec3.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc3-alisc2.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc3-alisc3.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-bjlgy.snssdk.com,REJECT
 DOMAIN-SUFFIX,tracker.xiaomixiaoai.com,REJECT
 DOMAIN-SUFFIX,ulogs.umeng.com,REJECT
-DOMAIN-SUFFIX,v100-bd-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v100-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v100-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v100-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v11-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v11-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v11-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v11-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v13-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v13-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v13-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v13-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v26-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v26-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v26-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v26-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v5-se-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v5-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v6-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v6-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v6-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v6-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v7-bd-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v7-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v7-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v7-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v9-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v9-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v9-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v9-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v95-bd-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v95-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v95-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v95-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v96-bd-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v96-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v96-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v96-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v99-bd-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v99-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v99-se-daily-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,v99-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,vas-lf-x.snssdk.com,REJECT
 DOMAIN-SUFFIX,webcast5-open-hl.douyin.com,REJECT
 DOMAIN-SUFFIX,webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net,REJECT

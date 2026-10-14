@@ -71,15 +71,17 @@
 
 ---
 
-## 三、✅ 该拦清单（106 条，按类别）
+## 三、✅ 该拦清单（51 条，按类别）
 
 ### 3.1 广告计费接口（最典型）
 
 ```
-ads{0-5}-normal-{lq,hl,lf,zj,gr,sg,hk}.zijieapi.com        ← 42 条
+ads{3,5}-normal-{hl,lf,lq}.zijieapi.com                    ← 6 条
 ```
 - `ads` = 广告服务；数字 = 版本；`-normal-` = 正式环境；后缀 = 接入线路（阿里/火山/自建等）
 - **拦掉它 = 广告请求发不出去** ★
+- ⚠️ 2026-10-14：原来展开 `{0-5}×7` 共 42 条，实测只有 `{3,5}×{hl,lf,lq}` 这 6 条能解析，
+  其余 36 条四个公网解析器全 NXDOMAIN、手机 7 天零查询 → 已删（见 CHANGELOG）
 
 ### 3.2 广告素材签名
 
@@ -159,8 +161,9 @@ sf3-ttcdn-tos.pstatp.com
 
 ```
 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
-minigame{1-9}-normal-{lq,hl,lf,zj,gr,sg,hk}.zijieapi.com   ← 小游戏广告位 63 条
+minigame{3,5}-normal-{hl,lf,lq}.zijieapi.com               ← 小游戏广告位 6 条
 ```
+- ⚠️ 2026-10-14：原为 `{1-9}×7` 共 63 条，实测只剩 `{3,5}×{hl,lf,lq}` 6 条能解析 → 已删 57 条
 
 ### 3.11 其它
 

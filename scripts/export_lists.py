@@ -7,7 +7,7 @@
   hosts-ipv6.txt     仅 IPv6 黑洞（::）—— 可与 hosts.txt 组合双栈
   adguard-dns.txt    AdGuard DNS 语法（||domain^）—— AdGuard Home / AdGuard App / AdGuard DNS
   domains.txt        纯域名列表 —— RethinkDNS / SmartDNS / dnsmasq 手动导入
-  dnsmasq-adblock.conf  dnsmasq 语法（address=/domain/#）—— 双栈黑洞
+  dnsmasq-adblock.conf  dnsmasq 语法（address=/domain/）—— 返回 NXDOMAIN
 
 用法：
   python3 scripts/export_lists.py            # 输出到 dist/

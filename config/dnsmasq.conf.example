@@ -19,7 +19,7 @@ cache-size=2000
 dns-forward-max=2000
 
 # ===== 规则文件 =====
-# adblock-fq.conf      : 主规则（实机抓包确认，199 条）
+# adblock-fq.conf      : 主规则（实机抓包确认，51 条）
 # adblock-extra.conf   : 手工补充（埋点统计 / DoH 加固）
 # adblock-upstream.conf: 上游社区规则（GitHub Actions 自动生成，勿手改）
 conf-file=/etc/dnsmasq-adblock/adblock-fq.conf

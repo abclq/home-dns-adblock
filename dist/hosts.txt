@@ -1,7 +1,7 @@
 # Home DNS Adblock — hosts 格式 / hosts format
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 854ebc52aebb9dba    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 140
+# 规则指纹: fdc5466004a6c9b3    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 85
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
@@ -69,77 +69,22 @@
 0.0.0.0 spider-tracker.xiaohongshu.com
 0.0.0.0 thanos.zijieapi.com
 0.0.0.0 timon.zijieapi.com
-0.0.0.0 tnc0-aliec1.zijieapi.com
 0.0.0.0 tnc0-aliec2.zijieapi.com
-0.0.0.0 tnc0-aliec3.zijieapi.com
 0.0.0.0 tnc0-alisc1.zijieapi.com
-0.0.0.0 tnc0-alisc2.zijieapi.com
-0.0.0.0 tnc0-alisc3.zijieapi.com
-0.0.0.0 tnc1-aliec1.zijieapi.com
-0.0.0.0 tnc1-aliec2.zijieapi.com
-0.0.0.0 tnc1-aliec3.zijieapi.com
-0.0.0.0 tnc1-alisc1.zijieapi.com
-0.0.0.0 tnc1-alisc2.zijieapi.com
-0.0.0.0 tnc1-alisc3.zijieapi.com
-0.0.0.0 tnc2-aliec1.zijieapi.com
-0.0.0.0 tnc2-aliec2.zijieapi.com
-0.0.0.0 tnc2-aliec3.zijieapi.com
-0.0.0.0 tnc2-alisc1.zijieapi.com
-0.0.0.0 tnc2-alisc2.zijieapi.com
-0.0.0.0 tnc2-alisc3.zijieapi.com
-0.0.0.0 tnc3-aliec1.zijieapi.com
 0.0.0.0 tnc3-aliec2.zijieapi.com
-0.0.0.0 tnc3-aliec3.zijieapi.com
 0.0.0.0 tnc3-alisc1.zijieapi.com
-0.0.0.0 tnc3-alisc2.zijieapi.com
-0.0.0.0 tnc3-alisc3.zijieapi.com
 0.0.0.0 tnc3-bjlgy.snssdk.com
 0.0.0.0 tracker.xiaomixiaoai.com
 0.0.0.0 ulogs.umeng.com
-0.0.0.0 v100-bd-daily-reading-ad.qznovelvod.com
-0.0.0.0 v100-reading-ad.qznovelvod.com
-0.0.0.0 v100-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v100-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v11-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v11-reading-ad.qznovelvod.com
-0.0.0.0 v11-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v11-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v13-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v13-reading-ad.qznovelvod.com
-0.0.0.0 v13-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v13-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v26-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v26-reading-ad.qznovelvod.com
-0.0.0.0 v26-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v26-se-sjy-daily-reading-ad.qznovelvod.com
 0.0.0.0 v5-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v5-reading-ad.qznovelvod.com
-0.0.0.0 v5-se-daily-reading-ad.qznovelvod.com
 0.0.0.0 v5-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v6-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v6-reading-ad.qznovelvod.com
-0.0.0.0 v6-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v6-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v7-bd-daily-reading-ad.qznovelvod.com
-0.0.0.0 v7-reading-ad.qznovelvod.com
-0.0.0.0 v7-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v7-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v9-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v9-reading-ad.qznovelvod.com
-0.0.0.0 v9-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v9-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v95-bd-daily-reading-ad.qznovelvod.com
-0.0.0.0 v95-reading-ad.qznovelvod.com
-0.0.0.0 v95-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v95-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v96-bd-daily-reading-ad.qznovelvod.com
 0.0.0.0 v96-reading-ad.qznovelvod.com
-0.0.0.0 v96-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v96-se-sjy-daily-reading-ad.qznovelvod.com
-0.0.0.0 v99-bd-daily-reading-ad.qznovelvod.com
-0.0.0.0 v99-reading-ad.qznovelvod.com
-0.0.0.0 v99-se-daily-reading-ad.qznovelvod.com
-0.0.0.0 v99-se-sjy-daily-reading-ad.qznovelvod.com
 0.0.0.0 vas-lf-x.snssdk.com
 0.0.0.0 webcast5-open-hl.douyin.com
 0.0.0.0 webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net

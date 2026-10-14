@@ -11,8 +11,8 @@ case "$1" in
     tail -f "$LOG"
     ;;
   ad)
-    # 只看被黑洞拦下的（config → 0.0.0.0）
-    grep -E "config .*is 0\.0\.0\.0" "$LOG" | tail -${2:-30}
+    # 只看被拦下的（config → NXDOMAIN，address=/X/ 空尾写法）
+    grep -E "config .*is NXDOMAIN" "$LOG" | tail -${2:-30}
     ;;
   dev)
     # 各设备查询量排行（谁在用）
