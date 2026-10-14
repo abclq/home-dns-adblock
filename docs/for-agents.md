@@ -264,6 +264,10 @@ DNS 健康度实测：单查询中位 25ms，并发 300 最慢 361ms。
 - **修 2 个坏脚本**：`verify.sh` / `adblock-helper.sh` 还在按「答 `0.0.0.0`」判断拦截成功 —— 但线上早就是
   `address=/X/`（NXDOMAIN 写法）→ 脚本**永远报 fail / 一条都抓不到**。已改成看 NXDOMAIN，
   并且**加了「本地 NXDOMAIN 且上游 NOERROR 才算我们拦的」逻辑**（否则域本身不存在也会被误判成拦截成功）。
+- **修 2 个脚本的路径 bug**（云机没报，本机跑才暴露）：`verify.sh` / `adblock-helper.sh` 把配置目录写死成
+  `/etc/dnsmasq-adblock`，但本机实际在 `~/.hermes/dns` → 必然误报「规则文件不存在 / 日志不存在」，
+  `ad` 命令一条都抓不到。已改成**自动定位**：环境变量 → 从正在跑的 dnsmasq 读 `-C` 参数 → 才退回默认路径。
+  → 改完 `verify.sh` **12 项全过**（之前 3 项 fail）。
 - **修 6 处过时数字/文档**：`adblock-fq.conf` 文件头 199→51、`dnsmasq.conf.example` 第 22 行、`dist/` 旧 zip、
   `domain-list.md` 的展开描述、`README.md` 架构图「答 0.0.0.0」→ NXDOMAIN、`export_lists.py` 注释 `address=/domain/#`。
   `update_counts.py` 补了 config/ 文件头和 example 的规则，以后自动刷。

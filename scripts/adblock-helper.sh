@@ -1,9 +1,19 @@
 #!/bin/bash
 # 红果广告拦截 —— 抓包速查工具
 # 用法: adblock-helper.sh {live|ad|dev|suspect|top|mark|reset}
-LOG=/etc/dnsmasq-adblock/queries.log
-DIR=/etc/dnsmasq-adblock
-MARK=$DIR/.mark
+#
+# 配置目录自动定位：优先环境变量 DIR，其次从正在跑的 dnsmasq 读 -C 参数，
+# 最后退回默认安装路径。（之前写死 /etc/dnsmasq-adblock，本机跑会找不到日志）
+if [ -z "${DIR:-}" ]; then
+  _RUN_CONF=$(pgrep -x dnsmasq -a 2>/dev/null | grep -oE '\-C [^ ]+' | head -1 | awk '{print $2}')
+  if [ -n "${_RUN_CONF:-}" ] && [ -f "$_RUN_CONF" ]; then
+    DIR=$(dirname "$_RUN_CONF")
+  else
+    DIR=/etc/dnsmasq-adblock
+  fi
+fi
+LOG="$DIR/queries.log"
+MARK="$DIR/.mark"
 
 case "$1" in
   live)
