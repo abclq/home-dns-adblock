@@ -33,8 +33,8 @@
 
 - **86** = 精确规则条数（`config/adblock-fq.conf` 51 条 + `config/adblock-extra.conf` 可导出 34 条）
 - **36** = dnsmasq 实际加载的 extra 条数（比 34 多一条 `_dns.resolver.arpa`，屏蔽 DDR 发现；导出第三方格式时会跳过 `_` 开头）
-- **928** = 上游社区规则条数（自动同步）
-- **1011** = 去重后合计
+- **927** = 上游社区规则条数（自动同步）
+- **1010** = 去重后合计
 
 数字改动后跑 `python3 scripts/update_counts.py` 自动刷新文档里的计数，别手改。
 
