@@ -35,7 +35,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 ```
 
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
-监听 `192.168.1.88:53` + `100.64.0.1:53`（Tailscale，给手机在外用）
+监听 `192.168.1.88:53` + `100.x.y.z:53`（Tailscale，给手机在外用）
 
 **当前条数基线**（改完拿这个对）：`fq 51 / extra 36 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 

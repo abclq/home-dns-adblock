@@ -27,6 +27,22 @@ python3 scripts/export_lists.py
 而**反复重试**（实测某广告域 20 分钟被重试 206 次）；NXDOMAIN 则让 App **立刻放弃**，重试归零。
 需要 dnsmasq ≥ 2.86（2020 年发布）。若你的版本更老，把 `/domain/` 改回 `/domain/#` 即可。
 
+**关于 `_dns.resolver.arpa`（DDR 加固，可选但推荐）**：本机配置里有 `address=/_dns.resolver.arpa/`，
+作用是**阻止 Android / iOS 自动升级到加密 DNS（DoH / DoT）**。一旦设备自己升级了，它的解析就
+完全不经过你的 DNS —— 规则再多也拦不住、日志里也看不见。拦掉这条，设备会回落到系统 DNS（= 你的）。
+
+**这条没有出现在上面的导出文件里**：下划线开头的名字在 hosts / AdGuard 等格式中语法不合法，
+部分工具会拒绝整个文件，所以 `scripts/export_lists.py` 统一把下划线开头的名字排除了。
+
+**用 dnsmasq 的话，手工加一行就能启用**：
+
+```conf
+address=/_dns.resolver.arpa/
+```
+
+> 因此数字上会差一条：本机 `config/` 合计 **86** 条唯一域名，而 `dist/dnsmasq-adblock.conf`
+> 是 **85** 条 —— 差的就是这一条（`_dns.resolver.arpa`）。这是刻意设计，不是漏导。
+
 ## 快速用法
 
 **AdGuard Home**：过滤器 → DNS 黑名单 → 添加 URL 订阅

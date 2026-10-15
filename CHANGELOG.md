@@ -52,8 +52,8 @@
 ### 安全
 
 - **公开仓库脱敏（34 处）**
-  - 本机绝对路径 `/home/wang/...` → `~/...`；脚本改用 `os.path.expanduser()` / `$HOME`（不是简单替换，否则跑坏）
-  - 家庭内网 IP `192.168.31.x` → `192.168.1.x`
+  - 本机绝对路径（含系统用户名）→ `~/...`；脚本改用 `os.path.expanduser()` / `$HOME`（不是简单替换，否则跑坏）
+  - 家庭内网 IP → `192.168.x.x`
   - Tailscale 地址 → `100.64.0.x` 占位符
   - 派活邮箱地址从公开仓库移除（云机按「发件人 + 主题前缀」认派活邮件，公开地址等于告诉别人该冒充谁）
 - `config/adblock-extra.conf` 的**本机同步源同步修改**，否则下次同步会把脱敏改动盖回去
@@ -71,7 +71,7 @@
 | `dnsmasq --test` | ✓ 语法检查 OK |
 | `update_counts.py` 幂等 | ✓ 复跑刷新 0 处 |
 | `update_counts.py` 覆盖 | ✓ 把徽章和 `docs/README.md` 数字故意改成 99，复跑全部刷回真实值（20 处）|
-| 脱敏回读 | ✓ `/home/wang` / `192.168.31.x` / Tailscale / 邮箱 全库剩余 **0** 处 |
+| 脱敏回读 | ✓ 本机路径 / `192.168.x.x` / Tailscale / 邮箱 全库剩余 **0** 处 |
 | `gen_rules.py` / `sync_local.sh` | ✓ 改完仍可跑（`ast.parse` + `bash -n` 通过）|
 | 条数三方对齐 | ✓ fq 51 / extra 34(导出)·35(加载) / upstream 928 / dist 85 |
 | 本机线上规则 | ✓ 零改动（只改注释，`dnsmasq --test` 通过）|
