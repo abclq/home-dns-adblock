@@ -105,7 +105,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 
 ```
                     ┌──────────────── 在家 ────────────────┐
-   手机 / 平板 / 电脑 ── WiFi ──> 192.168.1.2:53 (dnsmasq)
+   手机 / 平板 / 电脑 ── WiFi ──> 192.168.x.x:53 (dnsmasq)
                                               │
                                               ├─ 命中黑名单 → 答 NXDOMAIN  ← 广告被拦
                                               └─ 其余       → 转发上游 DNS ← 正常上网
@@ -185,7 +185,7 @@ sudo cp config/dnsmasq.conf.example /etc/dnsmasq-adblock/dnsmasq.conf
 **改配置里的三处**（`config/dnsmasq.conf.example` 已标注）：
 
 ```conf
-listen-address=192.168.1.2        # ← 改成你主机的内网 IP
+listen-address=192.168.x.x        # ← 改成你主机的内网 IP
 log-facility=/etc/dnsmasq-adblock/queries.log
 dns-forward-max=2000             # 并发转发上限（红果启动会爆发几百查询）
 conf-file=/etc/dnsmasq-adblock/adblock-fq.conf
@@ -201,7 +201,7 @@ sudo systemctl enable --now dnsmasq-home.service
 systemctl status dnsmasq-home.service     # 看到 active (running) 即可
 ```
 
-> 💡 以上 1、启动 两步可以直接用一键脚本：`sudo ./scripts/install.sh 192.168.1.2`
+> 💡 以上 1、启动 两步可以直接用一键脚本：`sudo ./scripts/install.sh 192.168.x.x`
 > —— 有 systemd 时自动装好 `dnsmasq-home.service`；没有 systemd（如 OpenWrt）时回退为
 > `sudo dnsmasq -C /etc/dnsmasq-adblock/dnsmasq.conf` 裸进程启动（无自愈、无开机自启）。
 
@@ -212,10 +212,10 @@ systemctl status dnsmasq-home.service     # 看到 active (running) 即可
 
 | 设备 | 操作 |
 |------|------|
-| **iPhone / iPad** | 设置 → 无线局域网 → ⓘ → 配置 DNS → 手动 → 删掉原有条目，**只留** `192.168.1.2` |
-| **Android** | 设置 → 网络 → 私人 DNS（关闭）→ WiFi 详情 → IP 设置 → 静态 → DNS1 填 `192.168.1.2` |
-| **Windows** | 网卡属性 → IPv4 → 使用下面的 DNS → 首选 `192.168.1.2` |
-| **路由器（推荐）** | DHCP 下发的 DNS 改成 `192.168.1.2`，全屋设备自动生效 |
+| **iPhone / iPad** | 设置 → 无线局域网 → ⓘ → 配置 DNS → 手动 → 删掉原有条目，**只留** `192.168.x.x` |
+| **Android** | 设置 → 网络 → 私人 DNS（关闭）→ WiFi 详情 → IP 设置 → 静态 → DNS1 填 `192.168.x.x` |
+| **Windows** | 网卡属性 → IPv4 → 使用下面的 DNS → 首选 `192.168.x.x` |
+| **路由器（推荐）** | DHCP 下发的 DNS 改成 `192.168.x.x`，全屋设备自动生效 |
 
 > ★ **iOS 上只留一个 DNS**，混入 `1.1.1.1` 之类在国内不通的条目会导致断网。
 
@@ -357,7 +357,7 @@ tail -f /etc/dnsmasq-adblock/queries.log
 grep "NXDOMAIN" /etc/dnsmasq-adblock/queries.log | tail -30
 
 # 某台设备在查什么
-grep "from 192.168.1.150" /etc/dnsmasq-adblock/queries.log | tail -50
+grep "from 192.168.x.x" /etc/dnsmasq-adblock/queries.log | tail -50
 
 # 重新生成规则后让 dnsmasq 生效（SIGHUP 不重读规则，必须 restart）
 sudo systemctl restart dnsmasq-home.service

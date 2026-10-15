@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # home-dns-adblock 一键部署脚本
 # 用法: sudo ./scripts/install.sh [内网IP]
-#   例: sudo ./scripts/install.sh 192.168.1.2
+#   例: sudo ./scripts/install.sh 192.168.x.x
 set -euo pipefail
 
 CONF_DIR=/etc/dnsmasq-adblock
@@ -31,7 +31,7 @@ if [ -z "$LAN_IP" ]; then
   LAN_IP="${INPUT:-$DETECTED}"
 fi
 if [ -z "$LAN_IP" ]; then
-  err "无法确定内网 IP，请手动指定: sudo $0 192.168.1.2"
+  err "无法确定内网 IP，请手动指定: sudo $0 192.168.x.x"
   exit 1
 fi
 ok "使用内网 IP: $LAN_IP"

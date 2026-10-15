@@ -7,7 +7,7 @@
 
 set -u
 
-PHONE="${1:-192.168.1.170}"        # ← 改成手机 IP
+PHONE="${1:?请传手机 IP，例: ./hg_autostop.sh 192.168.x.x}"        # ← 改成手机 IP
 D="${2:-/tmp}"                     # ← pcap 所在目录
 
 {

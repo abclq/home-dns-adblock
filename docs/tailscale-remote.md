@@ -69,7 +69,7 @@ sudo systemctl restart dnsmasq-home.service
 
 # 验证：应该看到两个监听地址
 ss -tulnp | grep :53
-#  192.168.1.2:53   ← 局域网
+#  192.168.x.x:53   ← 局域网
 #  100.x.y.z:53     ← ★ Tailscale
 ```
 
@@ -200,7 +200,7 @@ grep "config .* is NXDOMAIN" /etc/dnsmasq-adblock/queries.log | tail -20
 ## 一句话总结
 
 ```
-在家：手机 WiFi ──► 192.168.1.2:53        （局域网直连，<1ms）
+在家：手机 WiFi ──► 192.168.x.x:53        （局域网直连，<1ms）
 在外：手机任意网 ──► Tailscale 隧道 ──► 100.x.y.z:53  （P2P 直连，~40ms）
                           ↓
                    同一份黑名单 & 同一份日志

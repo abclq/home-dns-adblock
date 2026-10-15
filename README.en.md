@@ -107,7 +107,7 @@ Three traps are documented in `docs/pitfalls.md`:
 ```bash
 git clone https://github.com/abclq/home-dns-adblock.git
 cd home-dns-adblock
-sudo ./scripts/install.sh 192.168.1.2   # your LAN IP
+sudo ./scripts/install.sh 192.168.x.x   # your LAN IP
 sudo ./scripts/verify.sh                # 11-point self check
 ```
 

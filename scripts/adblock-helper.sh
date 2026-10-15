@@ -71,12 +71,12 @@ PY
   one)
     # 只盯某一台设备：~/adblock-helper.sh one 150
     IP=${2:-150}
-    echo "  盯梢 192.168.1.$IP （Ctrl-C 退出）"
+    echo "  盯梢 192.168.x.$IP （Ctrl-C 退出）"
     tail -f "$LOG" | grep --line-buffered -E "from 192\.168\.31\.$IP($| )" | grep --line-buffered -vE "resolver.arpa|captive.apple|push.apple"
     ;;
   ad150)
     # .150 的广告域名组（按时间戳聚类，只看可疑的）
-    grep "from 192.168.1.150" "$LOG" | grep -E "bdurl|ad-sign|sinfonlinea|ugsdk|novel-sign|\.ad\.|ads[0-9]|douyinpic\.com$|bsgslb|byteimg" | tail -40
+    grep -E "from 192\.168\.[0-9]+\.[0-9]+" "$LOG" | grep -E "bdurl|ad-sign|sinfonlinea|ugsdk|novel-sign|\.ad\.|ads[0-9]|douyinpic\.com$|bsgslb|byteimg" | tail -40
     ;;
   mark|reset)
     wc -l < "$LOG" > "$MARK"

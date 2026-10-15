@@ -74,9 +74,9 @@ address=/ads3-normal-hl.zijieapi.com/
 DNS 日志长这样（每行一条）：
 
 ```
-Oct  5 16:54:12 dnsmasq[687996]: query[A] v11-reading-video.qznovelvod.com from 192.168.1.150
+Oct  5 16:54:12 dnsmasq[687996]: query[A] v11-reading-video.qznovelvod.com from 192.168.x.x
 Oct  5 16:54:12 dnsmasq[687996]: reply v11-reading-video.qznovelvod.com is 121.40.x.x
-Oct  5 16:54:13 dnsmasq[687996]: query[A] ads3-normal-hl.zijieapi.com from 192.168.1.150
+Oct  5 16:54:13 dnsmasq[687996]: query[A] ads3-normal-hl.zijieapi.com from 192.168.x.x
 Oct  5 16:54:13 dnsmasq[687996]: config ads3-normal-hl.zijieapi.com is NXDOMAIN
 ```
 
@@ -127,7 +127,7 @@ Oct  5 16:54:13 dnsmasq[687996]: config ads3-normal-hl.zijieapi.com is NXDOMAIN
 
 ### 3.1 问题：内网 IP 出不去
 
-本机的 DNS 监听地址是内网 IP（如 `192.168.1.2`）。这个地址**只在局域网内有意义** ——
+本机的 DNS 监听地址是内网 IP（如 `192.168.x.x`）。这个地址**只在局域网内有意义** ——
 手机在 4G 或别人家 WiFi 下，根本访问不到它。
 
 **为什么不能直接暴露到公网**：
@@ -235,7 +235,7 @@ grep "config .* is NXDOMAIN" queries.log | wc -l
 grep -oE "from [0-9.]+" queries.log | sort | uniq -c | sort -rn
 
 # 某台设备在看什么
-grep "from 192.168.1.150" queries.log | tail -50
+grep "from 192.168.x.x" queries.log | tail -50
 ```
 
 ### 5.2 为什么必须做日志轮转

@@ -1,7 +1,7 @@
 # 家庭 dnsmasq 去广告 —— 配置模板
 # 用法：复制到 /etc/dnsmasq-adblock/dnsmasq.conf，改标注的 3 处即可
 port=53
-listen-address=192.168.1.2          # ← 改①：你主机的内网 IP
+listen-address=192.168.x.x          # ← 改①：你主机的内网 IP
 bind-interfaces
 
 # 记录所有查询（排查广告域的关键数据源）

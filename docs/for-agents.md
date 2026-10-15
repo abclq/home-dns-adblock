@@ -35,7 +35,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 ```
 
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
-监听 `192.168.1.88:53` + `100.x.y.z:53`（Tailscale，给手机在外用）
+监听 `192.168.x.x:53` + `100.x.y.z:53`（Tailscale，给手机在外用）
 
 **当前条数基线**（改完拿这个对）：`fq 51 / extra 36 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
 
@@ -159,8 +159,8 @@ sudo systemctl restart dnsmasq-home.service
 systemctl is-active dnsmasq-home.service                        # active
 
 # 5. ★ 双向验证 —— 只证明"新规则生效"不够，必须同时证明"没误伤"
-dig +short @192.168.1.88 <新拦的域>        # 必须 NXDOMAIN（+short 为空）
-dig @192.168.1.88 <白名单正片域>           # 必须 NOERROR（如 v5-reading-video.qznovelvod.com）
+dig +short @192.168.x.x <新拦的域>        # 必须 NXDOMAIN（+short 为空）
+dig @192.168.x.x <白名单正片域>           # 必须 NOERROR（如 v5-reading-video.qznovelvod.com）
 
 # 6. 三方一致性核对（本地 / 仓库 / 生效）
 for f in adblock-fq.conf adblock-extra.conf whitelist.txt; do
@@ -186,7 +186,7 @@ done
 
 ```bash
 pgrep -ax dnsmasq || echo '❌ 服务没在跑'
-ss -lunp | grep '192.168.1.88:53'                          # 没有监听 = 没跑
+ss -lunp | grep '192.168.x.x:53'                          # 没有监听 = 没跑
 ls -l --time-style=+%m-%d\ %H:%M ~/.hermes/dns/queries.log   # 0 字节 = 服务没在写
 ```
 
@@ -205,7 +205,7 @@ grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ 
 grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ ]+) is .*/\1/' | grep -iE 'vod|video|cdn|novel|sign'
 ```
 
-- 客户端 IP：手机 = `192.168.1.150`
+- 客户端 IP：手机 = `192.168.x.x`
 - **`config` vs `reply` 前缀必须分清** —— 巡检脚本抓 `reply` 会一条都抓不到
 
 ### 第三步：「卡一下」不是 DNS 问题
@@ -345,7 +345,7 @@ sudo dnsmasq --test -C ~/.hermes/dns/dnsmasq.conf
 grep -c '^address=' ~/.hermes/dns/adblock-*.conf
 
 # 查某域拦没拦
-dig @192.168.1.88 <域> | grep status
+dig @192.168.x.x <域> | grep status
 
 # 查误封（只抓我们拦的）
 grep 'config .* is NXDOMAIN' ~/.hermes/dns/queries.log | sed -E 's/.*config ([^ ]+) is .*/\1/' | sort | uniq -c | sort -rn | head -20

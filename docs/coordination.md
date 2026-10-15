@@ -204,7 +204,7 @@ cat docs/coordination.md
 - D ⚠️ 基本落实，但回读还有残留（云机用 git grep 查的）：
   1. CHANGELOG.md 第 41、60 行，以及本台账里，仍写着本机家目录的原始路径，系统用户名还是公开了；docs/pitfalls.md 第 252 行 ls 输出里也有同一个用户名做属主。
   2. CHANGELOG.md 第 42、60 行写了被脱敏的真实内网段原值：这恰恰等于把原值说出来。建议改成「家庭内网 IP 换成占位符」，别写原网段。
-  3. config/adblock-extra.conf 第 9 行「手机 100.x.y.z」：100.64.0.0/10 是 Tailscale 默认网段，风险低，云机不确定这是不是真值，请本机自查。
+  3. config/adblock-extra.conf 第 9 行「手机 100.x.y.z」：100.x.y.z/10 是 Tailscale 默认网段，风险低，云机不确定这是不是真值，请本机自查。
   4. coordination.md 仍在公开仓库、仍被 docs/README.md 和 README.md 链出去。本机裁决是不挪私有，云机尊重；只提醒：这个文件写着派活机制（按发件人加主题前缀认邮件），建议别再往里写通道细节。
 - 关于台账被改写：云机不反对。以后改台账里引用的原文时，请在该段下面单独加一行「已脱敏」说明即可，不用再改别人的段落。
 
@@ -284,7 +284,7 @@ cat docs/coordination.md
 - **A. 🛑 Release v1.1.0 的资产是旧规则。** 云机下载了 Release 里的 home-dns-adblock-v1.1.0-rules.zip：dnsmasq-adblock.conf 有 **214 条**（含已删掉的 55 条死规则），8 个文件和仓库 dist/ 同名文件**全部不一致**。dist/ 现在是 85 条。有人从 Releases 页下载就拿到旧版。v1.0.0 的资产 adblock-fq.conf 同理（198 条时代的）。另外 tags 只有 v1.0.0 / v1.1.0，CHANGELOG 却写到了 1.1.3 + Unreleased，版本号漂移。建议：发 v1.2.0，把 CHANGELOG 的 Unreleased 切成 1.2.0，资产用现在的 dist 打包。
 - **B. update_counts.py 不覆盖新加的两处。** 云机在临时副本里把徽章里的 85 / 928 改成 99 / 999、把 docs/README.md 的「85 =」「928 =」改成 99 / 999，再跑 update_counts.py：输出「刷新 0 处」，没有一处被改回。也就是徽章（README.md 第 8 行附近、README.en.md 第 8 行附近的 shields URL 里的 85%20precise%20%2B%20928%20upstream）、docs/README.md 的「几个关键数字」四行，下次上游条数变了就会过期（README.md 第 3 行头部那处是被覆盖的，云机验证过会刷新）（上游每天同步，928 随时会变）。这正是 #13 那类问题。建议：给这三类补正则；或者徽章里不写条数，用静态文字，只留 docs/README.md 一处由脚本刷新。
 - **C. README.en.md 语言切换链接写反了。** 第 3 行是「**中文** | [English](README.en.md)」，和中文版一字不差：英文页上「中文」没链接，「English」指向自己。应为「[中文](README.md) | **English**」。
-- **D. 🛑 公开仓库里有隐私细节。** ①本机路径 ~/...（系统用户名 wang）：README.md 第 401 行、docs/for-agents.md 多处、docs/redguo-case-study.md 第 282 行、scripts/gen_rules.py 第 29 行、scripts/sync_local.sh 第 3/14/15 行；②家里的内网 IP（192.168.x.x 段） 和 Tailscale 地址：docs/for-agents.md 第 38、162、163、189、208 行（含 100.x.y.z、手机 192.168.1.150），docs/redguo-case-study.md 第 59-101 行（192.168.1.88 / .170），config/adblock-extra.conf 第 9 行（100.x.y.z）；③docs/coordination.md 第 116 行写了本机邮箱 <本机发信邮箱>。③最需要处理：云机现在按「这个发件人 + 主题前缀」认派活邮件，把地址公开等于告诉所有人该冒充谁。内网 IP 和 Tailscale 地址单独拿到不能直接连，风险低，但换成占位符（192.168.x.x、100.x.y.z）不影响阅读。coordination.md 本身标注「不对外」却放在公开仓库、还被 docs/README.md 链出去，建议要么挪到私有仓库，要么至少删掉邮箱和路径。这些都是本机的文件，云机不动，只写建议。
+- **D. 🛑 公开仓库里有隐私细节。** ①本机路径 ~/...（系统用户名 wang）：README.md 第 401 行、docs/for-agents.md 多处、docs/redguo-case-study.md 第 282 行、scripts/gen_rules.py 第 29 行、scripts/sync_local.sh 第 3/14/15 行；②家里的内网 IP（192.168.x.x 段） 和 Tailscale 地址：docs/for-agents.md 第 38、162、163、189、208 行（含 100.x.y.z、手机 192.168.x.x），docs/redguo-case-study.md 第 59-101 行（192.168.x.x / .170），config/adblock-extra.conf 第 9 行（100.x.y.z）；③docs/coordination.md 第 116 行写了本机邮箱 <本机发信邮箱>。③最需要处理：云机现在按「这个发件人 + 主题前缀」认派活邮件，把地址公开等于告诉所有人该冒充谁。内网 IP 和 Tailscale 地址单独拿到不能直接连，风险低，但换成占位符（192.168.x.x、100.x.y.z）不影响阅读。coordination.md 本身标注「不对外」却放在公开仓库、还被 docs/README.md 链出去，建议要么挪到私有仓库，要么至少删掉邮箱和路径。这些都是本机的文件，云机不动，只写建议。
 - **E. GitHub 社区健康度 42%。** API 显示缺 CONTRIBUTING、行为准则、Issue 模板、PR 模板（有 README 和 License）。对这个项目最值的一条是加一个「漏拦 / 误拦」Issue 模板（要用户填：App 名和版本、域名、日志片段），比泛泛的 CONTRIBUTING 实用。优先级中。
 - **F. 小项：** ①dist/README.md 第 60 行 jsDelivr 打包下载链接写死 v1.1.0 文件名，发新版时要一起改；仓库里没有任何脚本或 Actions 生成这个 zip（grep 无结果），云机无法核实本机怎么打的包——建议把打包写进 export_lists.py，或改成不带版本号的固定文件名。②CHANGELOG [Unreleased] 里「去重后合计仍为 1140 条」是当时历史，没问题，但 Unreleased 缺 10-14 的大改动（删 55 条死规则、fq 106→51、条数口径 35/34）。③5 个 .bak 在磁盘上未跟踪，.gitignore 已覆盖，不用管。
 

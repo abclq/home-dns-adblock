@@ -2,7 +2,7 @@
 # 无 root 安卓手机抓包：ARP 劫持 + tcpdump（只存前 500 字节/包，够拿 DNS+SNI）
 #
 # 用法: sudo ./hg_capture.sh <输出.pcap> [手机IP] [网关IP] [网卡]
-# 示例: sudo ./hg_capture.sh /tmp/hg.pcap 192.168.1.170 192.168.1.1 enp2s0
+# 示例: sudo ./hg_capture.sh /tmp/hg.pcap 192.168.x.x 192.168.x.x enp2s0
 #
 # 前置: sudo apt install -y dsniff tcpdump
 # 说明: 抓包期间手机流量绕经本机（会变慢）；收尾必须跑 hg_autostop.sh
@@ -11,8 +11,8 @@
 set -u
 
 OUT="${1:-/tmp/hg_capture.pcap}"
-PHONE="${2:-192.168.1.170}"                                  # ← 改成手机 IP
-GW="${3:-192.168.1.1}"                                       # ← 改成网关 IP
+PHONE="${2:?请传手机 IP}"                                  # ← 改成手机 IP
+GW="${3:?请传网关 IP}"                                       # ← 改成网关 IP
 IFACE="${4:-$(ip route | awk '/default/{print $5; exit}')}"
 
 echo "[*] 手机 $PHONE  网关 $GW  网卡 $IFACE"
