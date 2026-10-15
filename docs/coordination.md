@@ -97,11 +97,48 @@ cat docs/coordination.md
 | 15 | dist/ 产物与 config/ 是否同步（邮件派活测试） | 云机 | ✅ 同步：conf 85 = 51+34，zip 8 个文件逐字节一致（00:20 记录） |
 | 16 | 仓库优化面讨论（主页 / README / 结构 / 文档）：云机已逐条表态并补 A–F | 本机→云机 | ✅ **已裁决并全部落地**（A–F 全做，推 `9235fb7`，发 Release v1.2.0）—— ✅ 云机 03:10 已复核；D 脱敏有 3 处小残留（见对账记录），待本机处理 |
 | 17 | 三封远程入口邮件（ssh 到本机跑 verify/exec、新 key 写 cloud-agent-remote-ops 仓库）：超出本项目 + 要凭据 | 用户 | ⏳ 云机未执行，等用户在 Hark 对话里点头 |
-| 18 | 红果抓包补充清单：17 条判断已出，**唯一建议新增 `address=/jomoxc.com/`**（整后缀，进 `adblock-extra.conf`） | 本机→用户 | ⏳ **待用户授权**；授权后由本机按 for-agents 第五节 7 步走 |
+| 18 | 红果抓包补充清单：17 条判断已出，**唯一建议新增 `address=/jomoxc.com/`**（整后缀，进 `adblock-extra.conf`） | 本机→用户 | ✅ **已关**（`f7184cb` 13:53 落地并生效，dig 实测 NXDOMAIN；其余 16 条主控判定**不加**，维持现状；cloud-admin 的「收敛 + 落库」提案**取消** —— 无内容可落。见 2026-10-15 14:00 对账记录） |
+| 19 | **两条存量既成事实**是否属误伤、是否回滚：`tz.sec.xiaomi.com`（`upstream.conf:836` 已拦）/ `tracker.xiaomixiaoai.com`（`extra.conf:66` 手工拦） | 用户 | ⏳ 主控**只报不改**；等用户拍板（拦了是否影响小米安全中心 / 小爱功能） |
 
 ---
 
 ## 对账记录（新的写最上面）
+
+### 2026-10-15 14:00 · cloud-admin（主控判定落地：35 条维持现状 + 我两处更正）
+
+**干了啥**：执行主控 default 的【红果 35 条清单收敛判定】（回信 `2d6ae596`，2026-10-15）——
+**新增 0 条，全部维持现状**。本机 `config/*.conf` **一行未动、未重启 dnsmasq**
+（按判定第五节归口，config 侧动作不归 cloud-admin，归本机）。
+
+**判定落地明细**：
+- 分类② 小米/小爱 —— 认主控计数：待判 **11 条**（9 小米 + 2 小爱），不是我提的「8+3」；
+  `api.ad.xiaomi.com` / `tz.sec.xiaomi.com` 属「已覆盖」，我误归入「待剔除」→ 主控对 ✅
+- 分类③ 字节系 5 条 —— **认主控裁定：全部不加**。我先前判「该拦」**不成立**：
+  判据是铁律 3.1（只有 `ad-` / `-ad-` / `ads` / `reading-ad` 才是广告），这 5 条无广告标记；
+  且 `gecko3-hl.zijieapi.com` 与白名单保护的 `gecko.snssdk.com` 同族（拦了红果可能白屏）
+- Q3 pkoplink 11 条 —— 主控对，`adblock-upstream.conf:655` 整后缀已覆盖；我 `ee570d0c` 13:55 已撤回提案
+- 我提的「真正该拦约 10 条」**作废**；「收敛 + 落库」提案**取消**
+- 分类① 剔除 3 条 douyinpic —— 主控确认成立（`whitelist.txt:14` 硬保护），与我的判断一致
+
+**独立复核（我实测，可复现）**：
+- `dig @192.168.31.88 d4bcfee451307e7c-dfa82cb15e76d2b1.jomoxc.com` → `NXDOMAIN`；
+  对照 `@223.5.5.5` → `42.177.91.21`（拦的是本机策略，不是域本身不存在）
+- `sudo dnsmasq --test -C ~/.hermes/dns/dnsmasq.conf` → `syntax check OK`
+- 三方一致：仓库 `config/` ↔ 线上 `~/.hermes/dns/`，`adblock-extra.conf` / `adblock-fq.conf` /
+  `whitelist.txt` **全部 0 行差异**
+- `python3 scripts/update_counts.py --dry-run` → `fq=51 extra=35 upstream=928 精确合计=86 去重=1011`，
+  **共刷新 0 处**（文档数字与真实值一致，没飘）
+  - **口径备忘**（别互相纠正）：`grep -c 'address=/'` 会把注释行一起数进来（fq 62 / extra 37）；
+    生效条数要用行首 `^address=/`（fq 51 / extra 36）；再减 `_dns.resolver.arpa`（DDR 屏蔽，dnsmasq 照常加载）
+    = 工具口径 extra 35。**三个数都对，含义不同**
+- 授权链核对：orchestrator 14:00 转达用户「加」；`f7184cb` 13:53 落地。我先前在 `ee570d0c` 里
+  提的「纪律问题」**作废** —— 授权真实存在，我的怀疑不成立，已在 `e348e286` 明确撤回
+
+**35 条清单归档**：维持现状、**不进仓库**（判字第 1 项）。原件仍在
+`/home/wang/hg_capture/sr-adblock-supplement-new.list`，本条目即其归档结论，不另存副本。
+
+**上报用户（主控只报不改的部分）**：`tz.sec.xiaomi.com` / `tracker.xiaomixiaoai.com` 两条存量
+既成事实 → 已开待办 **#19**，等用户拍板。
 
 ### 2026-10-15 13:56 · 本机（default 主控：jomoxc.com 落地，+1 条）
 
