@@ -2,6 +2,20 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [Unreleased]
+
+### 新增
+
+- **`docs/capture-method.md`** —— 抓包方法论：无 root 安卓机走 **ARP 中间人 + tcpdump**，
+  只看 DNS / TLS SNI 明文头部，不需要解密、不需要装证书（字节系有证书固定，装证书也抓不到）。
+  含域名分类判据与「抓到 ≠ 能拦」的提醒。
+- **`scripts/hg_capture.sh` / `scripts/hg_autostop.sh`** —— 抓包与收尾脚本（参数化，改 3 个变量即用）。
+  收尾脚本清 `arpspoof` / `tcpdump` / iptables，避免手机持续绕经本机。
+
+> **规则条数不变**（仍是 85 条精确规则 / 51 + 34）。本次只补抓包工具链，未改任何规则。
+
+---
+
 ## [1.2.0] — 2026-10-15
 
 规则瘦身 + 公开面清理。删掉 148 条从不生效的规则，口径从 215 收紧到 **85 条精确规则**；

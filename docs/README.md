@@ -19,6 +19,7 @@
 | [coordination.md](coordination.md) | 本机 ↔ 云机的协作台账：谁在干嘛、待办、已关项 |
 | [principles.md](principles.md) | 设计原则：为什么这么封、为什么不那么封 |
 | [pitfalls.md](pitfalls.md) | 踩过的坑合集：每条都带「错在哪 / 怎么改」 |
+| [capture-method.md](capture-method.md) | **怎么抓包**：无 root 安卓机 ARP 中间人 + tcpdump（配 `scripts/hg_capture.sh`） |
 
 ## 我想看它是怎么想出来的
 
