@@ -24,3 +24,5 @@ api3-normal-sinfonlinea.fqnovel.com
 # ── 基础设施（DNS / 时间 / 证书）──
 apple.com
 icloud.com
+# 小米系统服务（ALB 真身 matrix-pub-c3-c4.alb.xiaomi.com，2026-10-15 从上游列表豁免）
+tz.sec.xiaomi.com
