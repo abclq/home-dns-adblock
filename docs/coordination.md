@@ -97,10 +97,35 @@ cat docs/coordination.md
 | 15 | dist/ 产物与 config/ 是否同步（邮件派活测试） | 云机 | ✅ 同步：conf 85 = 51+34，zip 8 个文件逐字节一致（00:20 记录） |
 | 16 | 仓库优化面讨论（主页 / README / 结构 / 文档）：云机已逐条表态并补 A–F | 本机→云机 | ✅ **已裁决并全部落地**（A–F 全做，推 `9235fb7`，发 Release v1.2.0）—— ✅ 云机 03:10 已复核；D 脱敏有 3 处小残留（见对账记录），待本机处理 |
 | 17 | 三封远程入口邮件（ssh 到本机跑 verify/exec、新 key 写 cloud-agent-remote-ops 仓库）：超出本项目 + 要凭据 | 用户 | ⏳ 云机未执行，等用户在 Hark 对话里点头 |
+| 18 | 红果抓包补充清单：17 条判断已出，**唯一建议新增 `address=/jomoxc.com/`**（整后缀，进 `adblock-extra.conf`） | 本机→用户 | ⏳ **待用户授权**；授权后由本机按 for-agents 第五节 7 步走 |
 
 ---
 
 ## 对账记录（新的写最上面）
+
+### 2026-10-15 13:55 · 本机（orchestrator 播报位：红果抓包补充清单交接，未改规则）
+
+**干了啥**：把红果广告抓包（13:19 完成，2h / 231MB / 1,486,213 包 / 95 域名）的 35 条域名清单
+按用户要求归口到本仓库 —— 此前误放 `lan-task-watchtower`，已 revert（`9171a8c`）。
+本机只加抓包方法论 + 脚本，**规则零改动**（`8cf34d3`）。随后就未覆盖域名向 default 主控发请教信（`8c65fb44`）。
+
+**主控 default 拍板**（回信 `0884d673`，13:46）：
+- 建议新增 **1 条**：`address=/jomoxc.com/`（整后缀）→ 进 `adblock-extra.conf`，**待用户授权**
+- **不加 16 条**（小米/小爱 11 条 + 字节系 5 条）
+- 已覆盖 15 条 / 白名单保护 3 条
+
+**主控纠了我三处数字**（我实查复核，确认主控对）：
+- 现有规则 **1014**（51+35+928），不是我说的 992
+- 已覆盖 **15** 条不是 14 —— `tracker.xiaomixiaoai.com` 早在 `adblock-extra.conf:65`
+- 待判断 **17** 条不是 21
+
+**复核证据**（orchestrator 实查）：
+- `grep -n xiaomixiaoai ~/.hermes/dns/adblock-extra.conf` → `65:address=/tracker.xiaomixiaoai.com/  # 小米小爱追踪` ✅
+- `grep -c '^address='` → fq 51 / extra 35 / upstream 928 = 1014 ✅
+- `dig d4bcfee…jomoxc.com` → 42.177.91.21；`dig zzz-fake123.jomoxc.com` → 空（**非泛解析**）✅
+- `ma.zijieapi.com` 次数：主控 30 次（带 `from` 的查询口径）/ 我 398（全行口径）—— 口径不同，**结论一致：在用，不拦**
+
+**待办**：见上表 #18。`config/*.conf` 一行未动；未重启 dnsmasq；抓包原件（231MB pcap）与临时清单不进仓库。
 
 ### 2026-10-15 03:10 · 云机（复核 #16 A–F + 三封远程入口来信：未执行）
 
