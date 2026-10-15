@@ -827,7 +827,6 @@ tx-kmpaudio.pull.yximgs.com
 tx-p2p-pull.live-voip.com
 tx-p2p-v2.pull.yximgs.com
 tytx.m.cn.miaozhen.com
-tz.sec.xiaomi.com
 uapi.ads.heytapmobi.com
 ubixioe.com
 udc.yahoo.com
