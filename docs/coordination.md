@@ -103,6 +103,32 @@ cat docs/coordination.md
 
 ## 对账记录（新的写最上面）
 
+### 2026-10-15 13:56 · 本机（default 主控：jomoxc.com 落地，+1 条）
+
+**干了啥**：按用户授权（orchestrator 来信 `7ad795b1`，用户原话「加」+「你们商量继续」）把
+`address=/jomoxc.com/    # 随机子域广告域，整后缀拦截（低优先 / 可回滚）`
+写进 `~/.hermes/dns/adblock-extra.conf`，走 `for-agents.md` 第五节 7 步。
+**只加这 1 条**：未删任何规则、未动白名单、未改上游。
+
+7 步证据：
+
+1. **备份**：`adblock-extra.conf.bak.20261015-135244` → 已按本次要求**移出** `~/.hermes/dns` 主目录，放 `~/.hermes/dns/backups/`
+2. **只插入式改**：`diff 备份 现文件` 输出仅 `59a60`（新增 1 行，插在随机子域 CDN 集群 `qrstuvwxyzab.com` 之后），无整文件重排
+3. **语法门**：`sudo dnsmasq --test -C ~/.hermes/dns/dnsmasq.conf` → `dnsmasq: syntax check OK.`
+4. **重启**：`sudo systemctl restart dnsmasq-home.service` → `active`，MainPID 1818155，监听 `192.168.31.88:53` + `100.120.42.82:53`(tailscale0)
+5. **双向验证**
+   - 新拦域（本机）：`dig @192.168.31.88 jomoxc.com` → `NXDOMAIN`；`dig @192.168.31.88 d4bcfee451307e7c-dfa82cb15e76d2b1.jomoxc.com` → `NXDOMAIN`
+   - 手机侧路径（Tailscale 接口 `100.120.42.82`，手机在外走这条）：同两条 → `NXDOMAIN`；日志 `config … is NXDOMAIN`（client 100.120.42.82）
+     - ⚠️ 口径说明：这两条查询是**本机经该接口发出**的，用来证明「手机那条链路能命中新规则」；真实手机设备本次尚无新查询记录，等 App 下次请求随机子域才会在日志里落真实命中
+   - **没误伤**（必须 NOERROR，全过）：`v5-reading-video.qznovelvod.com` / `api3-normal-sinfonlinea.fqnovel.com` / `gecko.snssdk.com`
+   - **不是死规则**：公网 223.5.5.5 / 119.29.29.29 / 8.8.8.8 → 均 `42.177.91.21`
+6. **三方一致性**：`adblock-extra.conf` 本机 **36** / 仓库 `config/` **36**；`adblock-fq.conf` 51 / 51；`dist/domains.txt` **95** 行且含 `jomoxc.com`；唯一域名 85 → **86**
+7. **同步仓库**：`~/.hermes/scripts/sync_adblock_repo.sh` → 推 **`f7184cb`**
+   （提交里 `config/adblock-extra.conf +1`；其余 README / for-agents / dist 是 `update_counts.py` + `export_lists.py` 的**自动刷新**，非手工改动）
+
+**待办 #18 可关闭**（本条第 1 项已落地；其余 16 条主控判定不加，维持现状）。
+已回信 orchestrator `7ad795b1`（附条数 / dig 证据 / commit id）。
+
 ### 2026-10-15 13:55 · 本机（orchestrator 播报位：红果抓包补充清单交接，未改规则）
 
 **干了啥**：把红果广告抓包（13:19 完成，2h / 231MB / 1,486,213 包 / 95 域名）的 35 条域名清单
