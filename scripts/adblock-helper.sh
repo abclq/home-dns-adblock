@@ -71,8 +71,12 @@ PY
   one)
     # 只盯某一台设备：~/adblock-helper.sh one 150
     IP=${2:-150}
-    echo "  盯梢 192.168.x.$IP （Ctrl-C 退出）"
-    tail -f "$LOG" | grep --line-buffered -E "from 192\.168\.31\.$IP($| )" | grep --line-buffered -vE "resolver.arpa|captive.apple|push.apple"
+    # 网段自动从默认路由探测（不硬编码家里网段），探测不到再退回常见网段
+    NET=$(ip -4 route show default 2>/dev/null | grep -oE '(192\.168|10|172\.(1[6-9]|2[0-9]|3[01]))\.[0-9]+\.[0-9]+' | head -1)
+    [ -z "$NET" ] && NET="192.168.1"
+    NETESC=$(printf '%s' "$NET" | sed 's/\./\\./g')
+    echo "  盯梢 $NET.$IP （Ctrl-C 退出）"
+    tail -f "$LOG" | grep --line-buffered -E "from ${NETESC}\\.$IP($| )" | grep --line-buffered -vE "resolver.arpa|captive.apple|push.apple"
     ;;
   ad150)
     # .150 的广告域名组（按时间戳聚类，只看可疑的）

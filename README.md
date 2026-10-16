@@ -146,8 +146,8 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 | 文件 | 来源 | 谁维护 | 条数 |
 |------|------|--------|------|
 | `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 51 |
-| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 35 |
-| `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 928 |
+| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 36 |
+| `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 927 |
 
 **安全三重门**（缺一不可，否则会误伤正片）：
 
@@ -309,9 +309,9 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 ├── CONTRIBUTORS.md
 ├── config/
 │   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（51 条精确域名）
-│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，35 条）
-│   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，928 条，勿手改）
-│   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（15 条）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，36 条）
+│   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，927 条，勿手改）
+│   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（16 条）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）
 │   ├── dnsmasq-home.service       # ★ systemd 单元（开机自启 + 挂了自动拉起）
 │   └── dnsmasq-adblock.logrotate  # 日志轮转
@@ -322,7 +322,7 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 │   ├── clash-surge-rules.txt
 │   ├── quantumultx-rules.txt
 │   ├── domains.txt
-│   ├── upstream-domains.txt       #   上游规则纯域名版（928 条）
+│   ├── upstream-domains.txt       #   上游规则纯域名版（927 条）
 │   └── dnsmasq-adblock.conf
 ├── scripts/
 │   ├── gen_rules.py               # 规则生成器（多源合并 + 白名单保护，★ 安全模式：不覆盖线上）

@@ -15,7 +15,7 @@ python3 scripts/export_lists.py
 | `adguard-dns.txt` | `\|\|domain^` | AdGuard Home、AdGuard for Android、Pi-hole |
 | `domains.txt` | 纯域名列表 | SmartDNS、mosdns、自研脚本 |
 | `dnsmasq-adblock.conf` | `address=/domain/` | dnsmasq ≥ 2.86（返回 NXDOMAIN，App 不重试） |
-| `upstream-domains.txt` | 纯域名列表 | 上游社区规则（928 条），单独订阅用 |
+| `upstream-domains.txt` | 纯域名列表 | 上游社区规则（927 条），单独订阅用 |
 | `clash-surge-rules.txt` | `DOMAIN-SUFFIX,x,REJECT` | Clash、ClashX、Mihomo、Surge |
 | `quantumultx-rules.txt` | `host-suffix, x, reject` | Quantumult X、Loon、Shadowrocket |
 
@@ -93,7 +93,7 @@ conf-file=/path/to/dnsmasq-adblock.conf
 | 套件 | 文件 | 条数 | 来源 | 特点 |
 |---|---|---|---|---|
 | **主列表** | `domains.txt` / `hosts.txt` / `dnsmasq-adblock.conf` … | 86 | 实机 DNS 日志逐条提取 | 精准、不误伤、**国内 App 专用** |
-| **上游列表** | `upstream-domains.txt` | 928 | 社区规则（AWAvenue-Ads-Rule）自动同步 | 覆盖广、每天更新、**已过白名单** |
+| **上游列表** | `upstream-domains.txt` | 927 | 社区规则（AWAvenue-Ads-Rule）自动同步 | 覆盖广、每天更新、**已过白名单** |
 
 两套可以**一起用**（互补，主列表更精准、上游覆盖更广），也可以只用其中一套。
 上游列表由 GitHub Actions 每天 04:00 自动更新，已自动剔除会误伤正片的域名（见 `config/whitelist.txt`）。

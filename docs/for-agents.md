@@ -29,7 +29,7 @@ dnsmasq.conf            主配置（含少量内嵌规则 + conf-file 引入三�
 adblock-fq.conf         红果/番茄系手工规则（51 条）—— 主要维护对象
 adblock-extra.conf      手工精挑补充（35 条）
 adblock-upstream.conf   上游同步（927 条）⚠️ 云生成，本机只拉不推
-whitelist.txt           白名单（15 条硬保护）
+whitelist.txt           白名单（16 条硬保护）
 queries.log             查询日志 —— 排查误封的第一证据源
 gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别当「重新生成规则」用
 ```
@@ -37,12 +37,12 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
 监听 `192.168.x.x:53` + `100.x.y.z:53`（Tailscale，给手机在外用）
 
-**当前条数基线**（改完拿这个对）：`fq 51 / extra 36 / upstream 929（本机）· 928（仓库）/ dnsmasq.conf 内嵌 13`
+**当前条数基线**（改完拿这个对）：`fq 51 / extra 36 / upstream 928（本机）· 927（仓库）/ dnsmasq.conf 内嵌 13`
 
-> **extra 的口径差 1，两个数都对，含义不同（云机 2026-10-14 更正）**：
-> - **35** = **dnsmasq 实际加载**的条数（`grep -c '^address='` 就是这个口径）。`address=/_dns.resolver.arpa/` 用来屏蔽 DDR 发现，dnsmasq **照常加载并生效**
-> - **34** = **可导出（dist）**口径。`export_lists.py` 第 50 行导出第三方格式（AdGuard/hosts）时跳过 `_` 开头的域名 —— 是那些格式的语法校验不接受，不是 dnsmasq 不生效。`update_counts.py`、README 用的是这个
-> - 对不上 `dist/` 的 `85 = 51 + 34` 时，先查是不是把这两个口径混用了
+> **extra 的口径差 1，两个数都对，含义不同（云机 2026-10-14 更正，2026-10-16 新增腾讯埋点后 +1）**：
+> - **36** = **dnsmasq 实际加载**的条数（`grep -c '^address='` 就是这个口径）。`address=/_dns.resolver.arpa/` 用来屏蔽 DDR 发现，dnsmasq **照常加载并生效**
+> - **35** = **可导出（dist）**口径。`export_lists.py` 第 50 行导出第三方格式（AdGuard/hosts）时跳过 `_` 开头的域名 —— 是那些格式的语法校验不接受，不是 dnsmasq 不生效。`update_counts.py`、README 用的是这个
+> - 对不上 `dist/` 的 `86 = 51 + 35` 时，先查是不是把这两个口径混用了
 
 ---
 
@@ -51,7 +51,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 ### 3.1 绝不能拦的东西
 
 - **禁止封裸域**：`.zijieapi.com`、`.snssdk.com`、`.fqnovelvod.com` 这种「封整个主域」会让字节系 App 全废
-- **白名单 15 条硬保护**：正片流 / 直播流 / 图床 / 风控 / 基础设施 —— 改上游同步时 `BARE_FORBIDDEN` + 白名单必须过
+- **白名单 16 条硬保护**：正片流 / 直播流 / 图床 / 风控 / 基础设施 —— 改上游同步时 `BARE_FORBIDDEN` + 白名单必须过
 - **具体禁拦清单**（历史误封，勿加回）：`fqnovelvod.com`（正片 CDN 主域）、`p3/p6/p9-novel-sign.byteimg.com`（正片签名，**广告是 `ad-sign`，一字之差**）、`api3/api5-normal-sinfonlinea.fqnovel.com`（反作弊，拦了 App 功能异常）、`is.snssdk.com`、`volcengineapi.com`、`bytegecko.com`、`douyinliving.com`
 - **`gecko.snssdk.com` 必须保护** —— 那是字节 H5 离线包系统，封了红果可能白屏
 - 判据：`ad-` / `-ad-` / `ads` / `reading-ad` 才是广告；`novel-sign` / `sinfonlinea` / `is.snssdk` 是正片签名与风控

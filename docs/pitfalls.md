@@ -249,7 +249,7 @@ sudo cp config/dnsmasq-adblock.logrotate /etc/logrotate.d/
 而 dnsmasq 通常以 `nobody` 运行 → **写不进去，且不会报错**：
 
 ```
-轮转前: -rw-rw-rw- 1 nobody wang  queries.log   ← dnsmasq 能写
+轮转前: -rw-rw-rw- 1 nobody nogroup queries.log   ← dnsmasq 能写
 轮转后: -rw-r--r-- 1 root   root  queries.log   ← dnsmasq 写不进去 ✗ 且无报错
 ```
 
