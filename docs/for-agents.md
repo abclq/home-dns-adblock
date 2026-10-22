@@ -28,7 +28,7 @@
 dnsmasq.conf            主配置（含少量内嵌规则 + conf-file 引入三个规则文件）
 adblock-fq.conf         红果/番茄系手工规则（51 条）—— 主要维护对象
 adblock-extra.conf      手工精挑补充（35 条）
-adblock-upstream.conf   上游同步（927 条）⚠️ 云生成，本机只拉不推
+adblock-upstream.conf   上游同步（938 条）⚠️ 云生成，本机只拉不推
 whitelist.txt           白名单（16 条硬保护）
 queries.log             查询日志 —— 排查误封的第一证据源
 gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别当「重新生成规则」用
