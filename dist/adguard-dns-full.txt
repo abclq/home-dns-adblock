@@ -1,7 +1,7 @@
 # Home DNS Adblock — AdGuard DNS 全量（精确 + 上游）/ full list
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 235ee3c27b9fb664
-# 规则条数: 1010 = 精确 75 + 上游 938（去重后）
+# 规则指纹: ef554cf77e7d03e0
+# 规则条数: 1011 = 精确 75 + 上游 939（去重后）
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 这是给「只想订阅一条」的人用的全量列表。
@@ -875,6 +875,7 @@
 ||tnc3-alisc1.toutiaoapi.com^
 ||tnc3-alisc1.zijieapi.com^
 ||tnc3-bjlgy.bytedance.com^
+||tnc3-bjlgy.snssdk.com^
 ||tnc3-bjlgy.toutiaoapi.com^
 ||toblog.ctobsnssdk.com^
 ||tpa-hcdn.iqiyi.com^
