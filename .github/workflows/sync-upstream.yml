@@ -27,16 +27,19 @@ jobs:
       - name: 同步上游规则（白名单过滤）
         run: python3 scripts/sync_upstream.py
 
+      - name: 重新生成全部导出列表（含 adguard-dns-full.txt 全量合并）
+        run: python3 scripts/export_lists.py
+
       - name: 检查是否有变化
         id: diff
         run: |
-          if git diff --quiet -- config/adblock-upstream.conf dist/upstream-domains.txt; then
+          if git diff --quiet -- config/adblock-upstream.conf dist/; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "上游无变化，跳过提交"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "检测到变化："
-            git diff --stat -- config/adblock-upstream.conf dist/upstream-domains.txt
+            git diff --stat -- config/adblock-upstream.conf dist/
           fi
 
       - name: 提交并推送
@@ -44,7 +47,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add config/adblock-upstream.conf dist/upstream-domains.txt
+          git add config/adblock-upstream.conf dist/
           N=$(grep -c '^address=' config/adblock-upstream.conf || echo 0)
-          git commit -m "chore(upstream): 上游规则同步 $(date -u '+%Y-%m-%d') —— ${N} 条（已过白名单）"
+          F=$(grep -c '^||' dist/adguard-dns-full.txt || echo 0)
+          git commit -m "chore(upstream): 上游规则同步 $(date -u '+%Y-%m-%d') —— ${N} 条（已过白名单），全量导出 ${F} 条"
           git push

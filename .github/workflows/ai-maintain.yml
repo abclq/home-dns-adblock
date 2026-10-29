@@ -1,0 +1,63 @@
+name: AI 维护分诊
+
+# 让一个 OpenAI 兼容的模型（Muse / 中转站 / 本地 Ollama 都行）帮忙看 issue：
+# 判断「订阅没生效 / 规则缺口 / 环境问题 / 期望不符」，并给出照做清单。
+#
+# 不依赖任何本机进程 —— 全部在 GitHub Actions 里跑。
+# 想接 Muse：把 muse2api 部署到有公网出口的云主机，暴露 /v1/chat/completions，
+# 然后在仓库 Settings → Secrets 里填 MUSE_BASE_URL / MUSE_API_KEY / MUSE_MODEL。
+# 没填 secret 时工作流不会失败，只会生成一份「待处理 issue 清单」。
+
+on:
+  schedule:
+    # 每周一 UTC 01:00 = 北京时间 09:00
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      post_comment:
+        description: "把分诊结果评论到 issue 号（留空则只上传报告）"
+        required: false
+        default: ""
+      limit:
+        description: "一次最多处理几个 issue"
+        required: false
+        default: "5"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 模型分诊
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Muse 走 muse2api 反代就填这三项；换别家模型只改这三个值
+          AI_BASE_URL: ${{ secrets.MUSE_BASE_URL }}
+          AI_API_KEY: ${{ secrets.MUSE_API_KEY }}
+          AI_MODEL: ${{ secrets.MUSE_MODEL }}
+        run: |
+          ARGS="--limit ${{ github.event.inputs.limit || '5' }}"
+          if [ -n "${{ github.event.inputs.post_comment }}" ]; then
+            ARGS="$ARGS --post-comment ${{ github.event.inputs.post_comment }}"
+          fi
+          python3 scripts/ai_triage.py $ARGS
+
+      - name: 上传报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-triage-report
+          path: ai-triage-report.md
+          if-no-files-found: ignore
