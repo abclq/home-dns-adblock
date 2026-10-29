@@ -6,13 +6,23 @@
 
 ### 新增
 
+- **`dist/adguard-dns-full.txt`** —— AdGuard 全量订阅列表（精确 86 条 + 上游 938 条，
+  去重后 **1021 条**）。起因：#1 用户按 README「一行订阅」只加了 `adguard-dns.txt`，
+  拿到的是 86 条**精确**规则，上游 900+ 条从未生效，于是「加了订阅还是有广告」。
+  现在订这一条即可拿到全量；`export_lists.py` 每次同步自动重新生成，不会被自动同步冲掉。
 - **`docs/capture-method.md`** —— 抓包方法论：无 root 安卓机走 **ARP 中间人 + tcpdump**，
   只看 DNS / TLS SNI 明文头部，不需要解密、不需要装证书（字节系有证书固定，装证书也抓不到）。
   含域名分类判据与「抓到 ≠ 能拦」的提醒。
 - **`scripts/hg_capture.sh` / `scripts/hg_autostop.sh`** —— 抓包与收尾脚本（参数化，改 3 个变量即用）。
   收尾脚本清 `arpspoof` / `tcpdump` / iptables，避免手机持续绕经本机。
 
-> **规则条数不变**（仍是 85 条精确规则 / 51 + 34）。本次只补抓包工具链，未改任何规则。
+### 变更
+
+- **README / dist/README / docs/use-with-other-apps.md / README.en** —— 订阅示例统一切到
+  `adguard-dns-full.txt`，并写明 86（精确）/ 938（上游）/ 1021（全量去重）的关系；
+  `cdn.jsdelivr.net` 仍标注为国内不可用。
+
+> **精确规则条数不变**（仍是 85 条 dnsmasq 加载 / 86 条可导出，上游 938 条不变）。本次只新增全量合并列表与订阅指引，未改任何规则。
 
 ---
 

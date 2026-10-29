@@ -127,6 +127,39 @@ def main():
     body += '\n'.join(f'host-suffix, {d}, reject' for d in domains) + '\n'
     write(os.path.join(outdir, 'quantumultx-rules.txt'), body)
 
+    # ⑨ AdGuard DNS 全量（精确规则 + 上游社区规则，去重合并）
+    # 为什么要有这个文件：dist/adguard-dns.txt 只有精确规则（~86 条），
+    # 普通用户按"一行订阅"加了它，就以为装完了，实际漏掉 900+ 条上游规则，
+    # 于是「加了还是有广告」。本文件让一条订阅即可拿到全量（issue #1）。
+    up_path = None
+    for cand in (os.path.join(outdir, 'upstream-domains.txt'),
+                 os.path.join(ROOT, 'dist', 'upstream-domains.txt')):
+        if os.path.exists(cand):
+            up_path = cand
+            break
+    upstream = []
+    if up_path:
+        with open(up_path, encoding='utf-8', errors='ignore') as f:
+            for line in f:
+                s = line.strip().lower().rstrip('.')
+                if s and not s.startswith('#') and not s.startswith('||'):
+                    upstream.append(s)
+    full = sorted(set(domains) | set(upstream))
+    fp_full = hashlib.sha256('\n'.join(full).encode('utf-8')).hexdigest()[:16]
+    body = (
+        '# Home DNS Adblock — AdGuard DNS 全量（精确 + 上游）/ full list\n'
+        '# 由 export_lists.py 生成 — 请勿手工编辑\n'
+        f'# 规则指纹: {fp_full}\n'
+        f'# 规则条数: {len(full)} = 精确 {len(domains)} + 上游 {len(upstream)}（去重后）\n'
+        '# 项目: https://github.com/abclq/home-dns-adblock\n'
+        '#\n'
+        '# 说明: 这是给「只想订阅一条」的人用的全量列表。\n'
+        '#       想分层管理（精确规则单独更新）可以改订 adguard-dns.txt + upstream-domains.txt 两条。\n'
+        '#       精确规则来自真实设备 DNS 日志，白名单保护正片，零误拦。\n'
+    )
+    body += '\n'.join(f'||{d}^' for d in full) + '\n'
+    write(os.path.join(outdir, 'adguard-dns-full.txt'), body)
+
     # ⑧ 打包 zip —— 固定名给 jsDelivr 订阅用（链接永不过期），带版本号给 Release 资产用
     import zipfile
     ver = '0.0.0'
@@ -137,7 +170,8 @@ def main():
             if _m:
                 ver = _m.group(1)
                 break
-    members = ['hosts.txt', 'hosts-ipv6.txt', 'adguard-dns.txt', 'domains.txt',
+    members = ['hosts.txt', 'hosts-ipv6.txt', 'adguard-dns.txt', 'adguard-dns-full.txt',
+               'domains.txt',
                'dnsmasq-adblock.conf', 'clash-surge-rules.txt', 'quantumultx-rules.txt',
                'README.md']
     for zname in ('home-dns-adblock-rules.zip', f'home-dns-adblock-v{ver}-rules.zip'):

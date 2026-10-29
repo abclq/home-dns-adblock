@@ -55,10 +55,12 @@
 
 > **只想用现成软件？** → 看 **[docs/use-with-other-apps.md](docs/use-with-other-apps.md)**
 >
-> 一行订阅（AdGuard 语法，走 **jsDelivr 全球 CDN**，国内直连可用、海外同样快）：
+> 一行订阅（AdGuard 语法**全量版**，走 **jsDelivr 全球 CDN**，国内直连可用、海外同样快）：
 > ```
-> https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+> https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
 > ```
+> = 精确 86 条 + 上游 938 条，去重后 **1021 条**，一条订阅拿到全量。
+> 想分层管理（精确规则单独更新）可改订 `adguard-dns.txt` + `upstream-domains.txt` 两条。
 > 其它格式（hosts / Clash / Surge / Quantumult X / dnsmasq）见 [`dist/`](dist/)。
 > 拉不动就把 `fastly` 换成 `gcore` 或 `testingcf`；**别用 `cdn.jsdelivr.net`**（国内会被重置）。
 
@@ -75,7 +77,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 规则条数 | 86 条精确域名（无一条宽泛关键字规则）+ 938 条上游社区规则 |
+| 规则条数 | 86 条精确域名（无一条宽泛关键字规则）+ 938 条上游社区规则（全量合并 **1021 条**，见 `dist/adguard-dns-full.txt`） |
 | 服务资源占用 | **内存 2.5 MB · CPU 0.0%** |
 | 出门链路延迟 | **39 ms（P2P 直连，不走中继）** |
 | 异地实测 | 医院 WiFi 下，1431 条 DNS 查询全部回落本机并正常拦截 |

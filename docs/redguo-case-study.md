@@ -205,7 +205,7 @@ qrstuvwxyzab.com  wuchuyun.com  xinqiucc.com
 | 你的环境 | 订阅哪个 | 地址 |
 |---|---|---|
 | **dnsmasq** | `dnsmasq-adblock.conf` | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/dnsmasq-adblock.conf` |
-| **AdGuard Home** | `adguard-dns.txt` | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
+| **AdGuard Home** | `adguard-dns-full.txt` | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt` |
 | **Pi-hole / 路由器 / AdAway** | `hosts.txt` | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt` |
 | **RethinkDNS / SmartDNS** | `domains.txt` | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt` |
 

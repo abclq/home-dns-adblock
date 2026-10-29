@@ -27,7 +27,7 @@
 ## 二、订阅地址
 
 ```
-AdGuard 语法   https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+AdGuard 语法   https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
 hosts          https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt
 hosts IPv6     https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts-ipv6.txt
 纯域名         https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt
@@ -35,6 +35,10 @@ Clash/Surge    https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/c
 Quantumult X   https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/quantumultx-rules.txt
 dnsmasq        https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/dnsmasq-adblock.conf
 ```
+
+> **注意**：`adguard-dns-full.txt` 是全量版（精确 86 + 上游 938 = 去重 1021 条），
+> **订阅这一条就够**。`adguard-dns.txt` 只有 86 条精确规则，单独订它会漏掉 900+ 条上游规则
+> —— 这是「加了订阅还是有广告」最常见的原因。
 
 ### 上面用的是 jsDelivr 全球 CDN，国内国外都能直接拉
 
@@ -55,8 +59,8 @@ dnsmasq        https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/d
 **本文档一律用 `fastly.jsdelivr.net`。** 如果哪天它也慢了，把前缀换成 `gcore.` 或 `testingcf.` 即可，路径完全一样：
 
 ```
-https://gcore.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
-https://testingcf.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+https://gcore.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
+https://testingcf.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
 ```
 
 **实在不行还有两招**：
@@ -83,7 +87,7 @@ https://testingcf.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.t
 **添加**：
 ```
 设置 → 过滤器 → DNS 黑名单 → 添加黑名单
-  → 名称填 home-dns-adblock，URL 填 adguard-dns.txt 的地址 → 保存
+  → 名称填 home-dns-adblock，URL 填 adguard-dns-full.txt 的地址 → 保存
 ```
 回到列表点「**检查更新**」，看到规则数上升就成了。
 
@@ -118,7 +122,7 @@ sudo systemctl restart dnsmasq     # 注意：SIGHUP 不重读配置文件，必
 
 **添加**：
 ```
-Settings → Adlists → 粘贴 hosts.txt 或 adguard-dns.txt 的 URL → Add
+Settings → Adlists → 粘贴 hosts.txt 或 adguard-dns-full.txt 的 URL → Add
 → Tools → Update Gravity   （必须点这步，否则不生效）
 ```
 
@@ -182,10 +186,10 @@ RULE-SET,https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-s
 **添加**：
 ```
 打开 BlockAds → 授予 VPN 权限（它靠本地 VPN 拦 DNS，不需要 root）
-→ 找到「自定义过滤列表 / Custom filter lists」→ 添加 URL → 填 adguard-dns.txt 的地址
+→ 找到「自定义过滤列表 / Custom filter lists」→ 添加 URL → 填 adguard-dns-full.txt 的地址
 → 打开总开关
 ```
-支持 AdGuard 语法，用 `adguard-dns.txt` 即可。
+支持 AdGuard 语法，用 `adguard-dns-full.txt`（全量 1021 条）即可。
 
 > 国内访问 raw.githubusercontent 不稳时，用第一节的 jsDelivr 镜像地址。
 
@@ -201,7 +205,7 @@ RULE-SET,https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/clash-s
 
 **添加**：
 ```
-保护 → DNS 保护 → DNS 过滤器 → 添加自定义过滤器 → 填 adguard-dns.txt 的地址
+保护 → DNS 保护 → DNS 过滤器 → 添加自定义过滤器 → 填 adguard-dns-full.txt 的地址
 ```
 
 **⚠️ 免费版能做 / 不能做**（据官方「免费版和完整版」页面，付费项为：拦截应用内广告、跟踪保护、安全浏览、自定义过滤器和用户规则、用户脚本）：

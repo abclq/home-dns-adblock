@@ -45,10 +45,12 @@ address=/_dns.resolver.arpa/
 
 ## 快速用法
 
-**AdGuard Home**：过滤器 → DNS 黑名单 → 添加 URL 订阅
+**AdGuard Home**：过滤器 → DNS 黑名单 → 添加 URL 订阅（**推荐直接用全量版，一条搞定**）
 ```
-https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt
+https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
 ```
+> `adguard-dns-full.txt` = 精确 86 条 + 上游 938 条，去重后 **1021 条**。
+> 只订 `adguard-dns.txt` 的人只会拿到 86 条精确规则，**上游 900+ 条不会生效** —— 这是「加了订阅还是有广告」的最常见原因。
 
 **AdGuard / RethinkDNS App**：自定义过滤规则 → 从 URL 导入（同上）
 
@@ -65,7 +67,8 @@ conf-file=/path/to/dnsmasq-adblock.conf
 
 | 格式 | URL |
 |---|---|
-| AdGuard 语法 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
+| **AdGuard 全量（推荐）** | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt` |
+| AdGuard 语法（仅精确规则 86 条） | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
 | hosts | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt` |
 | hosts IPv6 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts-ipv6.txt` |
 | 纯域名 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt` |

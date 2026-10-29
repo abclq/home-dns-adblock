@@ -48,7 +48,8 @@ This project solves a different problem:
 
 | Format | File |
 |---|---|
-| AdGuard syntax | `dist/adguard-dns.txt` |
+| AdGuard syntax — **full list (recommended, 1021 rules)** | `dist/adguard-dns-full.txt` |
+| AdGuard syntax — precise rules only (86) | `dist/adguard-dns.txt` |
 | hosts | `dist/hosts.txt` |
 | Clash / Surge / Mihomo | `dist/clash-surge-rules.txt` |
 | Quantumult X / Loon | `dist/quantumultx-rules.txt` |
