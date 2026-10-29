@@ -9,7 +9,7 @@
 | [../README.md](../README.md) | **主文档**：两种用法、快速开始、常用命令 |
 | [tailscale-remote.md](tailscale-remote.md) | 出门在外（4G / 别人家 WiFi）也能生效怎么配 |
 | [use-with-other-apps.md](use-with-other-apps.md) | 把规则喂给别的软件（AdGuard Home / Pi-hole / 路由器 等） |
-| [domain-list.md](domain-list.md) | 规则清单：86 条精确规则逐条说明 |
+| [domain-list.md](domain-list.md) | 规则清单：75 条精确规则逐条说明 |
 
 ## 我是协作者 / 机器人，要动这个仓库
 
@@ -31,10 +31,10 @@
 
 ## 几个关键数字（口径别搞混）
 
-- **86** = 精确规则条数（`config/adblock-fq.conf` 51 条 + `config/adblock-extra.conf` 可导出 34 条）
-- **36** = dnsmasq 实际加载的 extra 条数（比 34 多一条 `_dns.resolver.arpa`，屏蔽 DDR 发现；导出第三方格式时会跳过 `_` 开头）
+- **75** = 精确规则条数（`config/adblock-fq.conf` 51 条 + `config/adblock-extra.conf` 可导出 34 条）
+- **31** = dnsmasq 实际加载的 extra 条数（比 34 多一条 `_dns.resolver.arpa`，屏蔽 DDR 发现；导出第三方格式时会跳过 `_` 开头）
 - **938** = 上游社区规则条数（自动同步）
-- **1021** = 去重后合计
+- **1010** = 去重后合计
 
 数字改动后跑 `python3 scripts/update_counts.py` 自动刷新文档里的计数，别手改。
 

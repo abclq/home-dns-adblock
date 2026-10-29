@@ -1,13 +1,12 @@
 # Home DNS Adblock — hosts 格式 / hosts format
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: a05b28e1167369ea    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 86
+# 规则指纹: 01f133d571f7cbb4    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 75
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
 #       广告、埋点、统计域名，从真实设备 DNS 查询日志中提取。
 #       不含通用/国外广告域名 —— 那部分请另配 EasyList / anti-AD 等。
-0.0.0.0 abtest3-misc-hl.zijieapi.com
 0.0.0.0 activity-ag.awemeughun.com
 0.0.0.0 ad.toutiao.com
 0.0.0.0 ads-vp5.xhscdn.com
@@ -29,9 +28,6 @@
 0.0.0.0 dns.alidns.com
 0.0.0.0 doh.pub
 0.0.0.0 errnewlog.umeng.com
-0.0.0.0 feedback-c.zijieapi.com
-0.0.0.0 i-lq.snssdk.com
-0.0.0.0 i.snssdk.com
 0.0.0.0 jomoxc.com
 0.0.0.0 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
 0.0.0.0 lng.xiaohongshu.com
@@ -39,14 +35,12 @@
 0.0.0.0 log3-applog-lf.fqnovel.com
 0.0.0.0 log5-applog-hl.fqnovel.com
 0.0.0.0 log5-applog-lf.fqnovel.com
-0.0.0.0 mcs.snssdk.com
 0.0.0.0 minigame3-normal-hl.zijieapi.com
 0.0.0.0 minigame3-normal-lf.zijieapi.com
 0.0.0.0 minigame3-normal-lq.zijieapi.com
 0.0.0.0 minigame5-normal-hl.zijieapi.com
 0.0.0.0 minigame5-normal-lf.zijieapi.com
 0.0.0.0 minigame5-normal-lq.zijieapi.com
-0.0.0.0 mon.zijieapi.com
 0.0.0.0 mon11-misc-hl.fqnovel.com
 0.0.0.0 mon11-misc-lf.fqnovel.com
 0.0.0.0 mon3-misc-lf.fqnovel.com
@@ -65,16 +59,12 @@
 0.0.0.0 rtlog3-applog-lf.fqnovel.com
 0.0.0.0 rtlog5-applog-hl.fqnovel.com
 0.0.0.0 rtlog5-applog-lf.fqnovel.com
-0.0.0.0 security-lq.snssdk.com
 0.0.0.0 sf3-ttcdn-tos.pstatp.com
 0.0.0.0 spider-tracker.xiaohongshu.com
-0.0.0.0 thanos.zijieapi.com
-0.0.0.0 timon.zijieapi.com
 0.0.0.0 tnc0-aliec2.zijieapi.com
 0.0.0.0 tnc0-alisc1.zijieapi.com
 0.0.0.0 tnc3-aliec2.zijieapi.com
 0.0.0.0 tnc3-alisc1.zijieapi.com
-0.0.0.0 tnc3-bjlgy.snssdk.com
 0.0.0.0 tracker.xiaomixiaoai.com
 0.0.0.0 ulogs.umeng.com
 0.0.0.0 v11-reading-ad.qznovelvod.com
@@ -86,7 +76,6 @@
 0.0.0.0 v6-reading-ad.qznovelvod.com
 0.0.0.0 v9-reading-ad.qznovelvod.com
 0.0.0.0 v96-reading-ad.qznovelvod.com
-0.0.0.0 vas-lf-x.snssdk.com
 0.0.0.0 webcast5-open-hl.douyin.com
 0.0.0.0 webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net
 0.0.0.0 wmzfylgdsz.com

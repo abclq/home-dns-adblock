@@ -26,8 +26,8 @@
 
 ```
 dnsmasq.conf            主配置（含少量内嵌规则 + conf-file 引入三个规则文件）
-adblock-fq.conf         红果/番茄系手工规则（51 条）—— 主要维护对象
-adblock-extra.conf      手工精挑补充（35 条）
+adblock-fq.conf         红果/番茄系手工规则（45 条）—— 主要维护对象
+adblock-extra.conf      手工精挑补充（30 条）
 adblock-upstream.conf   上游同步（938 条）⚠️ 云生成，本机只拉不推
 whitelist.txt           白名单（16 条硬保护）
 queries.log             查询日志 —— 排查误封的第一证据源
@@ -37,7 +37,7 @@ gen_rules.py            ⚠️ 历史快照生成器，已改安全模式，别�
 **服务形态**：`dnsmasq-home.service`（systemd 托管，`Restart=always`，开机自启）
 监听 `192.168.x.x:53` + `100.x.y.z:53`（Tailscale，给手机在外用）
 
-**当前条数基线**（改完拿这个对）：`fq 51 / extra 36 / upstream 928（本机）· 927（仓库）/ dnsmasq.conf 内嵌 13`
+**当前条数基线**（改完拿这个对）：`fq 45 / extra 31 / upstream 928（本机）· 927（仓库）/ dnsmasq.conf 内嵌 13`
 
 > **extra 的口径差 1，两个数都对，含义不同（云机 2026-10-14 更正，2026-10-16 新增腾讯埋点后 +1）**：
 > - **36** = **dnsmasq 实际加载**的条数（`grep -c '^address='` 就是这个口径）。`address=/_dns.resolver.arpa/` 用来屏蔽 DDR 发现，dnsmasq **照常加载并生效**

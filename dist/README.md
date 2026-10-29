@@ -50,7 +50,7 @@ address=/_dns.resolver.arpa/
 https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt
 ```
 > `adguard-dns-full.txt` = 精确 86 条 + 上游 938 条，去重后 **1021 条**。
-> 只订 `adguard-dns.txt` 的人只会拿到 86 条精确规则，**上游 900+ 条不会生效** —— 这是「加了订阅还是有广告」的最常见原因。
+> 只订 `adguard-dns.txt` 的人只会拿到 75 条精确规则，**上游 900+ 条不会生效** —— 这是「加了订阅还是有广告」的最常见原因。
 
 **AdGuard / RethinkDNS App**：自定义过滤规则 → 从 URL 导入（同上）
 
@@ -68,7 +68,7 @@ conf-file=/path/to/dnsmasq-adblock.conf
 | 格式 | URL |
 |---|---|
 | **AdGuard 全量（推荐）** | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-full.txt` |
-| AdGuard 语法（仅精确规则 86 条） | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
+| AdGuard 语法（仅精确规则 75 条） | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns.txt` |
 | hosts | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts.txt` |
 | hosts IPv6 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/hosts-ipv6.txt` |
 | 纯域名 | `https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/domains.txt` |
@@ -95,7 +95,7 @@ conf-file=/path/to/dnsmasq-adblock.conf
 
 | 套件 | 文件 | 条数 | 来源 | 特点 |
 |---|---|---|---|---|
-| **主列表** | `domains.txt` / `hosts.txt` / `dnsmasq-adblock.conf` … | 86 | 实机 DNS 日志逐条提取 | 精准、不误伤、**国内 App 专用** |
+| **主列表** | `domains.txt` / `hosts.txt` / `dnsmasq-adblock.conf` … | 75 | 实机 DNS 日志逐条提取 | 精准、不误伤、**国内 App 专用** |
 | **上游列表** | `upstream-domains.txt` | 927 | 社区规则（AWAvenue-Ads-Rule）自动同步 | 覆盖广、每天更新、**已过白名单** |
 
 两套可以**一起用**（互补，主列表更精准、上游覆盖更广），也可以只用其中一套。

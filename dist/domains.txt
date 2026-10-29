@@ -1,13 +1,12 @@
 # Home DNS Adblock — 纯域名列表 / domain list
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: a05b28e1167369ea    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 86
+# 规则指纹: 01f133d571f7cbb4    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 75
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
 #       广告、埋点、统计域名，从真实设备 DNS 查询日志中提取。
 #       不含通用/国外广告域名 —— 那部分请另配 EasyList / anti-AD 等。
-abtest3-misc-hl.zijieapi.com
 activity-ag.awemeughun.com
 ad.toutiao.com
 ads-vp5.xhscdn.com
@@ -29,9 +28,6 @@ dig.bdurl.net
 dns.alidns.com
 doh.pub
 errnewlog.umeng.com
-feedback-c.zijieapi.com
-i-lq.snssdk.com
-i.snssdk.com
 jomoxc.com
 l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com
 lng.xiaohongshu.com
@@ -39,14 +35,12 @@ log-api.pangolin-sdk-toutiao.com
 log3-applog-lf.fqnovel.com
 log5-applog-hl.fqnovel.com
 log5-applog-lf.fqnovel.com
-mcs.snssdk.com
 minigame3-normal-hl.zijieapi.com
 minigame3-normal-lf.zijieapi.com
 minigame3-normal-lq.zijieapi.com
 minigame5-normal-hl.zijieapi.com
 minigame5-normal-lf.zijieapi.com
 minigame5-normal-lq.zijieapi.com
-mon.zijieapi.com
 mon11-misc-hl.fqnovel.com
 mon11-misc-lf.fqnovel.com
 mon3-misc-lf.fqnovel.com
@@ -65,16 +59,12 @@ rtlog3-applog-hl.fqnovel.com
 rtlog3-applog-lf.fqnovel.com
 rtlog5-applog-hl.fqnovel.com
 rtlog5-applog-lf.fqnovel.com
-security-lq.snssdk.com
 sf3-ttcdn-tos.pstatp.com
 spider-tracker.xiaohongshu.com
-thanos.zijieapi.com
-timon.zijieapi.com
 tnc0-aliec2.zijieapi.com
 tnc0-alisc1.zijieapi.com
 tnc3-aliec2.zijieapi.com
 tnc3-alisc1.zijieapi.com
-tnc3-bjlgy.snssdk.com
 tracker.xiaomixiaoai.com
 ulogs.umeng.com
 v11-reading-ad.qznovelvod.com
@@ -86,7 +76,6 @@ v5-se-sjy-daily-reading-ad.qznovelvod.com
 v6-reading-ad.qznovelvod.com
 v9-reading-ad.qznovelvod.com
 v96-reading-ad.qznovelvod.com
-vas-lf-x.snssdk.com
 webcast5-open-hl.douyin.com
 webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net
 wmzfylgdsz.com

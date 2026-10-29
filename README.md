@@ -1,11 +1,11 @@
 # 🏠 home-dns-adblock
 
-**中文** | [English](README.en.md) · `MIT` · `86 条精确规则 + 938 条上游社区规则` · `白名单保护正片，已知正片域零误拦`
+**中文** | [English](README.en.md) · `MIT` · `75 条精确规则 + 938 条上游社区规则` · `白名单保护正片，已知正片域零误拦`
 
 [![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
 [![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)
 [![license](https://img.shields.io/github/license/abclq/home-dns-adblock?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/rules-86%20precise%20%2B%20938%20upstream-blue?style=flat-square)](docs/domain-list.md)
+[![rules](https://img.shields.io/badge/rules-75%20precise%20%2B%20938%20upstream-blue?style=flat-square)](docs/domain-list.md)
 [![upstream](https://img.shields.io/badge/upstream-auto--synced-success?style=flat-square)](.github/workflows/sync-upstream.yml)
 
 **家庭 DNS 广告拦截 —— 7×24 在家跑，出门在外照样生效**
@@ -18,7 +18,7 @@
 >
 > | | 通用方案（Pi-hole / AdGuard）| App Hook 方案 | **本项目** |
 > |---|---|---|---|
-> | 规则数量 | 10 万+ 宽泛规则 | — | **86 条精确规则 + 938 条上游社区规则**（去重后合计 1021 条） |
+> | 规则数量 | 10 万+ 宽泛规则 | — | **75 条精确规则 + 938 条上游社区规则**（去重后合计 1010 条） |
 > | 误伤风险 | 有可能 | — | **零（白名单保护正片）** |
 > | 需要 root / 越狱 | 不需要 | **需要** | **不需要** |
 > | 出门在外可用 | ✗ | ✗ | **✓ Tailscale 隧道** |
@@ -77,7 +77,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 规则条数 | 86 条精确域名（无一条宽泛关键字规则）+ 938 条上游社区规则（全量合并 **1021 条**，见 `dist/adguard-dns-full.txt`） |
+| 规则条数 | 75 条精确域名（无一条宽泛关键字规则）+ 938 条上游社区规则（全量合并 **1021 条**，见 `dist/adguard-dns-full.txt`） |
 | 服务资源占用 | **内存 2.5 MB · CPU 0.0%** |
 | 出门链路延迟 | **39 ms（P2P 直连，不走中继）** |
 | 异地实测 | 医院 WiFi 下，1431 条 DNS 查询全部回落本机并正常拦截 |
@@ -147,8 +147,8 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 
 | 文件 | 来源 | 谁维护 | 条数 |
 |------|------|--------|------|
-| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 51 |
-| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 35 |
+| `config/adblock-fq.conf` | 实机抓包 + 社区规则交叉验证 | **人**（本仓库） | 45 |
+| `config/adblock-extra.conf` | 手工补充（埋点 / DoH 加固） | **人** | 30 |
 | `config/adblock-upstream.conf` | **自动生成**，勿手改 | GitHub Actions | 927 |
 
 **安全三重门**（缺一不可，否则会误伤正片）：
@@ -177,7 +177,7 @@ App 要显示一条广告，第一步必须**解析广告服务器的域名**（
 ```bash
 sudo apt-get install -y dnsmasq
 sudo mkdir -p /etc/dnsmasq-adblock
-sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 51 条现成规则（实机抓包确认）
+sudo cp config/adblock-fq.conf /etc/dnsmasq-adblock/          # 45 条现成规则（实机抓包确认）
 sudo cp config/adblock-upstream.conf /etc/dnsmasq-adblock/    # 938 条上游社区规则（自动生成）
 sudo cp config/whitelist.txt /etc/dnsmasq-adblock/            # 白名单（保护域，务必一起装）
 sudo cp config/adblock-extra.conf /etc/dnsmasq-adblock/       # 手工补充规则
@@ -310,8 +310,8 @@ python3 scripts/gen_rules.py     # ★ 安全模式：只写 scripts/adblock-fq.
 ├── CHANGELOG.md
 ├── CONTRIBUTORS.md
 ├── config/
-│   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（51 条精确域名）
-│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，35 条）
+│   ├── adblock-fq.conf            # ★ 主规则，实机抓包确认（45 条精确域名）
+│   ├── adblock-extra.conf         # ★ 手工补充规则（埋点统计 + DoH 加固，30 条）
 │   ├── adblock-upstream.conf      # ⚙ 上游社区规则（Actions 自动生成，927 条，勿手改）
 │   ├── whitelist.txt              # ★ 白名单：绝不能拦的保护域（16 条）
 │   ├── dnsmasq.conf.example       # 配置模板（改 3 处即可用）

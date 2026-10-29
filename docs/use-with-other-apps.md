@@ -37,7 +37,7 @@ dnsmasq        https://fastly.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/d
 ```
 
 > **注意**：`adguard-dns-full.txt` 是全量版（精确 86 + 上游 938 = 去重 1021 条），
-> **订阅这一条就够**。`adguard-dns.txt` 只有 86 条精确规则，单独订它会漏掉 900+ 条上游规则
+> **订阅这一条就够**。`adguard-dns.txt` 只有 75 条精确规则，单独订它会漏掉 900+ 条上游规则
 > —— 这是「加了订阅还是有广告」最常见的原因。
 
 ### 上面用的是 jsDelivr 全球 CDN，国内国外都能直接拉
@@ -69,7 +69,7 @@ https://testingcf.jsdelivr.net/gh/abclq/home-dns-adblock@main/dist/adguard-dns-f
    `https://raw.githubusercontent.com/abclq/home-dns-adblock/main/dist/...`
 2. **下载文件导入**：本仓库 `dist/` 目录里就是这些文件，下载到本地再「从文件导入」即可。
 
-> 规则内容：**86 条精确域名 + 938 条上游社区规则**，只针对国内 App 的广告与埋点，**不含通配符**，不会误伤正片。
+> 规则内容：**75 条精确域名 + 938 条上游社区规则**，只针对国内 App 的广告与埋点，**不含通配符**，不会误伤正片。
 
 ---
 

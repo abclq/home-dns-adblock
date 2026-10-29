@@ -1,13 +1,12 @@
 # Home DNS Adblock — Clash / Surge / Mihomo 规则（贴进 rules: 段）
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: a05b28e1167369ea    （内容不变时此值不变，重复生成结果完全一致）
-# 规则条数: 86
+# 规则指纹: 01f133d571f7cbb4    （内容不变时此值不变，重复生成结果完全一致）
+# 规则条数: 75
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 本列表针对国内 App（抖音/番茄小说/红果短剧/小红书/高德等）的
 #       广告、埋点、统计域名，从真实设备 DNS 查询日志中提取。
 #       不含通用/国外广告域名 —— 那部分请另配 EasyList / anti-AD 等。
-DOMAIN-SUFFIX,abtest3-misc-hl.zijieapi.com,REJECT
 DOMAIN-SUFFIX,activity-ag.awemeughun.com,REJECT
 DOMAIN-SUFFIX,ad.toutiao.com,REJECT
 DOMAIN-SUFFIX,ads-vp5.xhscdn.com,REJECT
@@ -29,9 +28,6 @@ DOMAIN-SUFFIX,dig.bdurl.net,REJECT
 DOMAIN-SUFFIX,dns.alidns.com,REJECT
 DOMAIN-SUFFIX,doh.pub,REJECT
 DOMAIN-SUFFIX,errnewlog.umeng.com,REJECT
-DOMAIN-SUFFIX,feedback-c.zijieapi.com,REJECT
-DOMAIN-SUFFIX,i-lq.snssdk.com,REJECT
-DOMAIN-SUFFIX,i.snssdk.com,REJECT
 DOMAIN-SUFFIX,jomoxc.com,REJECT
 DOMAIN-SUFFIX,l2-toutiao-quic-ipv6-ml.gslb.ksyuncdn.com,REJECT
 DOMAIN-SUFFIX,lng.xiaohongshu.com,REJECT
@@ -39,14 +35,12 @@ DOMAIN-SUFFIX,log-api.pangolin-sdk-toutiao.com,REJECT
 DOMAIN-SUFFIX,log3-applog-lf.fqnovel.com,REJECT
 DOMAIN-SUFFIX,log5-applog-hl.fqnovel.com,REJECT
 DOMAIN-SUFFIX,log5-applog-lf.fqnovel.com,REJECT
-DOMAIN-SUFFIX,mcs.snssdk.com,REJECT
 DOMAIN-SUFFIX,minigame3-normal-hl.zijieapi.com,REJECT
 DOMAIN-SUFFIX,minigame3-normal-lf.zijieapi.com,REJECT
 DOMAIN-SUFFIX,minigame3-normal-lq.zijieapi.com,REJECT
 DOMAIN-SUFFIX,minigame5-normal-hl.zijieapi.com,REJECT
 DOMAIN-SUFFIX,minigame5-normal-lf.zijieapi.com,REJECT
 DOMAIN-SUFFIX,minigame5-normal-lq.zijieapi.com,REJECT
-DOMAIN-SUFFIX,mon.zijieapi.com,REJECT
 DOMAIN-SUFFIX,mon11-misc-hl.fqnovel.com,REJECT
 DOMAIN-SUFFIX,mon11-misc-lf.fqnovel.com,REJECT
 DOMAIN-SUFFIX,mon3-misc-lf.fqnovel.com,REJECT
@@ -65,16 +59,12 @@ DOMAIN-SUFFIX,rtlog3-applog-hl.fqnovel.com,REJECT
 DOMAIN-SUFFIX,rtlog3-applog-lf.fqnovel.com,REJECT
 DOMAIN-SUFFIX,rtlog5-applog-hl.fqnovel.com,REJECT
 DOMAIN-SUFFIX,rtlog5-applog-lf.fqnovel.com,REJECT
-DOMAIN-SUFFIX,security-lq.snssdk.com,REJECT
 DOMAIN-SUFFIX,sf3-ttcdn-tos.pstatp.com,REJECT
 DOMAIN-SUFFIX,spider-tracker.xiaohongshu.com,REJECT
-DOMAIN-SUFFIX,thanos.zijieapi.com,REJECT
-DOMAIN-SUFFIX,timon.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc0-aliec2.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc0-alisc1.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-aliec2.zijieapi.com,REJECT
 DOMAIN-SUFFIX,tnc3-alisc1.zijieapi.com,REJECT
-DOMAIN-SUFFIX,tnc3-bjlgy.snssdk.com,REJECT
 DOMAIN-SUFFIX,tracker.xiaomixiaoai.com,REJECT
 DOMAIN-SUFFIX,ulogs.umeng.com,REJECT
 DOMAIN-SUFFIX,v11-reading-ad.qznovelvod.com,REJECT
@@ -86,7 +76,6 @@ DOMAIN-SUFFIX,v5-se-sjy-daily-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v6-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v9-reading-ad.qznovelvod.com,REJECT
 DOMAIN-SUFFIX,v96-reading-ad.qznovelvod.com,REJECT
-DOMAIN-SUFFIX,vas-lf-x.snssdk.com,REJECT
 DOMAIN-SUFFIX,webcast5-open-hl.douyin.com,REJECT
 DOMAIN-SUFFIX,webcast5-open-hl.douyin.com.c.dsa.cdnbuild.net,REJECT
 DOMAIN-SUFFIX,wmzfylgdsz.com,REJECT

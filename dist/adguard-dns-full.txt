@@ -1,7 +1,7 @@
 # Home DNS Adblock — AdGuard DNS 全量（精确 + 上游）/ full list
 # 由 export_lists.py 生成 — 请勿手工编辑
-# 规则指纹: 784244cb24208008
-# 规则条数: 1021 = 精确 86 + 上游 938（去重后）
+# 规则指纹: 235ee3c27b9fb664
+# 规则条数: 1010 = 精确 75 + 上游 938（去重后）
 # 项目: https://github.com/abclq/home-dns-adblock
 #
 # 说明: 这是给「只想订阅一条」的人用的全量列表。
@@ -17,7 +17,6 @@
 ||a0.app.xiaomi.com^
 ||aaid.umeng.com^
 ||abtest-ch.snssdk.com^
-||abtest3-misc-hl.zijieapi.com^
 ||activity-ag.awemeughun.com^
 ||ad-api.4pyun.com^
 ||ad-cdn.qingting.fm^
@@ -409,7 +408,6 @@
 ||fancyapi.com^
 ||fclog.baidu.com^
 ||feed-image.baidu.com^
-||feedback-c.zijieapi.com^
 ||file.daihuo.qq.com^
 ||firebaselogging-pa.googleapis.com^
 ||flurry.com^
@@ -473,10 +471,8 @@
 ||hybrid.miniapp.taobao.com^
 ||hye.comp.360os.com^
 ||hyt.comp.360os.com^
-||i-lq.snssdk.com^
 ||i.l-new.inmobicdn.net^
 ||i.l.inmobicdn.net^
-||i.snssdk.com^
 ||iad.g.163.com^
 ||iadctest.qwapi.com^
 ||iadmusicmat.music.126.net^
@@ -596,7 +592,6 @@
 ||masdkv6.3g.qq.com^
 ||mazu.m.qq.com^
 ||mbdlog.iqiyi.com^
-||mcs.snssdk.com^
 ||medproad.com^
 ||metrics.data.hicloud.com^
 ||metrics.mzstatic.com^
@@ -626,7 +621,6 @@
 ||mobilead.kuwo.cn^
 ||mobilelog.kugou.com^
 ||mobilelog.upqzfile.com^
-||mon.zijieapi.com^
 ||mon11-misc-hl.fqnovel.com^
 ||mon11-misc-lf.fqnovel.com^
 ||mon3-misc-lf.fqnovel.com^
@@ -798,7 +792,6 @@
 ||sdktmp.hubcloud.com.cn^
 ||sdownload.stargame.com^
 ||securepubads.g.doubleclick.net^
-||security-lq.snssdk.com^
 ||sensors-log.dongqiudi.com^
 ||sentry.music.163.com^
 ||service.changhong.upgrade2.huan.tv^
@@ -860,8 +853,6 @@
 ||tencent-dtv.m.cn.miaozhen.com^
 ||test.ad.xiaomi.com^
 ||test.e.ad.xiaomi.com^
-||thanos.zijieapi.com^
-||timon.zijieapi.com^
 ||tj.b.qq.com^
 ||tj.video.qq.com^
 ||tk.anythinktech.com^
@@ -884,7 +875,6 @@
 ||tnc3-alisc1.toutiaoapi.com^
 ||tnc3-alisc1.zijieapi.com^
 ||tnc3-bjlgy.bytedance.com^
-||tnc3-bjlgy.snssdk.com^
 ||tnc3-bjlgy.toutiaoapi.com^
 ||toblog.ctobsnssdk.com^
 ||tpa-hcdn.iqiyi.com^
@@ -959,7 +949,6 @@
 ||v6-reading-ad.qznovelvod.com^
 ||v9-reading-ad.qznovelvod.com^
 ||v96-reading-ad.qznovelvod.com^
-||vas-lf-x.snssdk.com^
 ||vd6.l.qq.com^
 ||vi.l.qq.com^
 ||video-ad.sm.cn^
