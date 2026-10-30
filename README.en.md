@@ -1,11 +1,11 @@
 # 🏠 home-dns-adblock
 
-[中文](README.md) | **English** · `MIT` · `75 precise rules + 938 upstream community rules` · `whitelist-protected: zero false blocks on known-good domains`
+[中文](README.md) | **English** · `MIT` · `75 precise rules + 939 upstream community rules` · `whitelist-protected: zero false blocks on known-good domains`
 
 [![stars](https://img.shields.io/github/stars/abclq/home-dns-adblock?style=flat-square&label=%E2%98%85)](https://github.com/abclq/home-dns-adblock/stargazers)
 [![last-commit](https://img.shields.io/github/last-commit/abclq/home-dns-adblock?style=flat-square)](https://github.com/abclq/home-dns-adblock/commits/main)
 [![license](https://img.shields.io/github/license/abclq/home-dns-adblock?style=flat-square)](LICENSE)
-[![rules](https://img.shields.io/badge/rules-75%20precise%20%2B%20938%20upstream-blue?style=flat-square)](docs/domain-list.md)
+[![rules](https://img.shields.io/badge/rules-75%20precise%20%2B%20939%20upstream-blue?style=flat-square)](docs/domain-list.md)
 
 **Home DNS ad-blocking — works at home, and away from home too.**
 
@@ -30,7 +30,7 @@ This project solves a different problem:
 
 | | Generic blockers | App Hook solutions | **This project** |
 |---|---|---|---|
-| Domain list | 100k+ broad rules | — | **75 precise rules + 938 upstream community rules** (1010 unique after dedup) |
+| Domain list | 100k+ broad rules | — | **75 precise rules + 939 upstream community rules** (1011 unique after dedup) |
 | App breakage | possible | — | **zero (whitelist protection)** |
 | Root / jailbreak | not needed | **required** | **not needed** |
 | Works away from home | ✗ | ✗ | **✓ via Tailscale** |
@@ -121,7 +121,7 @@ For away-from-home coverage see [`docs/tailscale-remote.md`](docs/tailscale-remo
 
 | Metric | Value |
 |--------|-------|
-| Rules | **75** precise domains (no broad keyword rules) + 938 upstream community rules |
+| Rules | **75** precise domains (no broad keyword rules) + 939 upstream community rules |
 | Memory | **2.5 MB** |
 | CPU | **0.0%** |
 | Away-from-home latency | **39 ms** (Tailscale P2P direct, no relay) |
